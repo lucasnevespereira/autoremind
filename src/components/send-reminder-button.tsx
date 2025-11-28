@@ -6,44 +6,45 @@ import { sendManualReminder } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
-export function EnviarLembreteButton({
-  clienteId,
+export function SendReminderButton({
+  clientId,
   disabled,
 }: {
-  clienteId: number;
+  clientId: number;
   disabled?: boolean;
 }) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
 
-  async function handleEnviar() {
+  async function handleSend() {
     setLoading(true);
-    const resultado = await sendManualReminder(clienteId);
+    const result = await sendManualReminder(clientId);
     setLoading(false);
 
-    if (resultado.success) {
+    if (result.success) {
       toast({
         title: "Sucesso!",
-        description: resultado.message,
+        description: result.message,
       });
     } else {
       toast({
         variant: "destructive",
         title: "Erro",
-        description: resultado.error,
+        description: result.error,
       });
     }
   }
 
   return (
     <Button
-      onClick={handleEnviar}
+      onClick={handleSend}
       disabled={disabled || loading}
-      size="lg"
-      className="flex-1"
+      size="sm"
+      variant="ghost"
+      className="gap-2"
     >
-      <Send className="mr-2 h-5 w-5" />
-      {loading ? "A enviar..." : disabled ? "Já Enviado" : "Enviar Lembrete"}
+      <Send className="h-4 w-4" />
+      {loading ? "Sending..." : disabled ? "Sent" : "Send"}
     </Button>
   );
 }

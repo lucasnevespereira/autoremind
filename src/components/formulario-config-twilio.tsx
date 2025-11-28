@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { guardarConfigTwilio, enviarSMSTeste } from "@/app/actions";
+import { saveTwilioConfig, sendTestSMS } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Save, Send } from "lucide-react";
@@ -16,7 +16,9 @@ interface FormularioConfigTwilioProps {
   };
 }
 
-export function FormularioConfigTwilio({ valorInicial }: FormularioConfigTwilioProps) {
+export function FormularioConfigTwilio({
+  valorInicial,
+}: FormularioConfigTwilioProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [testLoading, setTestLoading] = useState(false);
@@ -24,19 +26,19 @@ export function FormularioConfigTwilio({ valorInicial }: FormularioConfigTwilioP
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
-    const resultado = await guardarConfigTwilio(formData);
+    const resultado = await saveTwilioConfig(formData);
     setLoading(false);
 
-    if (resultado.sucesso) {
+    if (resultado.success) {
       toast({
         title: "Sucesso!",
-        description: resultado.mensagem,
+        description: resultado.message,
       });
     } else {
       toast({
         variant: "destructive",
         title: "Erro",
-        description: resultado.erro,
+        description: resultado.error,
       });
     }
   }
@@ -52,20 +54,20 @@ export function FormularioConfigTwilio({ valorInicial }: FormularioConfigTwilioP
     }
 
     setTestLoading(true);
-    const resultado = await enviarSMSTeste(telefoneTest);
+    const resultado = await sendTestSMS(telefoneTest);
     setTestLoading(false);
 
-    if (resultado.sucesso) {
+    if (resultado.success) {
       toast({
         title: "Sucesso!",
-        description: resultado.mensagem,
+        description: resultado.message,
       });
       setTelefoneTest("");
     } else {
       toast({
         variant: "destructive",
         title: "Erro",
-        description: resultado.erro,
+        description: resultado.error,
       });
     }
   }

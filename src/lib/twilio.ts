@@ -1,61 +1,72 @@
 import twilio from "twilio";
 import { db } from "@/db";
-import { configuracoes } from "@/db/schema";
+import { settings } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export async function obterConfigTwilio() {
-  const configs = await db
-    .select()
-    .from(configuracoes)
-    .where(eq(configuracoes.chave, "twilio_account_sid"));
+export async function getTwilioConfig() {
+  const configs = await db.select().from(settings);
 
-  const accountSid = configs.find((c) => c.chave === "twilio_account_sid")?.valor;
-  const authToken = configs.find((c) => c.chave === "twilio_auth_token")?.valor;
-  const phoneNumber = configs.find((c) => c.chave === "twilio_phone_number")?.valor;
+  const accountSid = configs.find((c) => c.key === "twilio_account_sid")?.value;
+  const authToken = configs.find((c) => c.key === "twilio_auth_token")?.value;
+  const phoneNumber = configs.find(
+    (c) => c.key === "twilio_phone_number"
+  )?.value;
 
   return { accountSid, authToken, phoneNumber };
 }
 
-export async function enviarSMS(para: string, mensagem: string) {
+export async function sendSMS(to: string, message: string) {
   try {
-    const { accountSid, authToken, phoneNumber } = await obterConfigTwilio();
+    const { accountSid, authToken, phoneNumber } = await getTwilioConfig();
 
     if (!accountSid || !authToken || !phoneNumber) {
-      throw new Error("Configurações do Twilio não encontradas. Configure nas Definições.");
+      throw new Error(
+        "Configurações do Twilio não encontradas. Configure nas Definições."
+      );
     }
 
     const client = twilio(accountSid, authToken);
 
-    const message = await client.messages.create({
-      body: mensagem,
+    const messageResponse = await client.messages.create({
+      body: message,
       from: phoneNumber,
-      to: para,
+      to: to,
     });
 
-    return { sucesso: true, messageId: message.sid };
-  } catch (error) {
+    return { success: true, messageId: messageResponse.sid };
+  } catch (error: any) {
     console.error("Erro ao enviar SMS:", error);
+
+    let errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+
+    // Provide more helpful error messages for common Twilio errors
+    if (errorMessage.includes("not a valid")) {
+      errorMessage = "The 'From' phone number must be a valid Twilio number you purchased. Check your Twilio console.";
+    } else if (errorMessage.includes("trial") || errorMessage.includes("Trial")) {
+      errorMessage = "Trial accounts can only send to verified numbers. Verify the destination number in Twilio console or upgrade your account.";
+    }
+
     return {
-      sucesso: false,
-      erro: error instanceof Error ? error.message : "Erro desconhecido"
+      success: false,
+      error: errorMessage,
     };
   }
 }
 
-export function formatarTelefonePortugues(telefone: string): string {
-  // Remove todos os caracteres que não são dígitos
-  const digitos = telefone.replace(/\D/g, "");
+export function formatPortuguesePhone(phone: string): string {
+  // Remove all non-digit characters
+  const digits = phone.replace(/\D/g, "");
 
-  // Se já começa com 351, retorna com +
-  if (digitos.startsWith("351")) {
-    return `+${digitos}`;
+  // If starts with 351, return with +
+  if (digits.startsWith("351")) {
+    return `+${digits}`;
   }
 
-  // Se começa com 9 e tem 9 dígitos, adiciona +351
-  if (digitos.startsWith("9") && digitos.length === 9) {
-    return `+351${digitos}`;
+  // If starts with 9 and has 9 digits, add +351
+  if (digits.startsWith("9") && digits.length === 9) {
+    return `+351${digits}`;
   }
 
-  // Caso contrário, retorna como está (pode ser internacional)
-  return `+${digitos}`;
+  // Otherwise, return as is (might be international)
+  return `+${digits}`;
 }

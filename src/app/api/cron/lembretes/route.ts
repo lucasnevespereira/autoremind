@@ -1,85 +1,85 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { clientes } from "@/db/schema";
+import { clients } from "@/db/schema";
 import { and, eq, lte, gte } from "drizzle-orm";
-import { enviarSMS } from "@/lib/twilio";
+import { sendSMS } from "@/lib/twilio";
 import { format } from "date-fns";
 import { pt } from "date-fns/locale";
 
 export async function GET(request: NextRequest) {
   try {
-    // Verificar se o request tem o secret correto (segurança básica)
+    // Check if request has the correct secret (basic security)
     const authHeader = request.headers.get("authorization");
     const cronSecret = process.env.CRON_SECRET;
 
     if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ erro: "Não autorizado" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Obter a data de hoje e de amanhã
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+    // Get today and 7 days from now
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    const amanha = new Date(hoje);
-    amanha.setDate(amanha.getDate() + 7); // Enviar lembretes 7 dias antes
+    const sevenDaysLater = new Date(today);
+    sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
 
-    // Buscar clientes cuja revisão está entre hoje e 7 dias
-    // e que ainda não receberam o lembrete
-    const clientesParaLembrar = await db
+    // Find clients whose revision is between today and 7 days
+    // and who haven't received reminder yet
+    const clientsToRemind = await db
       .select()
-      .from(clientes)
+      .from(clients)
       .where(
         and(
-          eq(clientes.lembreteEnviado, false),
-          gte(clientes.dataRevisao, hoje),
-          lte(clientes.dataRevisao, amanha)
+          eq(clients.reminderSent, false),
+          gte(clients.revisionDate, today),
+          lte(clients.revisionDate, sevenDaysLater)
         )
       );
 
-    console.log(`Encontrados ${clientesParaLembrar.length} clientes para lembrar`);
+    console.log(`Found ${clientsToRemind.length} clients to remind`);
 
-    const resultados = [];
+    const results = [];
 
-    for (const cliente of clientesParaLembrar) {
-      const dataFormatada = format(cliente.dataRevisao, "dd/MM/yyyy", { locale: pt });
+    for (const client of clientsToRemind) {
+      const formattedDate = format(client.revisionDate, "dd/MM/yyyy", { locale: pt });
 
-      const mensagem = `Olá ${cliente.nome}, a revisão do seu ${cliente.carro} está marcada para ${dataFormatada}. Contacte a oficina para marcar o dia. Obrigado!`;
+      const message = `Olá ${client.name}, a revisão do seu ${client.car} está marcada para ${formattedDate}. Contacte a oficina para marcar o dia. Obrigado!`;
 
-      const resultado = await enviarSMS(cliente.telefone, mensagem);
+      const result = await sendSMS(client.phone, message);
 
-      if (resultado.sucesso) {
-        // Marcar como enviado
+      if (result.success) {
+        // Mark as sent
         await db
-          .update(clientes)
-          .set({ lembreteEnviado: true })
-          .where(eq(clientes.id, cliente.id));
+          .update(clients)
+          .set({ reminderSent: true })
+          .where(eq(clients.id, client.id));
 
-        resultados.push({
-          cliente: cliente.nome,
-          telefone: cliente.telefone,
-          sucesso: true,
+        results.push({
+          client: client.name,
+          phone: client.phone,
+          success: true,
         });
       } else {
-        resultados.push({
-          cliente: cliente.nome,
-          telefone: cliente.telefone,
-          sucesso: false,
-          erro: resultado.erro,
+        results.push({
+          client: client.name,
+          phone: client.phone,
+          success: false,
+          error: result.error,
         });
       }
     }
 
     return NextResponse.json({
-      sucesso: true,
-      mensagem: `Processados ${clientesParaLembrar.length} clientes`,
-      resultados,
+      success: true,
+      message: `Processed ${clientsToRemind.length} clients`,
+      results,
     });
   } catch (error) {
-    console.error("Erro no cron de lembretes:", error);
+    console.error("Error in reminders cron:", error);
     return NextResponse.json(
       {
-        sucesso: false,
-        erro: error instanceof Error ? error.message : "Erro desconhecido",
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

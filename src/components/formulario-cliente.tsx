@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { adicionarCliente } from "@/app/actions";
+import { addClient } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -15,20 +15,20 @@ export function FormularioCliente() {
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
-    const resultado = await adicionarCliente(formData);
+    const resultado = await addClient(formData);
     setLoading(false);
 
-    if (resultado.sucesso) {
+    if (resultado.success) {
       toast({
         title: "Sucesso!",
-        description: resultado.mensagem,
+        description: resultado.message,
       });
       router.push("/");
     } else {
       toast({
         variant: "destructive",
         title: "Erro",
-        description: resultado.erro,
+        description: resultado.error,
       });
     }
   }

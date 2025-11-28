@@ -8,12 +8,13 @@ Uma aplicação simples e amigável que permite a mecânicos enviarem lembretes 
 
 ## ✨ Funcionalidades
 
+- 🔐 **Autenticação simples** por password
 - 📱 **Envio de SMS automático** via Twilio
 - 👥 **Gestão simples de clientes** (adicionar, listar, eliminar)
 - 📅 **Lembretes automáticos** 7 dias antes da revisão
 - ⚙️ **Configuração fácil** do Twilio
 - 🇵🇹 **Interface em Português** adaptada para Portugal
-- 🎨 **Design limpo e amigável** para utilizadores não técnicos
+- 🎨 **Design moderno** com gradientes, glassmorphism e animações suaves
 
 ---
 
@@ -62,6 +63,9 @@ Edite o ficheiro `.env` e preencha:
 # Base de Dados PostgreSQL
 DATABASE_URL=postgresql://user:password@localhost:5432/autoremind
 
+# Autenticação (mude para uma password segura)
+AUTH_PASSWORD=admin123
+
 # Cron Secret (gere uma string aleatória para proteger a rota)
 CRON_SECRET=seu-secret-aleatorio-aqui
 ```
@@ -81,6 +85,10 @@ npm run dev
 ```
 
 Aceda a aplicação em: **http://localhost:3000**
+
+### 7. Fazer login
+
+Use a password configurada no `.env` (padrão: `admin123`)
 
 ---
 
