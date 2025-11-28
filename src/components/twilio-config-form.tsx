@@ -74,54 +74,50 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
     <div className="space-y-6">
       {/* Info Banner */}
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-blue-900 mb-2">Twilio Setup Requirements</h4>
+        <h4 className="text-sm font-semibold text-blue-900 mb-2">
+          Setup Requirements
+        </h4>
         <ul className="text-xs text-blue-800 space-y-1">
-          <li>• <strong>From Number:</strong> Must be a phone number purchased from Twilio</li>
-          <li>• <strong>Trial Accounts:</strong> Can only send SMS to verified phone numbers</li>
-          <li>• <strong>Format:</strong> Use E.164 format with country code (e.g., +19252906736)</li>
+          <li>• Phone number must be purchased from Twilio</li>
+          <li>• Trial accounts can only send to verified numbers</li>
+          <li>• Use E.164 format: +[country][number]</li>
         </ul>
       </div>
 
       <form action={handleSubmit} className="space-y-5">
         <div className="space-y-2">
-          <Label htmlFor="accountSid" className="text-sm font-medium text-gray-700">
-            Twilio Account SID
+          <Label htmlFor="accountSid" className="text-sm font-medium">
+            Account SID
           </Label>
           <Input
             id="accountSid"
             name="accountSid"
             type="text"
-            placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            placeholder="ACxxxxxxxxxxxxxxxx"
             defaultValue={initialValues.accountSid}
             required
             className="font-mono text-sm"
           />
-          <p className="text-xs text-gray-500">
-            Your Twilio Account SID from your Twilio dashboard
-          </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="authToken" className="text-sm font-medium text-gray-700">
-            Twilio Auth Token
+          <Label htmlFor="authToken" className="text-sm font-medium">
+            Auth Token
           </Label>
           <Input
             id="authToken"
             name="authToken"
             type="password"
-            placeholder="••••••••••••••••••••••••••••••••"
+            placeholder="••••••••••••••••••"
             defaultValue={initialValues.authToken}
             required
             className="font-mono text-sm"
           />
-          <p className="text-xs text-gray-500">
-            Your Twilio Auth Token (kept secure and encrypted)
-          </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700">
-            From Phone Number
+          <Label htmlFor="phoneNumber" className="text-sm font-medium">
+            Phone Number
           </Label>
           <Input
             id="phoneNumber"
@@ -132,14 +128,14 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             required
           />
           <p className="text-xs text-gray-500">
-            Your Twilio phone number in E.164 format (e.g., +19252906736). This must be a phone number you purchased from Twilio.
+            Must be a Twilio number in E.164 format
           </p>
         </div>
 
         <div className="border-t border-gray-200 pt-5">
           <div className="space-y-2">
-            <Label htmlFor="testPhone" className="text-sm font-medium text-gray-700">
-              Test Phone Number
+            <Label htmlFor="testPhone" className="text-sm font-medium">
+              Test Number
             </Label>
             <Input
               id="testPhone"
@@ -149,12 +145,12 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
               onChange={(e) => setTestPhone(e.target.value)}
             />
             <p className="text-xs text-gray-500">
-              Enter a phone number to receive a test SMS
+              Send a test SMS to verify setup
             </p>
           </div>
         </div>
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-3 pt-4">
           <Button
             type="button"
             variant="outline"
@@ -163,7 +159,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             className="flex-1"
           >
             <Send className="mr-2 h-4 w-4" />
-            {testLoading ? "Sending..." : "Send Test SMS"}
+            {testLoading ? "Sending..." : "Test SMS"}
           </Button>
           <Button
             type="submit"

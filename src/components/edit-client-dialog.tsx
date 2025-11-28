@@ -93,7 +93,7 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
         <DialogHeader>
           <DialogTitle>Edit Client</DialogTitle>
           <DialogDescription>
-            Update the client details
+            Update client details
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -164,7 +164,10 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Save Changes"}
             </Button>
           </div>

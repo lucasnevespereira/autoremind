@@ -31,16 +31,17 @@ export default async function SettingsPage() {
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Settings</h2>
+        <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
+        <p className="text-gray-600 mt-1">Configure SMS notifications and templates</p>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-8">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-1">
-            SMS Configuration
+            Twilio Configuration
           </h3>
           <p className="text-sm text-gray-600">
-            Configure your Twilio account to send SMS reminders automatically
+            Connect your Twilio account to send SMS reminders
           </p>
         </div>
 

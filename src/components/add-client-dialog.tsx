@@ -77,9 +77,9 @@ export function AddClientDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add Client</DialogTitle>
+          <DialogTitle>Add New Client</DialogTitle>
           <DialogDescription>
-            Fill in the client details to send reminders
+            Enter client details to schedule maintenance reminders
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
@@ -146,7 +146,10 @@ export function AddClientDialog() {
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={loading}>
+            <Button
+              type="submit"
+              disabled={loading}
+            >
               {loading ? "Saving..." : "Save Client"}
             </Button>
           </div>
