@@ -126,6 +126,10 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-1">
+                        <SendReminderButton
+                          clientId={client.id}
+                          disabled={client.reminderSent}
+                        />
                         <EditClientDialog
                           client={{
                             id: client.id,

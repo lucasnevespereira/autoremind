@@ -70,7 +70,7 @@ export function AddClientDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button className="gap-2 bg-blue-600 hover:bg-blue-700 text-white">
           <Plus className="h-4 w-4" />
           Add Client
         </Button>
@@ -149,6 +149,7 @@ export function AddClientDialog() {
             <Button
               type="submit"
               disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               {loading ? "Saving..." : "Save Client"}
             </Button>

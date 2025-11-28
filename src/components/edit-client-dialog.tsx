@@ -167,6 +167,7 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
             <Button
               type="submit"
               disabled={loading}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               {loading ? "Saving..." : "Save Changes"}
             </Button>

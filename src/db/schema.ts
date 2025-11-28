@@ -3,6 +3,9 @@ import { pgTable, text, timestamp, boolean, serial } from "drizzle-orm/pg-core";
 // Clients table
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
   name: text("name").notNull(),
   phone: text("phone").notNull(),
   car: text("car").notNull(),
@@ -14,7 +17,10 @@ export const clients = pgTable("clients", {
 // Settings table
 export const settings = pgTable("settings", {
   id: serial("id").primaryKey(),
-  key: text("key").notNull().unique(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id),
+  key: text("key").notNull(),
   value: text("value").notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 });
@@ -56,7 +62,9 @@ export const account = pgTable("account", {
   refreshToken: text("refresh_token"),
   idToken: text("id_token"),
   accessTokenExpiresAt: timestamp("access_token_expires_at", { mode: "date" }),
-  refreshTokenExpiresAt: timestamp("refresh_token_expires_at", { mode: "date" }),
+  refreshTokenExpiresAt: timestamp("refresh_token_expires_at", {
+    mode: "date",
+  }),
   scope: text("scope"),
   password: text("password"),
   createdAt: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),

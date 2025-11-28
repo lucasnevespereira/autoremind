@@ -1,31 +1,44 @@
 import twilio from "twilio";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
-export async function getTwilioConfig() {
-  const configs = await db.select().from(settings);
+export async function getTwilioConfig(userId: string) {
+  const configs = await db
+    .select()
+    .from(settings)
+    .where(eq(settings.userId, userId));
 
-  const accountSid = configs.find((c) => c.key === "twilio_account_sid")?.value;
-  const authToken = configs.find((c) => c.key === "twilio_auth_token")?.value;
+  const accountSid = configs.find((c) => c.key === "twilio_account_sid")?.value?.trim();
+  const authToken = configs.find((c) => c.key === "twilio_auth_token")?.value?.trim();
+  const apiKeySid = configs.find((c) => c.key === "twilio_api_key_sid")?.value?.trim();
+  const apiKeySecret = configs.find((c) => c.key === "twilio_api_key_secret")?.value?.trim();
   const phoneNumber = configs.find(
     (c) => c.key === "twilio_phone_number"
-  )?.value;
+  )?.value?.trim();
 
-  return { accountSid, authToken, phoneNumber };
+  return { accountSid, authToken, apiKeySid, apiKeySecret, phoneNumber };
 }
 
-export async function sendSMS(to: string, message: string) {
+export async function sendSMS(to: string, message: string, userId: string) {
   try {
-    const { accountSid, authToken, phoneNumber } = await getTwilioConfig();
+    const { accountSid, authToken, apiKeySid, apiKeySecret, phoneNumber } = await getTwilioConfig(userId);
 
-    if (!accountSid || !authToken || !phoneNumber) {
+    if (!phoneNumber) {
+      throw new Error("Phone number not configured");
+    }
+
+    // Use API Key if available, otherwise use Auth Token
+    let client;
+    if (apiKeySid && apiKeySecret && accountSid) {
+      client = twilio(apiKeySid, apiKeySecret, { accountSid });
+    } else if (accountSid && authToken) {
+      client = twilio(accountSid, authToken);
+    } else {
       throw new Error(
         "Configurações do Twilio não encontradas. Configure nas Definições."
       );
     }
-
-    const client = twilio(accountSid, authToken);
 
     const messageResponse = await client.messages.create({
       body: message,
@@ -40,7 +53,9 @@ export async function sendSMS(to: string, message: string) {
     let errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
 
     // Provide more helpful error messages for common Twilio errors
-    if (errorMessage.includes("not a valid")) {
+    if (error.code === 20003 || errorMessage.includes("Authenticate")) {
+      errorMessage = "Authentication failed. Please verify your Twilio Account SID and Auth Token in Settings. Make sure you're using live credentials (not test credentials) from https://console.twilio.com/";
+    } else if (errorMessage.includes("not a valid")) {
       errorMessage = "The 'From' phone number must be a valid Twilio number you purchased. Check your Twilio console.";
     } else if (errorMessage.includes("trial") || errorMessage.includes("Trial")) {
       errorMessage = "Trial accounts can only send to verified numbers. Verify the destination number in Twilio console or upgrade your account.";
