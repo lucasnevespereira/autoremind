@@ -68,14 +68,31 @@ export async function updateClient(id: number, formData: FormData) {
     }
 
     const formattedPhone = formatPortuguesePhone(phone);
+    const newRevisionDate = new Date(revisionDate);
 
+    // Get the existing client to check if date changed
+    const existingClient = await db
+      .select()
+      .from(clients)
+      .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
+
+    if (existingClient.length === 0) {
+      return { success: false, error: "Client not found" };
+    }
+
+    // Check if revision date has changed
+    const dateChanged =
+      existingClient[0].revisionDate.getTime() !== newRevisionDate.getTime();
+
+    // Reset reminderSent if date changed, so a new reminder can be sent
     await db
       .update(clients)
       .set({
         name,
         phone: formattedPhone,
         car,
-        revisionDate: new Date(revisionDate),
+        revisionDate: newRevisionDate,
+        ...(dateChanged && { reminderSent: false }),
       })
       .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
 
@@ -123,23 +140,6 @@ export async function saveTwilioConfig(formData: FormData) {
     const phoneNumber = formData.get("phoneNumber") as string;
     const garageName = formData.get("garageName") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
-
-    console.log("Saving settings for user:", session.user.id);
-    console.log(
-      "Account SID:",
-      accountSid
-        ? `${accountSid.substring(0, 8)}... (length: ${accountSid.length})`
-        : "EMPTY"
-    );
-    console.log(
-      "Auth Token:",
-      authToken
-        ? `${authToken.substring(0, 8)}... (length: ${authToken.length})`
-        : "EMPTY"
-    );
-    console.log("Full Auth Token received:", authToken);
-    console.log("Phone Number:", phoneNumber || "EMPTY");
-    console.log("Garage Name:", garageName || "EMPTY");
 
     // Build configs array only with non-empty values
     const configs = [];
