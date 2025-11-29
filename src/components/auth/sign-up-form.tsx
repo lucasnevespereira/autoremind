@@ -49,9 +49,9 @@ export function SignUpForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="name" className="text-sm font-medium">
+        <Label htmlFor="name" className="text-sm font-medium text-foreground">
           Name
         </Label>
         <Input
@@ -60,11 +60,12 @@ export function SignUpForm() {
           type="text"
           placeholder="Your name"
           required
+          className="h-11 rounded-xl border-border/40"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium">
+        <Label htmlFor="email" className="text-sm font-medium text-foreground">
           Email
         </Label>
         <Input
@@ -73,11 +74,12 @@ export function SignUpForm() {
           type="email"
           placeholder="your@email.com"
           required
+          className="h-11 rounded-xl border-border/40"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium">
+        <Label htmlFor="password" className="text-sm font-medium text-foreground">
           Password
         </Label>
         <div className="relative">
@@ -88,12 +90,12 @@ export function SignUpForm() {
             placeholder="Minimum 8 characters"
             required
             minLength={8}
-            className="pr-10"
+            className="pr-10 h-11 rounded-xl border-border/40"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
@@ -106,7 +108,7 @@ export function SignUpForm() {
 
       <Button
         type="submit"
-        className="w-full"
+        className="w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech mt-6"
         disabled={loading}
       >
         {loading ? "Creating account..." : "Create Account"}

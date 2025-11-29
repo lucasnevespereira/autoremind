@@ -70,21 +70,21 @@ export function AddClientDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="gap-2 bg-blue-600 hover:bg-blue-700 text-white">
+        <Button className="gap-2 h-11 px-5">
           <Plus className="h-4 w-4" />
           Add Client
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Add New Client</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-xl">Add New Client</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Enter client details to schedule maintenance reminders
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">
+            <Label htmlFor="name" className="text-sm font-medium text-foreground">
               Client Name
             </Label>
             <Input
@@ -92,13 +92,13 @@ export function AddClientDialog() {
               name="name"
               type="text"
               placeholder="e.g. John Smith"
-              className={errors.name ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.name ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.name && <p className="text-sm text-red-600">Name is required</p>}
+            {errors.name && <p className="text-sm text-destructive">Name is required</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-sm font-medium">
+            <Label htmlFor="phone" className="text-sm font-medium text-foreground">
               Phone Number
             </Label>
             <Input
@@ -106,13 +106,13 @@ export function AddClientDialog() {
               name="phone"
               type="tel"
               placeholder="e.g. +351912345678"
-              className={errors.phone ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.phone ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.phone && <p className="text-sm text-red-600">Phone is required</p>}
+            {errors.phone && <p className="text-sm text-destructive">Phone is required</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="car" className="text-sm font-medium">
+            <Label htmlFor="car" className="text-sm font-medium text-foreground">
               Car Model
             </Label>
             <Input
@@ -120,25 +120,25 @@ export function AddClientDialog() {
               name="car"
               type="text"
               placeholder="e.g. Toyota Camry 2020"
-              className={errors.car ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.car ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.car && <p className="text-sm text-red-600">Car is required</p>}
+            {errors.car && <p className="text-sm text-destructive">Car is required</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="revisionDate" className="text-sm font-medium">
+            <Label htmlFor="revisionDate" className="text-sm font-medium text-foreground">
               Maintenance Date
             </Label>
             <Input
               id="revisionDate"
               name="revisionDate"
               type="date"
-              className={errors.revisionDate ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.revisionDate ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.revisionDate && <p className="text-sm text-red-600">Date is required</p>}
+            {errors.revisionDate && <p className="text-sm text-destructive">Date is required</p>}
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <div className="flex justify-end gap-2 pt-4">
             <Button
               type="button"
               variant="outline"
@@ -149,7 +149,6 @@ export function AddClientDialog() {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               {loading ? "Saving..." : "Save Client"}
             </Button>

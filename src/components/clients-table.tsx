@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
 import { Search } from "lucide-react";
 import { format } from "date-fns";
 import { DeleteClientButton } from "@/components/delete-client-button";
@@ -8,14 +9,7 @@ import { SendReminderButton } from "@/components/send-reminder-button";
 import { AddClientDialog } from "@/components/add-client-dialog";
 import { EditClientDialog } from "@/components/edit-client-dialog";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { DataTable } from "@/components/ui/data-table";
 
 interface Client {
   id: number;
@@ -27,127 +21,157 @@ interface Client {
   createdAt: Date;
 }
 
+const columns: ColumnDef<Client>[] = [
+  {
+    accessorKey: "name",
+    header: "Client",
+    cell: ({ row }) => {
+      return (
+        <div className="font-medium text-foreground">{row.getValue("name")}</div>
+      );
+    },
+  },
+  {
+    accessorKey: "car",
+    header: "Vehicle",
+    cell: ({ row }) => {
+      return <div className="text-foreground/80">{row.getValue("car")}</div>;
+    },
+  },
+  {
+    accessorKey: "phone",
+    header: "Phone",
+    cell: ({ row }) => {
+      return (
+        <div className="font-mono text-sm text-foreground/70">
+          {row.getValue("phone")}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "revisionDate",
+    header: "Maintenance",
+    cell: ({ row }) => {
+      const date = row.getValue("revisionDate") as Date;
+      const formattedDate = format(date, "MMM dd, yyyy");
+      const today = new Date();
+      const daysRemaining = Math.ceil(
+        (date.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      const reminderSent = row.original.reminderSent;
+
+      let statusColor = "bg-blue-50 text-blue-700 border-blue-200";
+      let statusText = "Scheduled";
+
+      if (reminderSent) {
+        statusColor = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        statusText = "Sent";
+      } else if (daysRemaining <= 0) {
+        statusColor = "bg-red-50 text-red-700 border-red-200";
+        statusText = "Overdue";
+      } else if (daysRemaining <= 7) {
+        statusColor = "bg-amber-50 text-amber-700 border-amber-200";
+        statusText = "Due Soon";
+      }
+
+      return (
+        <div className="flex flex-col gap-2">
+          <span className="text-sm font-medium text-foreground">
+            {formattedDate}
+          </span>
+          <span
+            className={`inline-flex items-center self-start rounded-lg border px-2.5 py-1 text-xs font-semibold ${statusColor}`}
+          >
+            {statusText}
+          </span>
+        </div>
+      );
+    },
+  },
+  {
+    id: "actions",
+    header: () => <div className="text-right">Actions</div>,
+    cell: ({ row }) => {
+      const client = row.original;
+      return (
+        <div className="flex justify-end gap-1.5">
+          <SendReminderButton
+            clientId={client.id}
+            disabled={client.reminderSent}
+          />
+          <EditClientDialog
+            client={{
+              id: client.id,
+              name: client.name,
+              phone: client.phone,
+              car: client.car,
+              revisionDate: client.revisionDate,
+            }}
+          />
+          <DeleteClientButton clientId={client.id} />
+        </div>
+      );
+    },
+  },
+];
+
 export function ClientsTable({ clients }: { clients: Client[] }) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredClients = useMemo(() => {
-    if (!searchQuery) return clients;
-
-    const query = searchQuery.toLowerCase();
-    return clients.filter(
-      (client) =>
-        client.name.toLowerCase().includes(query) ||
-        client.phone.includes(query) ||
-        client.car.toLowerCase().includes(query)
-    );
-  }, [clients, searchQuery]);
-
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Clients</h1>
-          <p className="text-gray-600 mt-1">Manage your maintenance reminders</p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Clients
+          </h1>
+          <p className="text-muted-foreground mt-1.5">
+            Manage your maintenance reminders
+          </p>
         </div>
       </div>
 
       {/* Search and Add */}
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
             placeholder="Search by name, car, or phone..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 h-10"
+            className="pl-10 h-11 bg-card border-border/40 rounded-xl focus-visible:ring-primary"
           />
         </div>
         <AddClientDialog />
       </div>
 
-      {/* Table */}
-      {filteredClients.length === 0 ? (
-        <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-          <p className="text-gray-900 font-medium text-base mb-1">
-            {searchQuery ? "No matches found" : "No clients yet"}
-          </p>
-          <p className="text-gray-500 text-sm">
-            {searchQuery ? "Try a different search term" : "Add your first client to get started"}
-          </p>
+      {/* Data Table */}
+      {clients.length === 0 && !searchQuery ? (
+        <div className="bg-card rounded-2xl border border-border/40 shadow-fintech p-16 text-center">
+          <div className="max-w-sm mx-auto">
+            <div className="w-16 h-16 rounded-2xl bg-muted/50 flex items-center justify-center mx-auto mb-4">
+              <Search className="h-8 w-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              No clients yet
+            </h3>
+            <p className="text-sm text-muted-foreground mb-6">
+              Add your first client to start managing maintenance reminders
+            </p>
+            <AddClientDialog />
+          </div>
         </div>
       ) : (
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50">
-                <TableHead className="font-semibold">Client</TableHead>
-                <TableHead className="font-semibold">Vehicle</TableHead>
-                <TableHead className="font-semibold">Phone</TableHead>
-                <TableHead className="font-semibold">Maintenance</TableHead>
-                <TableHead className="text-right font-semibold">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredClients.map((client) => {
-                const formattedDate = format(client.revisionDate, "MMM dd, yyyy");
-                const today = new Date();
-                const daysRemaining = Math.ceil(
-                  (client.revisionDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-                );
-
-                let statusColor = "text-blue-700 bg-blue-50";
-                let statusText = "Scheduled";
-
-                if (client.reminderSent) {
-                  statusColor = "text-green-700 bg-green-50";
-                  statusText = "Sent";
-                } else if (daysRemaining <= 0) {
-                  statusColor = "text-red-700 bg-red-50";
-                  statusText = "Overdue";
-                } else if (daysRemaining <= 7) {
-                  statusColor = "text-amber-700 bg-amber-50";
-                  statusText = "Due Soon";
-                }
-
-                return (
-                  <TableRow key={client.id} className="hover:bg-gray-50 transition-colors">
-                    <TableCell className="font-medium text-gray-900">{client.name}</TableCell>
-                    <TableCell className="text-gray-700">{client.car}</TableCell>
-                    <TableCell className="text-gray-700 font-mono text-sm">{client.phone}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1.5">
-                        <span className="text-gray-900 text-sm">{formattedDate}</span>
-                        <span className={`inline-flex items-center self-start rounded-md px-2 py-0.5 text-xs font-medium ${statusColor}`}>
-                          {statusText}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-1">
-                        <SendReminderButton
-                          clientId={client.id}
-                          disabled={client.reminderSent}
-                        />
-                        <EditClientDialog
-                          client={{
-                            id: client.id,
-                            name: client.name,
-                            phone: client.phone,
-                            car: client.car,
-                            revisionDate: client.revisionDate,
-                          }}
-                        />
-                        <DeleteClientButton clientId={client.id} />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
+        <DataTable
+          columns={columns}
+          data={clients}
+          searchKey="name"
+          searchValue={searchQuery}
+        />
       )}
     </div>
   );

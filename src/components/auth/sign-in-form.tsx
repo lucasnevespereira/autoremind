@@ -47,22 +47,23 @@ export function SignInForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-sm font-medium">
+        <Label htmlFor="email" className="text-sm font-medium text-foreground">
           Email
         </Label>
         <Input
           id="email"
           name="email"
           type="email"
-          placeholder="seu@email.com"
+          placeholder="your@email.com"
           required
+          className="h-11 rounded-xl border-border/40"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium">
+        <Label htmlFor="password" className="text-sm font-medium text-foreground">
           Password
         </Label>
         <div className="relative">
@@ -72,12 +73,12 @@ export function SignInForm() {
             type={showPassword ? "text" : "password"}
             placeholder="Enter your password"
             required
-            className="pr-10"
+            className="pr-10 h-11 rounded-xl border-border/40"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4" />
@@ -88,7 +89,11 @@ export function SignInForm() {
         </div>
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button
+        type="submit"
+        className="w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech mt-6"
+        disabled={loading}
+      >
         {loading ? "Signing in..." : "Sign In"}
       </Button>
     </form>

@@ -98,10 +98,10 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   ];
 
   return (
-    <div className="flex gap-6 min-h-[600px]">
+    <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
       {/* Sidebar Navigation */}
-      <div className="w-64 flex-shrink-0">
-        <nav className="space-y-1">
+      <div className="lg:w-64 flex-shrink-0">
+        <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
@@ -110,14 +110,14 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors",
+                  "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 whitespace-nowrap",
                   activeTab === tab.id
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-primary text-primary-foreground shadow-fintech"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
                 <Icon className="h-5 w-5" />
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </button>
             );
           })}
@@ -172,16 +172,16 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           {activeTab === "business" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-foreground">
                   Business Information
                 </h2>
-                <p className="text-gray-600 mt-1">
+                <p className="text-muted-foreground mt-1.5">
                   Your business details used in SMS messages
                 </p>
               </div>
-              <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="garageName" className="text-sm font-medium">
+                  <Label htmlFor="garageName" className="text-sm font-medium text-foreground">
                     Business/Garage Name
                   </Label>
                   <Input
@@ -194,8 +194,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("garageName", e.target.value)
                     }
                     required
+                    className="h-11 rounded-xl border-border/40"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     This name will appear in your SMS messages as{" "}
                     {"{garage_name}"}
                   </p>
@@ -208,17 +209,17 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           {activeTab === "template" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-foreground">
                   SMS Template
                 </h2>
-                <p className="text-gray-600 mt-1">
+                <p className="text-muted-foreground mt-1.5">
                   Customize the message sent to your clients
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="smsTemplate" className="text-sm font-medium">
+                  <Label htmlFor="smsTemplate" className="text-sm font-medium text-foreground">
                     Message Template
                   </Label>
                   <textarea
@@ -231,38 +232,38 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("smsTemplate", e.target.value)
                     }
                     required
-                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex w-full rounded-xl border border-border/40 bg-background px-4 py-3 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 resize-none"
                   />
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-xs font-semibold text-blue-900 mb-3">
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                  <p className="text-xs font-semibold text-foreground mb-3">
                     Available Variables:
                   </p>
-                  <div className="grid grid-cols-2 gap-2 text-xs text-blue-800">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div className="flex items-center gap-2">
-                      <code className="bg-white px-2 py-1 rounded border border-blue-300 font-mono">
+                      <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{client_name}"}
                       </code>
-                      <span>Client's name</span>
+                      <span className="text-muted-foreground">Client's name</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <code className="bg-white px-2 py-1 rounded border border-blue-300 font-mono">
+                      <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{vehicle}"}
                       </code>
-                      <span>Car model</span>
+                      <span className="text-muted-foreground">Car model</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <code className="bg-white px-2 py-1 rounded border border-blue-300 font-mono">
+                      <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{date}"}
                       </code>
-                      <span>Maintenance date</span>
+                      <span className="text-muted-foreground">Maintenance date</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <code className="bg-white px-2 py-1 rounded border border-blue-300 font-mono">
+                      <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{garage_name}"}
                       </code>
-                      <span>Your business name</span>
+                      <span className="text-muted-foreground">Your business name</span>
                     </div>
                   </div>
                 </div>
@@ -274,20 +275,20 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           {activeTab === "twilio" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-foreground">
                   Twilio Configuration
                 </h2>
-                <p className="text-gray-600 mt-1">
+                <p className="text-muted-foreground mt-1.5">
                   Connect your Twilio account to send SMS
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-5">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 className="text-sm font-semibold text-blue-900 mb-2">
+              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-5">
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                  <h4 className="text-sm font-semibold text-foreground mb-2">
                     Requirements
                   </h4>
-                  <ul className="text-xs text-blue-800 space-y-1">
+                  <ul className="text-xs text-muted-foreground space-y-1.5">
                     <li>• Phone number must be purchased from Twilio</li>
                     <li>• Trial accounts can only send to verified numbers</li>
                     <li>• Use E.164 format: +[country][number]</li>
@@ -295,7 +296,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="accountSid" className="text-sm font-medium">
+                  <Label htmlFor="accountSid" className="text-sm font-medium text-foreground">
                     Account SID
                   </Label>
                   <Input
@@ -308,12 +309,12 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("accountSid", e.target.value)
                     }
                     required
-                    className="font-mono text-sm"
+                    className="font-mono text-sm h-11 rounded-xl border-border/40"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="authToken" className="text-sm font-medium">
+                  <Label htmlFor="authToken" className="text-sm font-medium text-foreground">
                     Auth Token
                   </Label>
                   <Input
@@ -326,12 +327,12 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("authToken", e.target.value)
                     }
                     required
-                    className="font-mono text-sm"
+                    className="font-mono text-sm h-11 rounded-xl border-border/40"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="phoneNumber" className="text-sm font-medium">
+                  <Label htmlFor="phoneNumber" className="text-sm font-medium text-foreground">
                     Phone Number
                   </Label>
                   <Input
@@ -344,8 +345,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("phoneNumber", e.target.value)
                     }
                     required
+                    className="h-11 rounded-xl border-border/40"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     Must be a Twilio number in E.164 format
                   </p>
                 </div>
@@ -357,15 +359,15 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           {activeTab === "test" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Test SMS</h2>
-                <p className="text-gray-600 mt-1">
+                <h2 className="text-2xl font-bold text-foreground">Test SMS</h2>
+                <p className="text-muted-foreground mt-1.5">
                   Send a test message to verify your configuration
                 </p>
               </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 p-6 space-y-4">
+              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="testPhone" className="text-sm font-medium">
+                  <Label htmlFor="testPhone" className="text-sm font-medium text-foreground">
                     Test Phone Number
                   </Label>
                   <Input
@@ -374,8 +376,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     placeholder="+351912345678"
                     value={testPhone}
                     onChange={(e) => setTestPhone(e.target.value)}
+                    className="h-11 rounded-xl border-border/40"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     Enter a phone number to receive a test SMS
                   </p>
                 </div>
@@ -385,7 +388,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   variant="outline"
                   onClick={handleSendTest}
                   disabled={testLoading || !formValues.accountSid}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto h-10 rounded-xl border-border/40"
                 >
                   <Send className="mr-2 h-4 w-4" />
                   {testLoading ? "Sending..." : "Send Test SMS"}
@@ -395,12 +398,12 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           )}
 
           {/* Save Button - Always visible at bottom */}
-          <div className="flex justify-end pt-4 border-t border-gray-200">
+          <div className="flex justify-end pt-6 border-t border-border/40">
             <Button
               type="submit"
               disabled={loading}
               size="lg"
-              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-full sm:w-auto h-11 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
             >
               <Save className="mr-2 h-4 w-4" />
               {loading ? "Saving..." : "Save Changes"}
