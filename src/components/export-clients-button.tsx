@@ -8,7 +8,7 @@ import { useLanguage } from "@/contexts/language-context";
 
 export function ExportClientsButton() {
   const [loading, setLoading] = useState(false);
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
   const handleExport = async () => {
     setLoading(true);
@@ -20,7 +20,7 @@ export function ExportClientsButton() {
     setLoading(false);
 
     if (!result.success) {
-      alert("Erro ao exportar clientes.");
+      alert(t("errorExportingClients"));
       return;
     }
 
@@ -35,7 +35,7 @@ export function ExportClientsButton() {
   return (
     <Button onClick={handleExport} disabled={loading}>
       <FileDown className="w-4 h-4 mr-2" />
-      {loading ? "A exportar..." : "Exportar Excel"}
+      {loading ? t("exporting") : t("exportExcel")}
     </Button>
   );
 }

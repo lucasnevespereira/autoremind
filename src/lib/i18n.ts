@@ -148,6 +148,20 @@ export const translations = {
     of: "of",
     results: "results",
     page: "Page",
+
+    // Import/Export
+    importClients: "Import Clients",
+    exportClients: "Export Clients",
+    importExcel: "Import Excel",
+    exportExcel: "Export Excel",
+    importFromExcel: "Import clients from an Excel file",
+    exportToExcel: "Export clients to an Excel file",
+    chooseFile: "Choose File",
+    importing: "Importing...",
+    exporting: "Exporting...",
+    errorImportingClients: "Error importing clients.",
+    errorReadingFile: "Error reading file.",
+    errorExportingClients: "Error exporting clients.",
   },
   pt: {
     // Auth
@@ -300,6 +314,20 @@ export const translations = {
     of: "de",
     results: "resultados",
     page: "Página",
+
+    // Import/Export
+    importClients: "Importar Clientes",
+    exportClients: "Exportar Clientes",
+    importExcel: "Importar Excel",
+    exportExcel: "Exportar Excel",
+    importFromExcel: "Importar clientes de um ficheiro Excel",
+    exportToExcel: "Exportar clientes para um ficheiro Excel",
+    chooseFile: "Escolher Ficheiro",
+    importing: "A importar...",
+    exporting: "A exportar...",
+    errorImportingClients: "Erro ao importar clientes.",
+    errorReadingFile: "Erro ao ler o ficheiro.",
+    errorExportingClients: "Erro ao exportar clientes.",
   },
 } as const;
 
