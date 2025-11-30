@@ -23,6 +23,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/language-context";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,6 +40,7 @@ export function DataTable<TData, TValue>({
   searchValue,
   onSearchChange,
 }: DataTableProps<TData, TValue>) {
+  const { t } = useLanguage();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
 
@@ -105,8 +107,8 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-32 text-center">
                   <div className="flex flex-col items-center justify-center text-muted-foreground">
-                    <p className="text-sm font-medium">No results found</p>
-                    <p className="text-xs mt-1">Try adjusting your search</p>
+                    <p className="text-sm font-medium">{t("noResultsFound")}</p>
+                    <p className="text-xs mt-1">{t("tryDifferentSearch")}</p>
                   </div>
                 </TableCell>
               </TableRow>
@@ -118,22 +120,22 @@ export function DataTable<TData, TValue>({
       {/* Pagination */}
       <div className="flex items-center justify-between px-2">
         <div className="text-sm text-muted-foreground">
-          Showing{" "}
+          {t("showing")}{" "}
           <span className="font-medium text-foreground">
             {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
           </span>{" "}
-          to{" "}
+          {t("to")}{" "}
           <span className="font-medium text-foreground">
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
               table.getFilteredRowModel().rows.length
             )}
           </span>{" "}
-          of{" "}
+          {t("of")}{" "}
           <span className="font-medium text-foreground">
             {table.getFilteredRowModel().rows.length}
           </span>{" "}
-          results
+          {t("results")}
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -155,11 +157,11 @@ export function DataTable<TData, TValue>({
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <div className="flex items-center gap-1 text-sm">
-            <span className="text-muted-foreground">Page</span>
+            <span className="text-muted-foreground">{t("page")}</span>
             <span className="font-medium text-foreground">
               {table.getState().pagination.pageIndex + 1}
             </span>
-            <span className="text-muted-foreground">of</span>
+            <span className="text-muted-foreground">{t("of")}</span>
             <span className="font-medium text-foreground">{table.getPageCount()}</span>
           </div>
           <Button

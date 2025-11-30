@@ -13,11 +13,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addClient } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { useState, FormEvent } from "react";
 import { Plus } from "lucide-react";
 
 export function AddClientDialog() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -36,10 +38,10 @@ export function AddClientDialog() {
 
     // Validate
     const newErrors: Record<string, string> = {};
-    if (!name?.trim()) newErrors.name = "Nome é obrigatório";
-    if (!phone?.trim()) newErrors.phone = "Telemóvel é obrigatório";
-    if (!car?.trim()) newErrors.car = "Carro é obrigatório";
-    if (!revisionDate) newErrors.revisionDate = "Data é obrigatória";
+    if (!name?.trim()) newErrors.name = t("nameRequired");
+    if (!phone?.trim()) newErrors.phone = t("phoneRequired");
+    if (!car?.trim()) newErrors.car = t("carRequired");
+    if (!revisionDate) newErrors.revisionDate = t("dateRequired");
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -72,20 +74,20 @@ export function AddClientDialog() {
       <DialogTrigger asChild>
         <Button className="gap-2 h-11 px-5">
           <Plus className="h-4 w-4" />
-          Add Client
+          {t("addClient")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">Add New Client</DialogTitle>
+          <DialogTitle className="text-xl">{t("addNewClient")}</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Enter client details to schedule maintenance reminders
+            {t("enterClientDetails")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium text-foreground">
-              Client Name
+              {t("clientName")}
             </Label>
             <Input
               id="name"
@@ -94,12 +96,12 @@ export function AddClientDialog() {
               placeholder="e.g. John Smith"
               className={errors.name ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.name && <p className="text-sm text-destructive">Name is required</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-              Phone Number
+              {t("phoneNumber")}
             </Label>
             <Input
               id="phone"
@@ -108,12 +110,12 @@ export function AddClientDialog() {
               placeholder="e.g. +351912345678"
               className={errors.phone ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.phone && <p className="text-sm text-destructive">Phone is required</p>}
+            {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="car" className="text-sm font-medium text-foreground">
-              Car Model
+              {t("carModel")}
             </Label>
             <Input
               id="car"
@@ -122,12 +124,12 @@ export function AddClientDialog() {
               placeholder="e.g. Toyota Camry 2020"
               className={errors.car ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.car && <p className="text-sm text-destructive">Car is required</p>}
+            {errors.car && <p className="text-sm text-destructive">{errors.car}</p>}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="revisionDate" className="text-sm font-medium text-foreground">
-              Maintenance Date
+              {t("maintenanceDate")}
             </Label>
             <Input
               id="revisionDate"
@@ -135,7 +137,7 @@ export function AddClientDialog() {
               type="date"
               className={errors.revisionDate ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.revisionDate && <p className="text-sm text-destructive">Date is required</p>}
+            {errors.revisionDate && <p className="text-sm text-destructive">{errors.revisionDate}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
@@ -144,13 +146,13 @@ export function AddClientDialog() {
               variant="outline"
               onClick={() => setOpen(false)}
             >
-              Cancel
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save Client"}
+              {loading ? t("saving") : t("saveClient")}
             </Button>
           </div>
         </form>

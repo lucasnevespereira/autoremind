@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AppFooter } from "@/components/app-footer";
+import { useLanguage } from "@/contexts/language-context";
 import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
 
@@ -14,6 +16,8 @@ export function LayoutContent({
   children: React.ReactNode;
   session: Session;
 }) {
+  const { t } = useLanguage();
+
   async function handleSignOut() {
     await signOut();
     window.location.href = "/sign-in";
@@ -42,7 +46,7 @@ export function LayoutContent({
                 </svg>
               </div>
               <span className="text-xl font-semibold text-foreground tracking-tight">
-                AutoRemind
+                {t("autoremind")}
               </span>
             </Link>
 
@@ -54,7 +58,9 @@ export function LayoutContent({
                   className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
                 >
                   <Settings className="h-4 w-4" />
-                  <span className="hidden sm:inline font-medium">Settings</span>
+                  <span className="hidden sm:inline font-medium">
+                    {t("settings")}
+                  </span>
                 </Button>
               </Link>
               <Button
@@ -64,7 +70,9 @@ export function LayoutContent({
                 className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
               >
                 <LogOut className="h-4 w-4" />
-                <span className="hidden sm:inline font-medium">Logout</span>
+                <span className="hidden sm:inline font-medium">
+                  {t("logout")}
+                </span>
               </Button>
             </div>
           </div>
@@ -75,6 +83,9 @@ export function LayoutContent({
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {children}
       </main>
+
+      {/* Footer */}
+      <AppFooter />
     </div>
   );
 }

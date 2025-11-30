@@ -5,12 +5,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { Eye, EyeOff } from "lucide-react";
 import { signUp } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
 export function SignUpForm() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -52,13 +54,13 @@ export function SignUpForm() {
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
         <Label htmlFor="name" className="text-sm font-medium text-foreground">
-          Name
+          {t("name")}
         </Label>
         <Input
           id="name"
           name="name"
           type="text"
-          placeholder="Your name"
+          placeholder={t("yourName")}
           required
           className="h-11 rounded-xl border-border/40"
         />
@@ -66,13 +68,13 @@ export function SignUpForm() {
 
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium text-foreground">
-          Email
+          {t("email")}
         </Label>
         <Input
           id="email"
           name="email"
           type="email"
-          placeholder="your@email.com"
+          placeholder={t("yourEmail")}
           required
           className="h-11 rounded-xl border-border/40"
         />
@@ -80,14 +82,14 @@ export function SignUpForm() {
 
       <div className="space-y-2">
         <Label htmlFor="password" className="text-sm font-medium text-foreground">
-          Password
+          {t("password")}
         </Label>
         <div className="relative">
           <Input
             id="password"
             name="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Minimum 8 characters"
+            placeholder={t("minimumCharacters")}
             required
             minLength={8}
             className="pr-10 h-11 rounded-xl border-border/40"
@@ -111,7 +113,7 @@ export function SignUpForm() {
         className="w-full h-11 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech mt-6"
         disabled={loading}
       >
-        {loading ? "Creating account..." : "Create Account"}
+        {loading ? t("creatingAccount") : t("createAccount")}
       </Button>
     </form>
   );

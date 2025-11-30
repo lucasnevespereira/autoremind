@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { deleteClient } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { useState } from "react";
 
 export function DeleteClientButton({ clientId }: { clientId: number }) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
-    const confirm = window.confirm("Tem a certeza que deseja eliminar este cliente?");
+    const confirm = window.confirm(t("deleteConfirmation"));
     if (!confirm) return;
 
     setLoading(true);
@@ -20,13 +22,13 @@ export function DeleteClientButton({ clientId }: { clientId: number }) {
 
     if (result.success) {
       toast({
-        title: "Sucesso!",
+        title: t("success"),
         description: result.message,
       });
     } else {
       toast({
         variant: "destructive",
-        title: "Erro",
+        title: t("error"),
         description: result.error,
       });
     }

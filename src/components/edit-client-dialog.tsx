@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateClient } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { useState, FormEvent } from "react";
 import { Edit } from "lucide-react";
 
@@ -28,6 +29,7 @@ interface EditClientDialogProps {
 
 export function EditClientDialog({ client }: EditClientDialogProps) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -46,10 +48,10 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
 
     // Validate
     const newErrors: Record<string, string> = {};
-    if (!name?.trim()) newErrors.name = "Name is required";
-    if (!phone?.trim()) newErrors.phone = "Phone is required";
-    if (!car?.trim()) newErrors.car = "Car is required";
-    if (!revisionDate) newErrors.revisionDate = "Date is required";
+    if (!name?.trim()) newErrors.name = t("nameRequired");
+    if (!phone?.trim()) newErrors.phone = t("phoneRequired");
+    if (!car?.trim()) newErrors.car = t("carRequired");
+    if (!revisionDate) newErrors.revisionDate = t("dateRequired");
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -91,15 +93,15 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Edit Client</DialogTitle>
-          <DialogDescription>
-            Update client details
+          <DialogTitle className="text-xl">{t("editClient")}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
+            {t("updateClientDetails")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium">
-              Client Name
+            <Label htmlFor="name" className="text-sm font-medium text-foreground">
+              {t("clientName")}
             </Label>
             <Input
               id="name"
@@ -107,14 +109,14 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
               type="text"
               placeholder="e.g. John Smith"
               defaultValue={client.name}
-              className={errors.name ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.name ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.name && <p className="text-sm text-red-600">Name is required</p>}
+            {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="phone" className="text-sm font-medium">
-              Phone Number
+            <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+              {t("phoneNumber")}
             </Label>
             <Input
               id="phone"
@@ -122,14 +124,14 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
               type="tel"
               placeholder="e.g. +351912345678"
               defaultValue={client.phone}
-              className={errors.phone ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.phone ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.phone && <p className="text-sm text-red-600">Phone is required</p>}
+            {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="car" className="text-sm font-medium">
-              Car Model
+            <Label htmlFor="car" className="text-sm font-medium text-foreground">
+              {t("carModel")}
             </Label>
             <Input
               id="car"
@@ -137,39 +139,38 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
               type="text"
               placeholder="e.g. Toyota Camry 2020"
               defaultValue={client.car}
-              className={errors.car ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.car ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.car && <p className="text-sm text-red-600">Car is required</p>}
+            {errors.car && <p className="text-sm text-destructive">{errors.car}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="revisionDate" className="text-sm font-medium">
-              Maintenance Date
+            <Label htmlFor="revisionDate" className="text-sm font-medium text-foreground">
+              {t("maintenanceDate")}
             </Label>
             <Input
               id="revisionDate"
               name="revisionDate"
               type="date"
               defaultValue={formattedDate}
-              className={errors.revisionDate ? "border-red-300 focus-visible:ring-red-500" : ""}
+              className={errors.revisionDate ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.revisionDate && <p className="text-sm text-red-600">Date is required</p>}
+            {errors.revisionDate && <p className="text-sm text-destructive">{errors.revisionDate}</p>}
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <div className="flex justify-end gap-2 pt-4">
             <Button
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
             >
-              Cancel
+              {t("cancel")}
             </Button>
             <Button
               type="submit"
               disabled={loading}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
-              {loading ? "Saving..." : "Save Changes"}
+              {loading ? t("updating") : t("updateClient")}
             </Button>
           </div>
         </form>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
 import { sendManualReminder } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { useState } from "react";
 
 export function SendReminderButton({
@@ -14,6 +15,7 @@ export function SendReminderButton({
   disabled?: boolean;
 }) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
 
   async function handleSend() {
@@ -23,13 +25,13 @@ export function SendReminderButton({
 
     if (result.success) {
       toast({
-        title: "Sucesso!",
+        title: t("success"),
         description: result.message,
       });
     } else {
       toast({
         variant: "destructive",
-        title: "Erro",
+        title: t("error"),
         description: result.error,
       });
     }
@@ -44,7 +46,7 @@ export function SendReminderButton({
       className="gap-2"
     >
       <Send className="h-4 w-4" />
-      {loading ? "Sending..." : disabled ? "Sent" : "Send"}
+      {loading ? t("sending") : disabled ? t("sent") : t("send")}
     </Button>
   );
 }

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { saveTwilioConfig, sendTestSMS } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/language-context";
 import { useState } from "react";
 import {
   Save,
@@ -30,6 +31,7 @@ type Tab = "business" | "template" | "twilio" | "test";
 
 export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [testLoading, setTestLoading] = useState(false);
   const [testPhone, setTestPhone] = useState("");
@@ -49,13 +51,13 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
     if (result.success) {
       toast({
-        title: "Sucesso!",
+        title: t("success"),
         description: result.message,
       });
     } else {
       toast({
         variant: "destructive",
-        title: "Erro",
+        title: t("error"),
         description: result.error,
       });
     }
@@ -65,8 +67,8 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
     if (!testPhone) {
       toast({
         variant: "destructive",
-        title: "Erro",
-        description: "Por favor, insira um número de telefone para teste",
+        title: t("error"),
+        description: t("testPhoneHint"),
       });
       return;
     }
@@ -77,24 +79,24 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
     if (result.success) {
       toast({
-        title: "Sucesso!",
+        title: t("success"),
         description: result.message,
       });
       setTestPhone("");
     } else {
       toast({
         variant: "destructive",
-        title: "Erro",
+        title: t("error"),
         description: result.error,
       });
     }
   }
 
   const tabs = [
-    { id: "business" as Tab, label: "Business", icon: Building2 },
-    { id: "template" as Tab, label: "SMS Template", icon: MessageSquare },
-    { id: "twilio" as Tab, label: "Twilio Config", icon: Settings2 },
-    { id: "test" as Tab, label: "Test SMS", icon: TestTube },
+    { id: "business" as Tab, label: t("business"), icon: Building2 },
+    { id: "template" as Tab, label: t("template"), icon: MessageSquare },
+    { id: "twilio" as Tab, label: t("twilioConfig"), icon: Settings2 },
+    { id: "test" as Tab, label: t("test"), icon: TestTube },
   ];
 
   return (
@@ -173,22 +175,22 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground">
-                  Business Information
+                  {t("businessInformation")}
                 </h2>
                 <p className="text-muted-foreground mt-1.5">
-                  Your business details used in SMS messages
+                  {t("businessDetails")}
                 </p>
               </div>
               <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="garageName" className="text-sm font-medium text-foreground">
-                    Business/Garage Name
+                    {t("businessGarageName")}
                   </Label>
                   <Input
                     id="garageName"
                     name="garageName"
                     type="text"
-                    placeholder="e.g., Auto Service Center"
+                    placeholder={t("businessNamePlaceholder")}
                     value={formValues.garageName}
                     onChange={(e) =>
                       updateFormValue("garageName", e.target.value)
@@ -197,8 +199,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     className="h-11 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
-                    This name will appear in your SMS messages as{" "}
-                    {"{garage_name}"}
+                    {t("businessNameHint")}
                   </p>
                 </div>
               </div>
@@ -210,17 +211,17 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground">
-                  SMS Template
+                  {t("smsTemplate")}
                 </h2>
                 <p className="text-muted-foreground mt-1.5">
-                  Customize the message sent to your clients
+                  {t("customizeMessage")}
                 </p>
               </div>
 
               <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="smsTemplate" className="text-sm font-medium text-foreground">
-                    Message Template
+                    {t("messageTemplate")}
                   </Label>
                   <textarea
                     id="smsTemplate"
@@ -238,32 +239,32 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
                   <p className="text-xs font-semibold text-foreground mb-3">
-                    Available Variables:
+                    {t("availableVariables")}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{client_name}"}
                       </code>
-                      <span className="text-muted-foreground">Client's name</span>
+                      <span className="text-muted-foreground">{t("clientNameVar")}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{vehicle}"}
                       </code>
-                      <span className="text-muted-foreground">Car model</span>
+                      <span className="text-muted-foreground">{t("carModelVar")}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{date}"}
                       </code>
-                      <span className="text-muted-foreground">Maintenance date</span>
+                      <span className="text-muted-foreground">{t("maintenanceDateVar")}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
                         {"{garage_name}"}
                       </code>
-                      <span className="text-muted-foreground">Your business name</span>
+                      <span className="text-muted-foreground">{t("businessNameVar")}</span>
                     </div>
                   </div>
                 </div>
@@ -276,28 +277,28 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground">
-                  Twilio Configuration
+                  {t("twilioConfiguration")}
                 </h2>
                 <p className="text-muted-foreground mt-1.5">
-                  Connect your Twilio account to send SMS
+                  {t("connectTwilioAccount")}
                 </p>
               </div>
 
               <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-5">
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
                   <h4 className="text-sm font-semibold text-foreground mb-2">
-                    Requirements
+                    {t("requirements")}
                   </h4>
                   <ul className="text-xs text-muted-foreground space-y-1.5">
-                    <li>• Phone number must be purchased from Twilio</li>
-                    <li>• Trial accounts can only send to verified numbers</li>
-                    <li>• Use E.164 format: +[country][number]</li>
+                    <li>• {t("twilioReq1")}</li>
+                    <li>• {t("twilioReq2")}</li>
+                    <li>• {t("twilioReq3")}</li>
                   </ul>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="accountSid" className="text-sm font-medium text-foreground">
-                    Account SID
+                    {t("accountSid")}
                   </Label>
                   <Input
                     id="accountSid"
@@ -315,7 +316,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
                 <div className="space-y-2">
                   <Label htmlFor="authToken" className="text-sm font-medium text-foreground">
-                    Auth Token
+                    {t("authToken")}
                   </Label>
                   <Input
                     id="authToken"
@@ -333,7 +334,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
                 <div className="space-y-2">
                   <Label htmlFor="phoneNumber" className="text-sm font-medium text-foreground">
-                    Phone Number
+                    {t("twilioPhoneNumber")}
                   </Label>
                   <Input
                     id="phoneNumber"
@@ -348,7 +349,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     className="h-11 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Must be a Twilio number in E.164 format
+                    {t("twilioPhoneHint")}
                   </p>
                 </div>
               </div>
@@ -359,16 +360,16 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
           {activeTab === "test" && (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-foreground">Test SMS</h2>
+                <h2 className="text-2xl font-bold text-foreground">{t("testSms")}</h2>
                 <p className="text-muted-foreground mt-1.5">
-                  Send a test message to verify your configuration
+                  {t("sendTestMessage")}
                 </p>
               </div>
 
               <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="testPhone" className="text-sm font-medium text-foreground">
-                    Test Phone Number
+                    {t("testPhoneNumber")}
                   </Label>
                   <Input
                     id="testPhone"
@@ -379,7 +380,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     className="h-11 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Enter a phone number to receive a test SMS
+                    {t("testPhoneHint")}
                   </p>
                 </div>
 
@@ -391,7 +392,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   className="w-full sm:w-auto h-10 rounded-xl border-border/40"
                 >
                   <Send className="mr-2 h-4 w-4" />
-                  {testLoading ? "Sending..." : "Send Test SMS"}
+                  {testLoading ? t("sending") : t("sendTestSms")}
                 </Button>
               </div>
             </div>
@@ -406,7 +407,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
               className="w-full sm:w-auto h-11 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
             >
               <Save className="mr-2 h-4 w-4" />
-              {loading ? "Saving..." : "Save Changes"}
+              {loading ? t("saving") : t("saveChanges")}
             </Button>
           </div>
         </form>
