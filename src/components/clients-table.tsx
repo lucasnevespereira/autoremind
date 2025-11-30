@@ -8,9 +8,11 @@ import { DeleteClientButton } from "@/components/delete-client-button";
 import { SendReminderButton } from "@/components/send-reminder-button";
 import { AddClientDialog } from "@/components/add-client-dialog";
 import { EditClientDialog } from "@/components/edit-client-dialog";
+import { ImportClientsDialog } from "@/components/import-clients-dialog";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/ui/data-table";
 import { useLanguage } from "@/contexts/language-context";
+import { ExportClientsButton } from "./export-clients-button";
 
 interface Client {
   id: number;
@@ -32,7 +34,9 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       header: t("client"),
       cell: ({ row }) => {
         return (
-          <div className="font-medium text-foreground">{row.getValue("name")}</div>
+          <div className="font-medium text-foreground">
+            {row.getValue("name")}
+          </div>
         );
       },
     },
@@ -149,6 +153,12 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
           />
         </div>
         <AddClientDialog />
+        <ImportClientsDialog />
+        {clients.length > 0 && (
+          <div className="flex-1 flex justify-end">
+            <ExportClientsButton />
+          </div>
+        )}
       </div>
 
       {/* Data Table */}

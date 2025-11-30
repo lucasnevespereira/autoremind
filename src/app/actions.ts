@@ -9,6 +9,7 @@ import { format } from "date-fns";
 import { pt } from "date-fns/locale";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import ExcelJS from "exceljs";
 
 export async function addClient(formData: FormData) {
   try {
@@ -221,7 +222,10 @@ export async function sendTestSMS(phone: string) {
     if (result.success) {
       return { success: true, messageKey: "testSmsSentSuccess" };
     } else {
-      return { success: false, errorKey: result.error ? "smsError" : "smsError" };
+      return {
+        success: false,
+        errorKey: result.error ? "smsError" : "smsError",
+      };
     }
   } catch (error) {
     console.error("Erro ao enviar SMS de teste:", error);
@@ -295,4 +299,87 @@ export async function sendManualReminder(clientId: number) {
     console.error("Error sending reminder:", error);
     return { success: false, errorKey: "reminderSendError" };
   }
+}
+
+export async function importClients(rows: any[]) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const userId = session.user.id;
+
+    const cleanedRows = rows
+      .filter((r) => r.name && r.phone && r.car && r.revisionDate)
+      .map((r) => ({
+        userId,
+        name: r.name.trim(),
+        phone: r.phone.trim(),
+        car: r.car.trim(),
+        revisionDate: new Date(r.revisionDate),
+        reminderSent: false,
+      }));
+
+    if (cleanedRows.length === 0) {
+      return { success: false, errorKey: "noValidRows" };
+    }
+
+    await db.insert(clients).values(cleanedRows);
+
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Import error:", error);
+    return { success: false, errorKey: "importFailed" };
+  }
+}
+
+export async function exportClients(lang: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id) {
+    return { success: false, errorKey: "unauthorized" };
+  }
+
+  const userId = session.user.id;
+
+  const data = await db.query.clients.findMany({
+    where: (t, { eq }) => eq(t.userId, userId),
+  });
+
+  let sheetName = "autoremind-clients";
+  let rowHeaders = ["Name", "Phone", "Car", "RevisionDate", "Sent"];
+  if (lang === "pt") {
+    sheetName = "autoremind-clientes";
+    rowHeaders = ["Nome", "Telefone", "Carro", "Validade", "Enviado"];
+  }
+
+  // Create workbook
+  const workbook = new ExcelJS.Workbook();
+  const sheet = workbook.addWorksheet(sheetName);
+
+  sheet.addRow(rowHeaders);
+
+  data.forEach((c) => {
+    sheet.addRow([
+      c.name,
+      c.phone,
+      c.car,
+      c.revisionDate ? new Date(c.revisionDate) : "",
+      c.reminderSent ? "Sim" : "Não",
+    ]);
+  });
+
+  const buffer = await workbook.xlsx.writeBuffer();
+
+  return {
+    success: true,
+    file: Buffer.from(buffer).toString("base64"),
+  };
 }
