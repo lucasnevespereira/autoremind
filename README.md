@@ -1,264 +1,356 @@
-# 🚗 AutoRemind PT
+# 🚗 AutoRemind
 
-**Lembretes de revisão automáticos para oficinas de automóveis em Portugal**
+<div align="center">
 
-Uma aplicação simples e amigável que permite a mecânicos enviarem lembretes por SMS aos seus clientes quando a revisão do carro está a chegar.
+![AutoRemind Logo](src/assets/logo-square.png)
 
----
+**Automatic Maintenance Reminder System for Auto Garages**
 
-## ✨ Funcionalidades
+A modern, bilingual (English/Portuguese) web application that helps auto mechanics and garages send automated SMS reminders to their clients when their vehicle maintenance is due.
 
-- 🔐 **Autenticação simples** por password
-- 📱 **Envio de SMS automático** via Twilio
-- 👥 **Gestão simples de clientes** (adicionar, listar, eliminar)
-- 📅 **Lembretes automáticos** 7 dias antes da revisão
-- ⚙️ **Configuração fácil** do Twilio
-- 🇵🇹 **Interface em Português** adaptada para Portugal
-- 🎨 **Design moderno** com gradientes, glassmorphism e animações suaves
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8)](https://tailwindcss.com/)
 
----
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [Usage](#-usage) • [Contributing](#-contributing) • [License](#-license)
 
-## 🛠️ Stack Tecnológica
-
-- **Next.js 15** (App Router)
-- **TypeScript**
-- **Tailwind CSS**
-- **shadcn/ui** (componentes UI)
-- **PostgreSQL** (base de dados)
-- **Drizzle ORM**
-- **Twilio** (envio de SMS)
-- **Server Actions** (formulários)
+</div>
 
 ---
 
-## 📦 Instalação
+## ✨ Features
 
-### 1. Clonar o repositório ou criar a pasta
+- 🌍 **Bilingual Support** - Full English and Portuguese translations
+- 🔐 **Secure Authentication** - Email-based authentication with Better Auth
+- 📱 **Automated SMS Reminders** - Send maintenance reminders via Twilio
+- 👥 **Client Management** - Easy-to-use interface for managing clients
+- 📅 **Smart Scheduling** - Automatic reminders 7 days before maintenance date
+- ⚙️ **Customizable Templates** - Personalize SMS message templates
+- 🎨 **Modern UI/UX** - Clean, fintech-inspired design with shadcn/ui
+- 📊 **Data Table** - Sortable, searchable client list with pagination
+- 🔄 **Real-time Updates** - Instant updates using Next.js Server Actions
+- 🌙 **Responsive Design** - Works seamlessly on desktop and mobile devices
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **[Next.js 15](https://nextjs.org/)** - React framework with App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
+- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[shadcn/ui](https://ui.shadcn.com/)** - Beautiful, accessible components
+- **[TanStack Table](https://tanstack.com/table)** - Powerful data tables
+- **[Lucide Icons](https://lucide.dev/)** - Clean, consistent icons
+
+### Backend
+- **[PostgreSQL](https://www.postgresql.org/)** - Robust relational database
+- **[Drizzle ORM](https://orm.drizzle.team/)** - Type-safe database toolkit
+- **[Better Auth](https://www.better-auth.com/)** - Modern authentication solution
+- **[Twilio](https://www.twilio.com/)** - SMS delivery service
+
+### Additional Tools
+- **[date-fns](https://date-fns.org/)** - Modern date utility library
+- **[React Hook Form](https://react-hook-form.com/)** - Performant forms
+- **Server Actions** - Type-safe server mutations
+
+---
+
+## 📦 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18+ and npm/yarn/pnpm
+- **PostgreSQL** database (local or cloud-hosted)
+- **Twilio Account** (for SMS functionality)
+
+### Installation
+
+1. **Clone the repository**
 
 ```bash
-cd autoremind-pt
+git clone https://github.com/yourusername/autoremind.git
+cd autoremind
 ```
 
-### 2. Instalar dependências
+2. **Install dependencies**
 
 ```bash
 npm install
 ```
 
-### 3. Configurar a base de dados
+3. **Set up environment variables**
 
-Crie uma base de dados PostgreSQL (pode usar um serviço como [Neon](https://neon.tech), [Supabase](https://supabase.com), ou local).
-
-### 4. Configurar variáveis de ambiente
-
-Copie o ficheiro `.env.example` para `.env`:
+Copy the `.env.example` file to `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-Edite o ficheiro `.env` e preencha:
+Fill in your environment variables:
 
 ```env
-# Base de Dados PostgreSQL
+# Database
 DATABASE_URL=postgresql://user:password@localhost:5432/autoremind
 
-# Autenticação (mude para uma password segura)
-AUTH_PASSWORD=admin123
+# Better Auth
+BETTER_AUTH_SECRET=your-secret-key-here
+BETTER_AUTH_URL=http://localhost:3000
 
-# Cron Secret (gere uma string aleatória para proteger a rota)
-CRON_SECRET=seu-secret-aleatorio-aqui
+# Cron Job Protection
+CRON_SECRET=your-random-secret-here
 ```
 
-**Nota:** As configurações do Twilio serão feitas diretamente na aplicação.
-
-### 5. Criar as tabelas na base de dados
+4. **Set up the database**
 
 ```bash
 npm run db:push
 ```
 
-### 6. Iniciar o servidor de desenvolvimento
+5. **Start the development server**
 
 ```bash
 npm run dev
 ```
 
-Aceda a aplicação em: **http://localhost:3000**
-
-### 7. Fazer login
-
-Use a password configurada no `.env` (padrão: `admin123`)
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🚀 Como usar
+## 🚀 Usage
 
-### 1. Configurar o Twilio
+### Initial Setup
 
-1. Aceda a **Configurações** na navegação
-2. Crie uma conta em [twilio.com](https://www.twilio.com) (tem créditos grátis)
-3. Obtenha as credenciais:
-   - **Account SID**
-   - **Auth Token**
-   - **Phone Number** (número português +351)
-4. Cole as credenciais na página de configurações
-5. Clique em **Guardar Configurações**
-6. Teste enviando um SMS de teste
+1. **Create an account** at `/sign-up`
+2. Navigate to **Settings** to configure Twilio
+3. Add your Twilio credentials:
+   - Account SID
+   - Auth Token
+   - Phone Number (E.164 format: +1234567890)
+4. Customize your SMS template with variables:
+   - `{client_name}` - Client's name
+   - `{vehicle}` - Car model
+   - `{date}` - Maintenance date
+   - `{garage_name}` - Your business name
 
-### 2. Adicionar clientes
+### Managing Clients
 
-1. Na página inicial, clique em **Adicionar Cliente**
-2. Preencha:
-   - Nome do cliente
-   - Número de telemóvel (formato português)
-   - Carro/Modelo
-   - Data da próxima revisão
-3. Clique em **Guardar Cliente**
+1. Click **Add Client** on the dashboard
+2. Fill in client details:
+   - Name
+   - Phone number
+   - Vehicle make/model
+   - Maintenance date
+3. View, edit, or delete clients from the table
 
-### 3. Enviar lembretes
+### Sending Reminders
 
-**Opção 1: Manual**
+**Manual Reminders:**
+- Click the **Send** button next to any client
 
-- Na lista de clientes, clique em **Enviar Lembrete**
+**Automatic Reminders (Cron Job):**
+- Set up a cron job to call: `GET /api/cron/reminders`
+- Include header: `Authorization: Bearer YOUR_CRON_SECRET`
 
-**Opção 2: Automático (Cron Job)**
+**Example with Vercel Cron:**
 
-- Configure um cron job para chamar: `GET /api/cron/lembretes`
-- Adicione o header: `Authorization: Bearer SEU_CRON_SECRET`
-
-Exemplo com Vercel Cron:
+Create `vercel.json`:
 
 ```json
 {
   "crons": [
     {
-      "path": "/api/cron/lembretes",
+      "path": "/api/cron/reminders",
       "schedule": "0 9 * * *"
     }
   ]
 }
 ```
 
-Ou use serviços como [cron-job.org](https://cron-job.org) ou [EasyCron](https://www.easycron.com).
+### Language Switching
+
+Users can switch between English and Portuguese using the language selector in the footer. The preference is saved to localStorage.
 
 ---
 
-## 📱 Formato do SMS
+## 🌐 Deployment
 
-```
-Olá [Nome], a revisão do seu [Carro] está marcada para [Data].
-Contacte a oficina para marcar o dia. Obrigado!
-```
+### Deploy to Vercel (Recommended)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/autoremind)
+
+1. Push your code to GitHub
+2. Import the project on [Vercel](https://vercel.com)
+3. Add environment variables
+4. Configure Vercel Cron for automated reminders
+5. Deploy!
+
+### Other Platforms
+
+AutoRemind can be deployed to any platform that supports Next.js:
+- **[Railway](https://railway.app/)**
+- **[Render](https://render.com/)**
+- **[Fly.io](https://fly.io/)**
+
+Ensure you:
+- Set all environment variables
+- Have a PostgreSQL database
+- Configure external cron jobs if not using Vercel
 
 ---
 
-## 🎨 Paleta de Cores
+## 🛠️ Development
 
-- **Primária:** Azul (`#0066FF`)
-- **Fundo:** Gradiente azul/cinza claro
-- **Texto:** Cinza escuro
-- **Acentos:** Azul claro, Verde (sucesso), Amarelo (aviso), Vermelho (urgente)
-
----
-
-## 📝 Scripts Disponíveis
+### Available Scripts
 
 ```bash
-npm run dev          # Iniciar servidor de desenvolvimento
-npm run build        # Build para produção
-npm run start        # Iniciar servidor de produção
-npm run lint         # Verificar código
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Lint code with ESLint
 
-npm run db:generate  # Gerar migrações Drizzle
-npm run db:push      # Aplicar schema à base de dados
-npm run db:studio    # Abrir Drizzle Studio (interface visual)
+# Database
+npm run db:generate  # Generate Drizzle migrations
+npm run db:push      # Push schema to database
+npm run db:studio    # Open Drizzle Studio (visual DB interface)
+```
+
+### Project Structure
+
+```
+autoremind/
+├── src/
+│   ├── app/              # Next.js app directory
+│   │   ├── (app)/        # Authenticated routes
+│   │   ├── (auth)/       # Authentication pages
+│   │   └── api/          # API routes
+│   ├── components/       # React components
+│   │   ├── ui/           # shadcn/ui components
+│   │   └── auth/         # Auth-specific components
+│   ├── contexts/         # React contexts (Language)
+│   ├── db/               # Database schema & config
+│   ├── lib/              # Utility functions
+│   └── assets/           # Static assets (logos, images)
+├── public/               # Public static files
+└── drizzle/              # Database migrations
 ```
 
 ---
 
-## 🌐 Deploy (Produção)
+## 🤝 Contributing
 
-### Opção 1: Vercel (Recomendado)
+Contributions are welcome! Please follow these steps:
 
-1. Faça push do código para GitHub
-2. Importe o projeto em [vercel.com](https://vercel.com)
-3. Configure as variáveis de ambiente
-4. Configure um Vercel Cron para lembretes automáticos
+1. **Fork the repository**
+2. **Create a feature branch**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit your changes**
+   ```bash
+   git commit -m 'Add some amazing feature'
+   ```
+4. **Push to the branch**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open a Pull Request**
 
-### Opção 2: Outros serviços
+### Contribution Guidelines
 
-- **Railway**
-- **Render**
-- **Fly.io**
+- Follow the existing code style
+- Write meaningful commit messages
+- Add tests for new features
+- Update documentation as needed
+- Ensure all tests pass before submitting PR
 
-Certifique-se de:
+### Adding Translations
 
-- Configurar as variáveis de ambiente
-- Ter uma base de dados PostgreSQL
-- Configurar um cron job externo
+To add a new language:
 
----
-
-## 🔒 Segurança
-
-- A rota de cron (`/api/cron/lembretes`) está protegida com `CRON_SECRET`
-- As configurações do Twilio são guardadas na base de dados
-- Não há autenticação de utilizador nesta MVP (adicione se necessário)
-
----
-
-## 🆘 Resolução de Problemas
-
-### SMS não são enviados
-
-1. Verifique as configurações do Twilio
-2. Confirme que tem créditos na conta Twilio
-3. Teste com "Enviar SMS de Teste" nas configurações
-4. Verifique os logs do servidor
-
-### Base de dados não conecta
-
-1. Verifique a `DATABASE_URL` no `.env`
-2. Confirme que a base de dados está acessível
-3. Execute `npm run db:push` para criar as tabelas
-
-### Erros de build
-
-1. Apague a pasta `.next` e `node_modules`
-2. Execute `npm install` novamente
-3. Execute `npm run build`
+1. Update `src/lib/i18n.ts` with new translations
+2. Add the language to the `Language` type
+3. Update the language selector in `AppFooter`
 
 ---
 
-## 📞 Suporte
+## 🐛 Bug Reports & Feature Requests
 
-Para ajuda ou questões:
+Found a bug or have a feature idea? Please [open an issue](https://github.com/yourusername/autoremind/issues) with:
 
-- Abra uma issue no repositório
-- Consulte a documentação do [Twilio](https://www.twilio.com/docs)
-- Consulte a documentação do [Next.js](https://nextjs.org/docs)
-
----
-
-## 📄 Licença
-
-Este projeto é de uso livre para mecânicos e oficinas portuguesas.
+- **Bug Reports**: Detailed description, steps to reproduce, expected vs actual behavior
+- **Feature Requests**: Use case, proposed solution, any alternatives considered
 
 ---
 
-## 🎁 Melhorias Futuras (Opcional)
+## 📝 License
 
-- [ ] Autenticação de utilizador
-- [ ] Múltiplas oficinas (multi-tenant)
-- [ ] Histórico de SMS enviados
-- [ ] Templates de mensagens personalizáveis
-- [ ] Dashboard com estatísticas
-- [ ] Notificações por email
-- [ ] App mobile
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024 AutoRemind Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
 
 ---
 
-**Desenvolvido com ❤️ para mecânicos portugueses**
+## 🙏 Acknowledgments
 
-AutoRemind PT - A sua oficina sempre em contacto com os clientes
+- [shadcn/ui](https://ui.shadcn.com/) for the beautiful component library
+- [Better Auth](https://www.better-auth.com/) for modern authentication
+- [Twilio](https://www.twilio.com/) for reliable SMS delivery
+- [Vercel](https://vercel.com/) for seamless deployment
+- All [contributors](https://github.com/yourusername/autoremind/graphs/contributors) who help improve AutoRemind
+
+---
+
+## 📊 Roadmap
+
+- [ ] Multi-tenant support (multiple garages)
+- [ ] Email notifications as alternative to SMS
+- [ ] Dashboard with analytics and statistics
+- [ ] Mobile app (React Native)
+- [ ] WhatsApp integration
+- [ ] Customer portal for self-service booking
+- [ ] Recurring maintenance schedules
+- [ ] PDF invoice generation
+- [ ] Multi-language support (Spanish, French, German)
+
+---
+
+## 📞 Support
+
+Need help? Here are some resources:
+
+- 📚 [Documentation](https://github.com/yourusername/autoremind/wiki)
+- 💬 [Discussions](https://github.com/yourusername/autoremind/discussions)
+- 🐛 [Issue Tracker](https://github.com/yourusername/autoremind/issues)
+- 📧 Email: support@autoremind.example.com
+
+---
+
+## ⭐ Star History
+
+If you find AutoRemind helpful, please consider giving it a star! ⭐
+
+---
+
+<div align="center">
+
+**Built with ❤️ for auto mechanics and garages worldwide**
+
+[Website](https://autoremind.example.com) • [Documentation](https://github.com/yourusername/autoremind/wiki) • [Report Bug](https://github.com/yourusername/autoremind/issues) • [Request Feature](https://github.com/yourusername/autoremind/issues)
+
+</div>
