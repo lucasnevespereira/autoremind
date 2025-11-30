@@ -1,8 +1,8 @@
-# 🚗 AutoRemind
+# AutoRemind
 
 <div align="center">
 
-<img src="src/assets/logo-square.png" alt="AutoRemind Logo" width="400" style="padding: 20px;" />
+<img src="src/assets/logo-square.png" alt="AutoRemind Logo" width="200" style="padding: 20px;" />
 
 **Automatic Maintenance Reminder System for Auto Garages**
 
