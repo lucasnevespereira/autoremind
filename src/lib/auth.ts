@@ -4,6 +4,12 @@ import { db } from "@/db";
 import * as schema from "@/db/schema";
 
 export const auth = betterAuth({
+  allowedOrigins: [
+    "https://autoremind.app",
+    "https://www.autoremind.app",
+    "http://localhost:3000",
+    "https://autoremind.vercel.app",
+  ],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {
