@@ -94,6 +94,10 @@ export const translations = {
     authToken: "Auth Token",
     twilioPhoneNumber: "Phone Number",
     twilioPhoneHint: "Must be a Twilio number in E.164 format",
+    usefulLinks: "Useful Links",
+    viewBilling: "View Billing & Balance",
+    managePhoneNumbers: "Manage Phone Numbers",
+    twilioConsole: "Twilio Console",
 
     testSms: "Test SMS",
     sendTestMessage: "Send a test message to verify your configuration",
@@ -259,6 +263,10 @@ export const translations = {
     authToken: "Auth Token",
     twilioPhoneNumber: "Número de Telefone",
     twilioPhoneHint: "Deve ser um número Twilio no formato E.164",
+    usefulLinks: "Links Úteis",
+    viewBilling: "Ver Faturação e Saldo",
+    managePhoneNumbers: "Gerir Números de Telefone",
+    twilioConsole: "Consola Twilio",
 
     testSms: "Testar SMS",
     sendTestMessage:

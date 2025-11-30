@@ -14,6 +14,7 @@ import {
   MessageSquare,
   Settings2,
   TestTube,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -298,18 +299,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-5">
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-                  <h4 className="text-sm font-semibold text-foreground mb-2">
-                    {t("requirements")}
-                  </h4>
-                  <ul className="text-xs text-muted-foreground space-y-1.5">
-                    <li>• {t("twilioReq1")}</li>
-                    <li>• {t("twilioReq2")}</li>
-                    <li>• {t("twilioReq3")}</li>
-                  </ul>
-                </div>
-
+              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
                   <Label
                     htmlFor="accountSid"
@@ -374,6 +364,42 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   <p className="text-xs text-muted-foreground">
                     {t("twilioPhoneHint")}
                   </p>
+                </div>
+
+                {/* Useful Links - Compact */}
+                <div className="flex items-start gap-4 text-xs text-muted-foreground pt-2 border-t border-border/20">
+                  <div className="flex-1">
+                    <p className="font-medium text-foreground mb-1.5">{t("usefulLinks")}:</p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1">
+                      <a
+                        href="https://console.twilio.com/us1/billing/manage-billing/billing-overview"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t("viewBilling")}
+                      </a>
+                      <a
+                        href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t("managePhoneNumbers")}
+                      </a>
+                      <a
+                        href="https://console.twilio.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        {t("twilioConsole")}
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
