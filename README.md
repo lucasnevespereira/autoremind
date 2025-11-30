@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![AutoRemind Logo](src/assets/logo-square.png)
+<img src="src/assets/logo-square.png" alt="AutoRemind Logo" width="400" style="padding: 20px;" />
 
 **Automatic Maintenance Reminder System for Auto Garages**
 
@@ -37,6 +37,7 @@ A modern, bilingual (English/Portuguese) web application that helps auto mechani
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **[Next.js 15](https://nextjs.org/)** - React framework with App Router
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
@@ -45,12 +46,14 @@ A modern, bilingual (English/Portuguese) web application that helps auto mechani
 - **[Lucide Icons](https://lucide.dev/)** - Clean, consistent icons
 
 ### Backend
+
 - **[PostgreSQL](https://www.postgresql.org/)** - Robust relational database
 - **[Drizzle ORM](https://orm.drizzle.team/)** - Type-safe database toolkit
 - **[Better Auth](https://www.better-auth.com/)** - Modern authentication solution
 - **[Twilio](https://www.twilio.com/)** - SMS delivery service
 
 ### Additional Tools
+
 - **[date-fns](https://date-fns.org/)** - Modern date utility library
 - **[React Hook Form](https://react-hook-form.com/)** - Performant forms
 - **Server Actions** - Type-safe server mutations
@@ -147,9 +150,11 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Sending Reminders
 
 **Manual Reminders:**
+
 - Click the **Send** button next to any client
 
 **Automatic Reminders (Cron Job):**
+
 - Set up a cron job to call: `GET /api/cron/reminders`
 - Include header: `Authorization: Bearer YOUR_CRON_SECRET`
 
@@ -189,11 +194,13 @@ Users can switch between English and Portuguese using the language selector in t
 ### Other Platforms
 
 AutoRemind can be deployed to any platform that supports Next.js:
+
 - **[Railway](https://railway.app/)**
 - **[Render](https://render.com/)**
 - **[Fly.io](https://fly.io/)**
 
 Ensure you:
+
 - Set all environment variables
 - Have a PostgreSQL database
 - Configure external cron jobs if not using Vercel
@@ -288,22 +295,6 @@ Found a bug or have a feature idea? Please [open an issue](https://github.com/yo
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-```
-MIT License
-
-Copyright (c) 2024 AutoRemind Contributors
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
 ---
 
 ## 🙏 Acknowledgments
@@ -312,7 +303,7 @@ copies or substantial portions of the Software.
 - [Better Auth](https://www.better-auth.com/) for modern authentication
 - [Twilio](https://www.twilio.com/) for reliable SMS delivery
 - [Vercel](https://vercel.com/) for seamless deployment
-- All [contributors](https://github.com/yourusername/autoremind/graphs/contributors) who help improve AutoRemind
+- All [contributors](https://github.com/lucasnevespereira/autoremind/graphs/contributors) who help improve AutoRemind
 
 ---
 
@@ -334,10 +325,8 @@ copies or substantial portions of the Software.
 
 Need help? Here are some resources:
 
-- 📚 [Documentation](https://github.com/yourusername/autoremind/wiki)
-- 💬 [Discussions](https://github.com/yourusername/autoremind/discussions)
-- 🐛 [Issue Tracker](https://github.com/yourusername/autoremind/issues)
-- 📧 Email: support@autoremind.example.com
+- 💬 [Discussions](https://github.com/lucasnevespereira/autoremind/discussions)
+- 🐛 [Issue Tracker](https://github.com/lucasnevespereira/autoremind/issues)
 
 ---
 
@@ -351,6 +340,6 @@ If you find AutoRemind helpful, please consider giving it a star! ⭐
 
 **Built with ❤️ for auto mechanics and garages worldwide**
 
-[Website](https://autoremind.example.com) • [Documentation](https://github.com/yourusername/autoremind/wiki) • [Report Bug](https://github.com/yourusername/autoremind/issues) • [Request Feature](https://github.com/yourusername/autoremind/issues)
+[Website](https://autoremind.app) • [Report Bug](https://github.com/yourusername/autoremind/issues) • [Request Feature](https://github.com/yourusername/autoremind/issues)
 
 </div>
