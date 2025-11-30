@@ -54,8 +54,8 @@ export function AddClientDialog() {
 
     if (result.success) {
       toast({
-        title: "Sucesso!",
-        description: result.message,
+        title: t("success"),
+        description: result.messageKey ? t(result.messageKey as any) : "",
       });
       setOpen(false);
       // Reset form
@@ -63,8 +63,8 @@ export function AddClientDialog() {
     } else {
       toast({
         variant: "destructive",
-        title: "Erro",
-        description: result.error,
+        title: t("error"),
+        description: result.errorKey ? t(result.errorKey as any) : "",
       });
     }
   }

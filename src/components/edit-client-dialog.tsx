@@ -64,15 +64,15 @@ export function EditClientDialog({ client }: EditClientDialogProps) {
 
     if (result.success) {
       toast({
-        title: "Success!",
-        description: result.message,
+        title: t("success"),
+        description: result.messageKey ? t(result.messageKey as any) : "",
       });
       setOpen(false);
     } else {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: result.error,
+        title: t("error"),
+        description: result.errorKey ? t(result.errorKey as any) : "",
       });
     }
   }

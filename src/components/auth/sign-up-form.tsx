@@ -34,16 +34,16 @@ export function SignUpForm() {
       });
 
       toast({
-        title: "Success!",
-        description: "Account created successfully.",
+        title: t("success"),
+        description: t("accountCreatedSuccess"),
       });
 
       router.push("/");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Sign up failed",
-        description: "Email already in use or an error occurred.",
+        title: t("signUpFailed"),
+        description: t("emailInUse"),
       });
     } finally {
       setLoading(false);

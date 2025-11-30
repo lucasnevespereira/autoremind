@@ -32,16 +32,16 @@ export function SignInForm() {
       });
 
       toast({
-        title: "Success!",
-        description: "Signed in successfully.",
+        title: t("success"),
+        description: t("signedInSuccess"),
       });
 
       router.push("/");
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Sign in failed",
-        description: "Invalid email or password.",
+        title: t("signInFailed"),
+        description: t("invalidCredentials"),
       });
     } finally {
       setLoading(false);

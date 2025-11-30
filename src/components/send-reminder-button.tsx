@@ -26,13 +26,13 @@ export function SendReminderButton({
     if (result.success) {
       toast({
         title: t("success"),
-        description: result.message,
+        description: result.messageKey ? t(result.messageKey as any) : "",
       });
     } else {
       toast({
         variant: "destructive",
         title: t("error"),
-        description: result.error,
+        description: result.errorKey ? t(result.errorKey as any) : "",
       });
     }
   }

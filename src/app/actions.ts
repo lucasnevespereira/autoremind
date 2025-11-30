@@ -17,7 +17,7 @@ export async function addClient(formData: FormData) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     const name = formData.get("name") as string;
@@ -26,7 +26,7 @@ export async function addClient(formData: FormData) {
     const revisionDate = formData.get("revisionDate") as string;
 
     if (!name || !phone || !car || !revisionDate) {
-      return { success: false, error: "Todos os campos são obrigatórios" };
+      return { success: false, errorKey: "allFieldsRequired" };
     }
 
     const formattedPhone = formatPortuguesePhone(phone);
@@ -41,10 +41,10 @@ export async function addClient(formData: FormData) {
     });
 
     revalidatePath("/");
-    return { success: true, message: "Cliente adicionado com sucesso!" };
+    return { success: true, messageKey: "clientAddedSuccess" };
   } catch (error) {
     console.error("Erro ao adicionar cliente:", error);
-    return { success: false, error: "Erro ao adicionar cliente" };
+    return { success: false, errorKey: "clientAddError" };
   }
 }
 
@@ -55,7 +55,7 @@ export async function updateClient(id: number, formData: FormData) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     const name = formData.get("name") as string;
@@ -64,7 +64,7 @@ export async function updateClient(id: number, formData: FormData) {
     const revisionDate = formData.get("revisionDate") as string;
 
     if (!name || !phone || !car || !revisionDate) {
-      return { success: false, error: "All fields are required" };
+      return { success: false, errorKey: "allFieldsRequired" };
     }
 
     const formattedPhone = formatPortuguesePhone(phone);
@@ -77,7 +77,7 @@ export async function updateClient(id: number, formData: FormData) {
       .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
 
     if (existingClient.length === 0) {
-      return { success: false, error: "Client not found" };
+      return { success: false, errorKey: "clientNotFound" };
     }
 
     // Check if revision date has changed
@@ -97,10 +97,10 @@ export async function updateClient(id: number, formData: FormData) {
       .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
 
     revalidatePath("/");
-    return { success: true, message: "Client updated successfully!" };
+    return { success: true, messageKey: "clientUpdatedSuccess" };
   } catch (error) {
     console.error("Error updating client:", error);
-    return { success: false, error: "Error updating client" };
+    return { success: false, errorKey: "clientUpdateError" };
   }
 }
 
@@ -111,17 +111,17 @@ export async function deleteClient(id: number) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     await db
       .delete(clients)
       .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
     revalidatePath("/");
-    return { success: true, message: "Cliente eliminado com sucesso!" };
+    return { success: true, messageKey: "clientDeletedSuccess" };
   } catch (error) {
     console.error("Erro ao eliminar cliente:", error);
-    return { success: false, error: "Erro ao eliminar cliente" };
+    return { success: false, errorKey: "clientDeleteError" };
   }
 }
 
@@ -132,7 +132,7 @@ export async function saveTwilioConfig(formData: FormData) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     const accountSid = formData.get("accountSid") as string;
@@ -162,7 +162,7 @@ export async function saveTwilioConfig(formData: FormData) {
 
     // At least one field must be provided
     if (configs.length === 0) {
-      return { success: false, error: "At least one field must be provided" };
+      return { success: false, errorKey: "atLeastOneField" };
     }
 
     for (const config of configs) {
@@ -195,10 +195,10 @@ export async function saveTwilioConfig(formData: FormData) {
     }
 
     revalidatePath("/settings");
-    return { success: true, message: "Settings saved successfully!" };
+    return { success: true, messageKey: "settingsSavedSuccess" };
   } catch (error) {
     console.error("Error saving settings:", error);
-    return { success: false, error: "Error saving settings" };
+    return { success: false, errorKey: "settingsSaveError" };
   }
 }
 
@@ -209,7 +209,7 @@ export async function sendTestSMS(phone: string) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     const result = await sendSMS(
@@ -219,13 +219,13 @@ export async function sendTestSMS(phone: string) {
     );
 
     if (result.success) {
-      return { success: true, message: "SMS de teste enviado com sucesso!" };
+      return { success: true, messageKey: "testSmsSentSuccess" };
     } else {
-      return { success: false, error: result.error || "Erro ao enviar SMS" };
+      return { success: false, errorKey: result.error ? "smsError" : "smsError" };
     }
   } catch (error) {
     console.error("Erro ao enviar SMS de teste:", error);
-    return { success: false, error: "Erro ao enviar SMS de teste" };
+    return { success: false, errorKey: "testSmsError" };
   }
 }
 
@@ -236,7 +236,7 @@ export async function sendManualReminder(clientId: number) {
     });
 
     if (!session?.user?.id) {
-      return { success: false, error: "Unauthorized" };
+      return { success: false, errorKey: "unauthorized" };
     }
 
     const client = await db
@@ -247,7 +247,7 @@ export async function sendManualReminder(clientId: number) {
       );
 
     if (client.length === 0) {
-      return { success: false, error: "Client not found" };
+      return { success: false, errorKey: "clientNotFound" };
     }
 
     const c = client[0];
@@ -284,15 +284,15 @@ export async function sendManualReminder(clientId: number) {
         );
 
       revalidatePath("/");
-      return { success: true, message: "Reminder sent successfully!" };
+      return { success: true, messageKey: "reminderSentSuccess" };
     } else {
       return {
         success: false,
-        error: result.error || "Error sending reminder",
+        errorKey: "reminderSendError",
       };
     }
   } catch (error) {
     console.error("Error sending reminder:", error);
-    return { success: false, error: "Error sending reminder" };
+    return { success: false, errorKey: "reminderSendError" };
   }
 }
