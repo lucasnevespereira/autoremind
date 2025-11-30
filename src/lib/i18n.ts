@@ -162,6 +162,7 @@ export const translations = {
     errorImportingClients: "Error importing clients.",
     errorReadingFile: "Error reading file.",
     errorExportingClients: "Error exporting clients.",
+    clientsImportedSuccess: "clients imported successfully!",
   },
   pt: {
     // Auth
@@ -328,6 +329,7 @@ export const translations = {
     errorImportingClients: "Erro ao importar clientes.",
     errorReadingFile: "Erro ao ler o ficheiro.",
     errorExportingClients: "Erro ao exportar clientes.",
+    clientsImportedSuccess: "clientes importados com sucesso!",
   },
 } as const;
 
