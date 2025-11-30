@@ -1,15 +1,35 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { LanguageProvider } from "@/contexts/language-context";
+import { LanguageProvider, useLanguage } from "@/contexts/language-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "AutoRemind PT - Lembretes de Revisão",
-  description: "Envie lembretes de revisão aos seus clientes automaticamente",
-};
+function RootLayoutContent({ children }: { children: React.ReactNode }) {
+  const { language } = useLanguage();
+
+  return (
+    <html lang={language}>
+      <head>
+        <title>AutoRemind - Maintenance Reminders</title>
+        <meta
+          name="description"
+          content="Automatic maintenance reminder system for auto garages"
+        />
+        <meta
+          name="keywords"
+          content="maintenance reminders, auto garage, SMS reminders, lembretes manutenção, oficina auto"
+        />
+      </head>
+      <body className={inter.className}>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}
 
 export default function RootLayout({
   children,
@@ -17,13 +37,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
-      <body className={inter.className}>
-        <LanguageProvider>
-          {children}
-          <Toaster />
-        </LanguageProvider>
-      </body>
-    </html>
+    <LanguageProvider>
+      <RootLayoutContent>{children}</RootLayoutContent>
+    </LanguageProvider>
   );
 }

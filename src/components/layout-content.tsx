@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppFooter } from "@/components/app-footer";
 import { useLanguage } from "@/contexts/language-context";
 import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
+import Image from "next/image";
+import logoSquare from "@/assets/logo-square.png";
 
 export function LayoutContent({
   children,
@@ -30,20 +31,15 @@ export function LayoutContent({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-2xl bg-primary flex items-center justify-center shadow-fintech group-hover:scale-105 transition-transform duration-200">
-                <svg
-                  className="w-5 h-5 text-primary-foreground"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2.5}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-fintech group-hover:scale-105 transition-transform duration-200">
+                <Image
+                  src={logoSquare}
+                  alt="AutoRemind Logo"
+                  width={80}
+                  height={80}
+                  className="mx-auto"
+                  priority
+                />
               </div>
               <span className="text-xl font-semibold text-foreground tracking-tight">
                 {t("autoremind")}
