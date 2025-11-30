@@ -3,7 +3,7 @@
 import { useLanguage } from "@/contexts/language-context";
 import { Globe } from "lucide-react";
 
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "0.1.0";
 
 export function AppFooter() {
   const { language, setLanguage } = useLanguage();
