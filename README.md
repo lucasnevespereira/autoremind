@@ -119,19 +119,24 @@ Use a password configurada no `.env` (padrão: `admin123`)
 ### 3. Enviar lembretes
 
 **Opção 1: Manual**
+
 - Na lista de clientes, clique em **Enviar Lembrete**
 
 **Opção 2: Automático (Cron Job)**
+
 - Configure um cron job para chamar: `GET /api/cron/lembretes`
 - Adicione o header: `Authorization: Bearer SEU_CRON_SECRET`
 
 Exemplo com Vercel Cron:
+
 ```json
 {
-  "crons": [{
-    "path": "/api/cron/lembretes",
-    "schedule": "0 9 * * *"
-  }]
+  "crons": [
+    {
+      "path": "/api/cron/lembretes",
+      "schedule": "0 9 * * *"
+    }
+  ]
 }
 ```
 
@@ -188,6 +193,7 @@ npm run db:studio    # Abrir Drizzle Studio (interface visual)
 - **Fly.io**
 
 Certifique-se de:
+
 - Configurar as variáveis de ambiente
 - Ter uma base de dados PostgreSQL
 - Configurar um cron job externo
@@ -228,6 +234,7 @@ Certifique-se de:
 ## 📞 Suporte
 
 Para ajuda ou questões:
+
 - Abra uma issue no repositório
 - Consulte a documentação do [Twilio](https://www.twilio.com/docs)
 - Consulte a documentação do [Next.js](https://nextjs.org/docs)

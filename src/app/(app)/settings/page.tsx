@@ -35,19 +35,23 @@ export default async function SettingsPage() {
     configs.find((c) => c.key === "sms_template")?.value ||
     "Hello {client_name}, your {vehicle} is scheduled for maintenance on {date}. Please contact {garage_name} to confirm. Thank you!";
 
-  const isConfigured = accountSid && authToken && phoneNumber;
-
   return (
     <div className="max-w-6xl animate-fade-in">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Settings</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Settings
+          </h1>
           <p className="text-muted-foreground mt-1.5">
             Configure your business information and SMS notifications
           </p>
         </div>
         <Link href="/">
-          <Button variant="outline" size="sm" className="gap-2 rounded-xl h-9 border-border/40">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2 rounded-xl h-9 border-border/40"
+          >
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
           </Button>

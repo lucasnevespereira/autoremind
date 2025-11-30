@@ -194,7 +194,7 @@ export async function saveTwilioConfig(formData: FormData) {
       }
     }
 
-    revalidatePath("/configuracoes");
+    revalidatePath("/settings");
     return { success: true, message: "Settings saved successfully!" };
   } catch (error) {
     console.error("Error saving settings:", error);
