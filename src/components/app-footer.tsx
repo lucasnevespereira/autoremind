@@ -1,9 +1,8 @@
 "use client";
 
 import { useLanguage } from "@/contexts/language-context";
+import { APP_VERSION } from "@/version";
 import { Globe } from "lucide-react";
-
-const APP_VERSION = "0.1.0";
 
 export function AppFooter() {
   const { language, setLanguage } = useLanguage();

@@ -1,0 +1,70 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*.*.*" # Triggers on version tags like v1.0.0, v1.2.3, etc.
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm run lint
+
+      - name: Build
+        env:
+          DATABASE_URL: "postgresql://username:password@localhost:5432/wayt_db"
+          BETTER_AUTH_SECRET: "test_secret_key_32_chars_minimum_length_required_for_ci"
+          BETTER_AUTH_URL: "http://localhost:3000"
+          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+          CRON_SECRET: "test_cron_key_32_chars_minimum_length_required_for_ci"
+        run: npm run build:local
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Update version files
+        run: |
+          # Update src/version.ts
+          echo "// This file is automatically updated by GitHub Actions on release" > src/version.ts
+          echo "export const APP_VERSION = '${{ steps.version.outputs.VERSION }}';" >> src/version.ts
+
+          # Update package.json version
+          npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+
+      - name: Commit version update
+        run: |
+          git config --local user.email "pereiraneveslucas@gmail.com"
+          git config --local user.name "Lucas Neves Pereira"
+          git add lib/version.ts package.json
+          git commit -m "chore: update version to ${{ steps.version.outputs.VERSION }} [skip ci]" || exit 0
+          git push origin HEAD:main
