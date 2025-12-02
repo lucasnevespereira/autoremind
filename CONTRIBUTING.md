@@ -7,6 +7,7 @@ Obrigado por considerar contribuir para o AutoRemind PT!
 ## 🎯 Objetivos do Projeto
 
 Este projeto foi criado para ser:
+
 - **Simples** - fácil de usar para mecânicos não técnicos
 - **Funcional** - resolve um problema real de forma eficaz
 - **Amigável** - interface limpa e em português de Portugal
@@ -18,6 +19,7 @@ Este projeto foi criado para ser:
 ### Reportar Bugs
 
 Se encontrou um problema:
+
 1. Verifique se já não foi reportado nas [Issues](../../issues)
 2. Crie uma nova issue com:
    - Descrição do problema
@@ -28,6 +30,7 @@ Se encontrou um problema:
 ### Sugerir Melhorias
 
 Tem uma ideia para melhorar a aplicação?
+
 1. Abra uma issue com a etiqueta `enhancement`
 2. Descreva a funcionalidade e o problema que resolve
 3. Explique como beneficiaria os utilizadores
@@ -76,6 +79,7 @@ Tem uma ideia para melhorar a aplicação?
 ## 🧪 Testes
 
 Antes de submeter:
+
 - [ ] A aplicação compila sem erros (`npm run build`)
 - [ ] Testou localmente a funcionalidade
 - [ ] Não quebra funcionalidades existentes
@@ -95,6 +99,7 @@ Antes de submeter:
 ## 📦 Pull Requests
 
 Um bom PR deve:
+
 - Resolver apenas um problema/adicionar uma funcionalidade
 - Ter uma descrição clara do que faz
 - Incluir screenshots se houver mudanças visuais
@@ -105,6 +110,7 @@ Um bom PR deve:
 ## 🎨 Design
 
 Se contribuir com mudanças visuais:
+
 - Mantenha a simplicidade
 - Use a paleta de cores existente (azul, cinza)
 - Garanta que é responsivo (mobile-friendly)
@@ -115,6 +121,7 @@ Se contribuir com mudanças visuais:
 ## 🔐 Segurança
 
 Se encontrou uma vulnerabilidade:
+
 - **NÃO** abra uma issue pública
 - Contacte os maintainers diretamente
 - Aguarde correção antes de divulgar
