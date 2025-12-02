@@ -11,7 +11,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const { language } = useLanguage();
 
   return (
-    <html suppressHydrationWarning lang={language}>
+    <html lang={language}>
       <head>
         <title>AutoRemind - Maintenance Reminders</title>
         <meta
@@ -23,7 +23,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
           content="maintenance reminders, auto garage, SMS reminders, lembretes manutenção, oficina auto"
         />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         {children}
         <Toaster />
       </body>
