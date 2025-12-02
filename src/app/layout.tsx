@@ -11,7 +11,7 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
   const { language } = useLanguage();
 
   return (
-    <html lang={language}>
+    <html suppressHydrationWarning lang={language}>
       <head>
         <title>AutoRemind - Maintenance Reminders</title>
         <meta
