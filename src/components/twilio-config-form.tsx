@@ -23,7 +23,9 @@ interface TwilioConfigFormProps {
     accountSid: string;
     authToken: string;
     phoneNumber: string;
-    garageName: string;
+    businessName: string;
+    businessContact: string;
+    reminderDaysBefore: string;
     smsTemplate: string;
   };
 }
@@ -131,12 +133,30 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
       <div className="flex-1">
         <form action={handleSubmit} className="space-y-6">
           {/* Hidden inputs to preserve values from other tabs */}
-          {activeTab !== "business" && formValues.garageName && (
-            <input
-              type="hidden"
-              name="garageName"
-              value={formValues.garageName}
-            />
+          {activeTab !== "business" && (
+            <>
+              {formValues.businessName && (
+                <input
+                  type="hidden"
+                  name="businessName"
+                  value={formValues.businessName}
+                />
+              )}
+              {formValues.businessContact && (
+                <input
+                  type="hidden"
+                  name="businessContact"
+                  value={formValues.businessContact}
+                />
+              )}
+              {formValues.reminderDaysBefore && (
+                <input
+                  type="hidden"
+                  name="reminderDaysBefore"
+                  value={formValues.reminderDaysBefore}
+                />
+              )}
+            </>
           )}
           {activeTab !== "template" && formValues.smsTemplate && (
             <input
@@ -185,25 +205,73 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
               <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="garageName"
+                    htmlFor="businessName"
                     className="text-sm font-medium text-foreground"
                   >
-                    {t("businessGarageName")}
+                    {t("businessName")}
                   </Label>
                   <Input
-                    id="garageName"
-                    name="garageName"
+                    id="businessName"
+                    name="businessName"
                     type="text"
                     placeholder={t("businessNamePlaceholder")}
-                    value={formValues.garageName}
+                    value={formValues.businessName}
                     onChange={(e) =>
-                      updateFormValue("garageName", e.target.value)
+                      updateFormValue("businessName", e.target.value)
                     }
                     required
                     className="h-11 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("businessNameHint")}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="businessContact"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    {t("businessContact")}
+                  </Label>
+                  <Input
+                    id="businessContact"
+                    name="businessContact"
+                    type="text"
+                    placeholder={t("businessContactPlaceholder")}
+                    value={formValues.businessContact}
+                    onChange={(e) =>
+                      updateFormValue("businessContact", e.target.value)
+                    }
+                    className="h-11 rounded-xl border-border/40"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {t("businessContactHint")}
+                  </p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label
+                    htmlFor="reminderDaysBefore"
+                    className="text-sm font-medium text-foreground"
+                  >
+                    {t("reminderDaysBefore")}
+                  </Label>
+                  <Input
+                    id="reminderDaysBefore"
+                    name="reminderDaysBefore"
+                    type="number"
+                    min="1"
+                    max="365"
+                    placeholder="7"
+                    value={formValues.reminderDaysBefore}
+                    onChange={(e) =>
+                      updateFormValue("reminderDaysBefore", e.target.value)
+                    }
+                    className="h-11 rounded-xl border-border/40"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    {t("reminderDaysBeforeHint")}
                   </p>
                 </div>
               </div>
@@ -234,7 +302,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     id="smsTemplate"
                     name="smsTemplate"
                     rows={6}
-                    placeholder="Hello {client_name}, your {vehicle} is scheduled for maintenance on {date}..."
+                    placeholder="Hello {client_name}, your {resource} is scheduled for {date}..."
                     value={formValues.smsTemplate}
                     onChange={(e) =>
                       updateFormValue("smsTemplate", e.target.value)
@@ -259,10 +327,10 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
-                        {"{vehicle}"}
+                        {"{resource}"}
                       </code>
                       <span className="text-muted-foreground">
-                        {t("carModelVar")}
+                        {t("resourceVar")}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -270,15 +338,23 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                         {"{date}"}
                       </code>
                       <span className="text-muted-foreground">
-                        {t("maintenanceDateVar")}
+                        {t("dateVar")}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
-                        {"{garage_name}"}
+                        {"{business_name}"}
                       </code>
                       <span className="text-muted-foreground">
                         {t("businessNameVar")}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
+                        {"{business_contact}"}
+                      </code>
+                      <span className="text-muted-foreground">
+                        {t("businessContactVar")}
                       </span>
                     </div>
                   </div>

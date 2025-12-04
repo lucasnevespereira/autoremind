@@ -35,8 +35,10 @@ export const translations = {
     // Client Table
     client: "Client",
     vehicle: "Vehicle",
+    resource: "Resource",
     phone: "Phone",
     maintenance: "Maintenance",
+    reminderDate: "Reminder Date",
     actions: "Actions",
     scheduled: "Scheduled",
     sent: "Sent",
@@ -50,6 +52,7 @@ export const translations = {
       "Enter client details to schedule maintenance reminders",
     updateClientDetails: "Update client details",
     clientName: "Client Name",
+    clientEmail: "Client Email",
     phoneNumber: "Phone Number",
     carModel: "Car Model",
     maintenanceDate: "Maintenance Date",
@@ -61,7 +64,10 @@ export const translations = {
     nameRequired: "Name is required",
     phoneRequired: "Phone is required",
     carRequired: "Car is required",
+    resourceRequired: "Resource is required",
     dateRequired: "Date is required",
+    optional: "optional",
+    date: "Date",
 
     // Settings
     settingsTitle: "Settings",
@@ -70,10 +76,18 @@ export const translations = {
     backToDashboard: "Back to Dashboard",
     businessInformation: "Business Information",
     businessDetails: "Your business details used in SMS messages",
+    businessName: "Business Name",
     businessGarageName: "Business/Garage Name",
     businessNamePlaceholder: "e.g., Auto Service Center",
     businessNameHint:
-      "This name will appear in your SMS messages as {garage_name}",
+      "This name will appear in your SMS messages as {business_name}",
+    businessContact: "Business Contact",
+    businessContactPlaceholder: "e.g., +351912345678 or info@business.com",
+    businessContactHint:
+      "Phone, email, or website shown as {business_contact}",
+    reminderDaysBefore: "Days Before Reminder",
+    reminderDaysBeforeHint:
+      "How many days before the date to send the reminder (default: 7)",
 
     smsTemplate: "SMS Template",
     customizeMessage: "Customize the message sent to your clients",
@@ -81,8 +95,11 @@ export const translations = {
     availableVariables: "Available Variables:",
     clientNameVar: "Client's name",
     carModelVar: "Car model",
+    resourceVar: "Resource (car, equipment, etc.)",
     maintenanceDateVar: "Maintenance date",
+    dateVar: "Date",
     businessNameVar: "Your business name",
+    businessContactVar: "Your business contact",
 
     twilioConfiguration: "Twilio Configuration",
     connectTwilioAccount: "Connect your Twilio account to send SMS",
@@ -167,6 +184,13 @@ export const translations = {
     errorReadingFile: "Error reading file.",
     errorExportingClients: "Error exporting clients.",
     clientsImportedSuccess: "clients imported successfully!",
+    noValidRows: "No valid rows found in the file. Please check the format.",
+    excelFormatRequired: "Excel format required",
+    excelFormatDescription:
+      "First row must be headers. Column names are flexible (Nome/Name, Telemóvel/Phone, etc.):",
+    excelColumnFlexible: "Column names are flexible (Portuguese or English)",
+    viewExample: "View example",
+    hideExample: "Hide example",
   },
   pt: {
     // Auth
@@ -204,8 +228,10 @@ export const translations = {
     // Client Table
     client: "Cliente",
     vehicle: "Viatura",
+    resource: "Recurso",
     phone: "Telemóvel",
     maintenance: "Manutenção",
+    reminderDate: "Data do Lembrete",
     actions: "Ações",
     scheduled: "Agendado",
     sent: "Enviado",
@@ -219,6 +245,7 @@ export const translations = {
       "Introduza os detalhes do cliente para agendar lembretes de manutenção",
     updateClientDetails: "Atualizar detalhes do cliente",
     clientName: "Nome do Cliente",
+    clientEmail: "Email do Cliente",
     phoneNumber: "Número de Telemóvel",
     carModel: "Modelo do Carro",
     maintenanceDate: "Data de Manutenção",
@@ -230,7 +257,10 @@ export const translations = {
     nameRequired: "Nome é obrigatório",
     phoneRequired: "Telemóvel é obrigatório",
     carRequired: "Carro é obrigatório",
+    resourceRequired: "Recurso é obrigatório",
     dateRequired: "Data é obrigatória",
+    optional: "opcional",
+    date: "Data",
 
     // Settings
     settingsTitle: "Configurações",
@@ -239,10 +269,18 @@ export const translations = {
     backToDashboard: "Voltar ao Painel",
     businessInformation: "Informações do Negócio",
     businessDetails: "Detalhes do seu negócio usados nas mensagens SMS",
+    businessName: "Nome do Negócio",
     businessGarageName: "Nome do Negócio/Oficina",
     businessNamePlaceholder: "ex., Centro de Serviço Auto",
     businessNameHint:
-      "Este nome aparecerá nas suas mensagens SMS como {garage_name}",
+      "Este nome aparecerá nas suas mensagens SMS como {business_name}",
+    businessContact: "Contacto do Negócio",
+    businessContactPlaceholder: "ex., +351912345678 ou info@negocio.com",
+    businessContactHint:
+      "Telefone, email ou website mostrado como {business_contact}",
+    reminderDaysBefore: "Dias Antes do Lembrete",
+    reminderDaysBeforeHint:
+      "Quantos dias antes da data para enviar o lembrete (padrão: 7)",
 
     smsTemplate: "Modelo de SMS",
     customizeMessage: "Personalize a mensagem enviada aos seus clientes",
@@ -250,8 +288,11 @@ export const translations = {
     availableVariables: "Variáveis Disponíveis:",
     clientNameVar: "Nome do cliente",
     carModelVar: "Modelo do carro",
+    resourceVar: "Recurso (carro, equipamento, etc.)",
     maintenanceDateVar: "Data de manutenção",
+    dateVar: "Data",
     businessNameVar: "Nome do seu negócio",
+    businessContactVar: "Contacto do seu negócio",
 
     twilioConfiguration: "Configuração Twilio",
     connectTwilioAccount: "Conecte a sua conta Twilio para enviar SMS",
@@ -338,6 +379,13 @@ export const translations = {
     errorReadingFile: "Erro ao ler o ficheiro.",
     errorExportingClients: "Erro ao exportar clientes.",
     clientsImportedSuccess: "clientes importados com sucesso!",
+    noValidRows: "Nenhuma linha válida encontrada no ficheiro. Verifique o formato.",
+    excelFormatRequired: "Formato Excel necessário",
+    excelFormatDescription:
+      "Primeira linha deve ser cabeçalhos. Nomes das colunas são flexíveis (Nome/Name, Telemóvel/Phone, etc.):",
+    excelColumnFlexible: "Nomes das colunas são flexíveis (Português ou Inglês)",
+    viewExample: "Ver exemplo",
+    hideExample: "Ocultar exemplo",
   },
 } as const;
 

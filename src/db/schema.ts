@@ -7,9 +7,10 @@ export const clients = pgTable("clients", {
     .notNull()
     .references(() => user.id),
   name: text("name").notNull(),
+  email: text("email"),
   phone: text("phone").notNull(),
-  car: text("car").notNull(),
-  revisionDate: timestamp("revision_date", { mode: "date" }).notNull(),
+  resource: text("resource").notNull(),
+  reminderDate: timestamp("reminder_date", { mode: "date" }).notNull(),
   reminderSent: boolean("reminder_sent").default(false).notNull(),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });

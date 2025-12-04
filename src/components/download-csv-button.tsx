@@ -5,9 +5,10 @@ interface Props {
   clients: Array<{
     id: number;
     name: string;
+    email?: string | null;
     phone: string;
-    car: string;
-    revisionDate: Date;
+    resource: string;
+    reminderDate: Date;
     reminderSent: boolean;
     createdAt: Date;
   }>;
@@ -18,20 +19,22 @@ export function DownloadCSVButton({ clients }: Props) {
     const headers = [
       "ID",
       "Name",
+      "Email",
       "Phone",
-      "Car",
-      "Revision Date",
+      "Resource",
+      "Reminder Date",
       "Reminder Sent",
       "Created At",
     ];
     const rows = clients.map((c) => [
       c.id,
       c.name,
+      c.email || "",
       c.phone,
-      c.car,
-      c.revisionDate instanceof Date
-        ? c.revisionDate.toISOString()
-        : c.revisionDate,
+      c.resource,
+      c.reminderDate instanceof Date
+        ? c.reminderDate.toISOString()
+        : c.reminderDate,
       c.reminderSent ? "Yes" : "No",
       c.createdAt instanceof Date ? c.createdAt.toISOString() : c.createdAt,
     ]);

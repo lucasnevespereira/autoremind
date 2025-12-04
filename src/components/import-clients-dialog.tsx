@@ -12,9 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import ExcelJS from "exceljs";
 import { importClients } from "@/app/actions";
-import { Loader2, Upload, FileSpreadsheet } from "lucide-react";
-import { normalize } from "path";
-import { normalizePhone } from "@/lib/import-utils";
+import { Loader2, Upload, FileSpreadsheet, Info, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  normalizePhone,
+  normalizeHeader,
+  normalizeRow,
+} from "@/lib/import-utils";
 import { useLanguage } from "@/contexts/language-context";
 import { useToast } from "@/hooks/use-toast";
 
@@ -25,6 +28,7 @@ export function ImportClientsDialog() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showExample, setShowExample] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
@@ -39,30 +43,66 @@ export function ImportClientsDialog() {
       const sheet = workbook.worksheets[0];
       const rows: any[] = [];
 
+      // Read header row to map column indexes
+      const headerRow = sheet.getRow(1);
+      const columnIndexes: Record<string, number> = {};
+
+      headerRow.eachCell((cell, colNumber) => {
+        const header = String(cell.value || "").trim();
+        const normalized = normalizeHeader(header);
+        if (normalized) {
+          columnIndexes[normalized] = colNumber;
+        }
+      });
+
+      console.log("Column indexes detected:", columnIndexes);
+
+      // Process data rows
       sheet.eachRow((row, rowNumber) => {
         if (rowNumber === 1) return; // skip header row
 
-        const name = row.getCell(1).value?.toString() || "";
-        const car = row.getCell(2).value?.toString() || "";
-        const phone = row.getCell(3).value?.toString() || "";
-        const revisionDate = row.getCell(4).value;
-        const formattedPhone = normalizePhone(phone);
-        console.log({ name, car, phone, formattedPhone, revisionDate });
+        const normalizedRow = normalizeRow(row, columnIndexes);
+        if (!normalizedRow) {
+          console.log(`Row ${rowNumber} skipped - invalid data`);
+          return;
+        }
 
-        if (!name || !formattedPhone || !car || !revisionDate) return;
+        console.log(`Row ${rowNumber} raw phone from Excel:`, normalizedRow.phone);
+        const formattedPhone = normalizePhone(normalizedRow.phone);
+        console.log(`Row ${rowNumber} formatted phone:`, formattedPhone);
+        if (!formattedPhone) {
+          console.log(`Row ${rowNumber} skipped - invalid phone`);
+          return;
+        }
 
-        rows.push({
-          name,
+        const rowData = {
+          name: normalizedRow.name,
+          email: normalizedRow.email,
           phone: formattedPhone,
-          car,
-          revisionDate,
-        });
+          resource: normalizedRow.resource,
+          reminderDate: normalizedRow.reminderDate,
+        };
+
+        console.log(`Row ${rowNumber}:`, rowData);
+        rows.push(rowData);
       });
+
+      console.log(`Total rows to import: ${rows.length}`);
+
+      if (rows.length === 0) {
+        setError(t("noValidRows"));
+        setLoading(false);
+        return;
+      }
 
       const result = await importClients(rows);
 
       if (!result.success) {
-        setError(t("errorImportingClients"));
+        const errorMsg = result.errorKey
+          ? t(result.errorKey as any)
+          : t("errorImportingClients");
+        setError(errorMsg);
+        console.error("Import error:", result);
       } else {
         toast({
           title: t("success"),
@@ -72,8 +112,9 @@ export function ImportClientsDialog() {
         setSelectedFile(null);
       }
     } catch (err) {
-      console.error(err);
-      setError(t("errorReadingFile"));
+      console.error("Import exception:", err);
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      setError(`${t("errorReadingFile")}: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -108,7 +149,76 @@ export function ImportClientsDialog() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 mt-4">
+          {/* Format Information - Compact */}
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mt-4">
+            <div className="flex items-start gap-2">
+              <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+              <div className="space-y-2 text-xs flex-1">
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-foreground">
+                    {t("excelFormatRequired")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setShowExample(!showExample)}
+                    className="flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <span className="text-[11px]">{showExample ? t("hideExample") : t("viewExample")}</span>
+                    {showExample ? (
+                      <ChevronUp className="h-3 w-3" />
+                    ) : (
+                      <ChevronDown className="h-3 w-3" />
+                    )}
+                  </button>
+                </div>
+
+                <p className="text-muted-foreground text-[11px]">
+                  {t("excelFormatDescription")}
+                </p>
+
+                {showExample && (
+                  <div className="pt-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                    {/* Example table */}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-[10px] border-collapse bg-card/50 rounded">
+                        <thead>
+                          <tr className="border-b border-primary/20">
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Nome</th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary/60">Email*</th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Telemóvel</th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Recurso</th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Data</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="border-b border-primary/10">
+                            <td className="px-2 py-1 text-muted-foreground">João Silva</td>
+                            <td className="px-2 py-1 text-muted-foreground/60">joao@email.com</td>
+                            <td className="px-2 py-1 text-muted-foreground">912345678</td>
+                            <td className="px-2 py-1 text-muted-foreground">Toyota Camry</td>
+                            <td className="px-2 py-1 text-muted-foreground">15/12/2025</td>
+                          </tr>
+                          <tr>
+                            <td className="px-2 py-1 text-muted-foreground">Marie Dupont</td>
+                            <td className="px-2 py-1 text-muted-foreground/60">-</td>
+                            <td className="px-2 py-1 text-muted-foreground">0612345678</td>
+                            <td className="px-2 py-1 text-muted-foreground">Audi A4</td>
+                            <td className="px-2 py-1 text-muted-foreground">20/01/2026</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <p className="text-[10px] text-muted-foreground/70 italic">
+                      * {t("optional")} • {t("excelColumnFlexible")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
             <input
               ref={fileInputRef}
               type="file"

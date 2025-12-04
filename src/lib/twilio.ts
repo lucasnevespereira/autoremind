@@ -68,20 +68,41 @@ export async function sendSMS(to: string, message: string, userId: string) {
   }
 }
 
-export function formatPortuguesePhone(phone: string): string {
-  // Remove all non-digit characters
-  const digits = phone.replace(/\D/g, "");
+export function formatPhone(phone: string): string {
+  // Remove all non-digit characters except +
+  let cleaned = phone.replace(/[^\d+]/g, "");
 
-  // If starts with 351, return with +
-  if (digits.startsWith("351")) {
-    return `+${digits}`;
+  // 00XX → +XX
+  if (cleaned.startsWith("00")) {
+    cleaned = "+" + cleaned.slice(2);
   }
 
-  // If starts with 9 and has 9 digits, add +351
-  if (digits.startsWith("9") && digits.length === 9) {
-    return `+351${digits}`;
+  // Already has +, return as is
+  if (cleaned.startsWith("+")) {
+    return cleaned;
   }
 
-  // Otherwise, return as is (might be international)
-  return `+${digits}`;
+  // If starts with known country codes (351, 33, 41), add +
+  if (cleaned.startsWith("351") || cleaned.startsWith("33") || cleaned.startsWith("41")) {
+    return `+${cleaned}`;
+  }
+
+  // Detect country by mobile prefix patterns
+  // French mobile: 06 or 07 or 09 (10 digits total with leading 0)
+  if (/^0[6-7,9]\d{8}$/.test(cleaned)) {
+    return "+33" + cleaned.slice(1); // Remove leading 0 and add +33
+  }
+
+  // Swiss mobile: 079 or 078 or 077 or 076 (10 digits total with leading 0)
+  if (/^07[6-9]\d{7}$/.test(cleaned)) {
+    return "+41" + cleaned.slice(1); // Remove leading 0 and add +41
+  }
+
+  // Portuguese mobile: 91, 92, 93, 96 (9 digits)
+  if (/^9[1-3,6]\d{7}$/.test(cleaned)) {
+    return `+351${cleaned}`;
+  }
+
+  // Default: assume it's complete and add +
+  return `+${cleaned}`;
 }
