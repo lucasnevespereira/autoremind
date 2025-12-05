@@ -7,17 +7,36 @@ export type SimpleClientRow = {
 };
 
 const HEADERS = {
-  name: ["nome", "name", "client", "cliente"],
+  name: ["nome", "name", "nom", "client", "cliente", "customer"],
   email: ["email", "e-mail", "mail"],
-  phone: ["telefone", "telemóvel", "telemovel", "phone", "mobile"],
-  resource: ["recurso", "resource", "carro", "car", "vehicle", "viatura"],
+  phone: [
+    "telefone",
+    "telephone",
+    "téléphone",
+    "telemóvel",
+    "telemovel",
+    "phone",
+    "mobile",
+  ],
+  resource: [
+    "recurso",
+    "resource",
+    "ressource",
+    "carro",
+    "car",
+    "vehicle",
+    "viatura",
+    "voiture",
+  ],
   reminderDate: [
     "data",
+    "date",
     "reminderdate",
     "date",
     "validade",
     "revisiondate",
     "reminder date",
+    "date de rappel",
   ],
 };
 
@@ -55,8 +74,6 @@ export function parseDate(input: string | null): string | null {
   // Unsupported → Null
   return null;
 }
-
-const SUPPORTED_COUNTRY_CODES = ["+351", "+33", "+41", "+44", "+49", "+34"];
 
 // Normalize Excel row
 export function normalizeRow(
@@ -98,8 +115,6 @@ export function normalizeRow(
 
   return { name, email, phone, resource, reminderDate };
 }
-
-const SUPPORTED_CODES = ["+351", "+33", "+41", "+44", "+49", "+34", "+39", "+1"];
 
 export function normalizePhone(input: any, defaultCountry = "+351") {
   if (!input) return "";

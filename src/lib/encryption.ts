@@ -75,8 +75,9 @@ export function decrypt(encryptedText: string): string {
 
     return decrypted;
   } catch (error) {
-    console.error("Decryption failed:", error);
-    // Return the original text if decryption fails (backwards compatibility)
+    // Silent fallback for backwards compatibility
+    // This handles old plain-text tokens or tokens encrypted with a different key
+    console.warn("Decryption failed, returning original value (likely plain text)");
     return encryptedText;
   }
 }

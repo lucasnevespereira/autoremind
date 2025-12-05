@@ -25,7 +25,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   // Load language preference from localStorage on mount
   useEffect(() => {
     const savedLang = localStorage.getItem("autoremind-language") as Language;
-    if (savedLang && (savedLang === "en" || savedLang === "pt")) {
+    if (savedLang && (savedLang === "en" || savedLang === "pt" || savedLang === "fr")) {
       setLanguageState(savedLang);
     }
   }, []);

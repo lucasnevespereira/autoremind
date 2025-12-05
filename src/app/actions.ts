@@ -258,7 +258,7 @@ export async function sendManualReminder(clientId: number) {
       where: eq(settings.userId, session.user.id),
     });
 
-    const businessName = userSettings?.businessName || "Auto Service";
+    const businessName = userSettings?.businessName || "AutoRemind";
     const businessContact = userSettings?.businessContact || "";
     const smsTemplate =
       userSettings?.smsTemplate ||
@@ -360,10 +360,23 @@ export async function exportClients(lang: string) {
     "ReminderDate",
     "Sent",
   ];
-  if (lang === "pt") {
+  if (lang === LANG.PT) {
     sheetName = "autoremind-clientes";
     rowHeaders = ["Nome", "Email", "Telefone", "Recurso", "Data", "Enviado"];
+  } else if (lang === LANG.FR) {
+    sheetName = "autoremind-clients";
+    rowHeaders = [
+      "Nom",
+      "Email",
+      "Téléphone",
+      "Ressource",
+      "Date de rappel",
+      "Envoyé",
+    ];
   }
+
+  const yes = lang === LANG.FR ? "Oui" : lang === LANG.PT ? "Sim" : "Yes";
+  const no = lang === LANG.FR ? "Non" : lang === LANG.PT ? "Não" : "No";
 
   // Create workbook
   const workbook = new ExcelJS.Workbook();
@@ -378,7 +391,7 @@ export async function exportClients(lang: string) {
       c.phone,
       c.resource,
       c.reminderDate ? new Date(c.reminderDate) : "",
-      c.reminderSent ? "Sim" : "Não",
+      c.reminderSent ? yes : no,
     ]);
   });
 

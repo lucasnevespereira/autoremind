@@ -6,4 +6,5 @@ export enum Env {
 export enum LANG {
   EN = "en",
   PT = "pt",
+  FR = "fr",
 }

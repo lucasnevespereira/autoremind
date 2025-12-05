@@ -437,7 +437,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     </button>
                   </div>
                   <p className="text-xs text-amber-600 dark:text-amber-500">
-                    🔒 Encrypted in database
+                    🔒 {t("authTokenEncrypted")}
                   </p>
                 </div>
 
