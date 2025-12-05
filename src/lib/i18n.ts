@@ -189,6 +189,7 @@ export const translations = {
     excelFormatDescription:
       "First row must be headers. Column names are flexible (Nome/Name, Telemóvel/Phone, etc.):",
     excelColumnFlexible: "Column names are flexible (Portuguese or English)",
+    excelPhoneFormat: "Format phone column as Text to preserve leading zeros (e.g., 0612345678)",
     viewExample: "View example",
     hideExample: "Hide example",
   },
@@ -384,6 +385,7 @@ export const translations = {
     excelFormatDescription:
       "Primeira linha deve ser cabeçalhos. Nomes das colunas são flexíveis (Nome/Name, Telemóvel/Phone, etc.):",
     excelColumnFlexible: "Nomes das colunas são flexíveis (Português ou Inglês)",
+    excelPhoneFormat: "Formate a coluna de telefone como Texto para preservar zeros à esquerda (ex: 0612345678)",
     viewExample: "Ver exemplo",
     hideExample: "Ocultar exemplo",
   },

@@ -209,9 +209,14 @@ export function ImportClientsDialog() {
                       </table>
                     </div>
 
-                    <p className="text-[10px] text-muted-foreground/70 italic">
-                      * {t("optional")} • {t("excelColumnFlexible")}
-                    </p>
+                    <div className="space-y-1">
+                      <p className="text-[10px] text-muted-foreground/70 italic">
+                        * {t("optional")} • {t("excelColumnFlexible")}
+                      </p>
+                      <p className="text-[10px] text-amber-600 dark:text-amber-500 font-medium">
+                        ⚠️ {t("excelPhoneFormat")}
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
