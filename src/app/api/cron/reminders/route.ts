@@ -16,12 +16,9 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Get today and 7 days from now
+    // Get today
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
-    const sevenDaysLater = new Date(today);
-    sevenDaysLater.setDate(sevenDaysLater.getDate() + 7);
 
     // Get all users
     const allUsers = await db.select().from(user);
@@ -39,14 +36,25 @@ export async function GET(request: NextRequest) {
         .from(settings)
         .where(eq(settings.userId, currentUser.id));
 
-      const garageName =
-        userConfigs.find((config) => config.key === "garage_name")?.value ||
+      const businessName =
+        userConfigs.find((config) => config.key === "business_name")?.value ||
         "Auto Service";
+      const businessContact =
+        userConfigs.find((config) => config.key === "business_contact")?.value ||
+        "";
+      const reminderDaysBefore = parseInt(
+        userConfigs.find((config) => config.key === "reminder_days_before")?.value ||
+        "7"
+      );
       const smsTemplate =
         userConfigs.find((config) => config.key === "sms_template")?.value ||
-        "Hello {client_name}, your {vehicle} is scheduled for maintenance on {date}. Please contact {garage_name} to confirm. Thank you!";
+        "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
-      // Find this user's clients whose revision is between today and 7 days
+      // Calculate the reminder window based on user's settings
+      const laterDate = new Date(today);
+      laterDate.setDate(laterDate.getDate() + reminderDaysBefore);
+
+      // Find this user's clients whose reminder date is between today and N days
       // and who haven't received reminder yet
       const clientsToRemind = await db
         .select()
@@ -55,8 +63,8 @@ export async function GET(request: NextRequest) {
           and(
             eq(clients.userId, currentUser.id),
             eq(clients.reminderSent, false),
-            gte(clients.revisionDate, today),
-            lte(clients.revisionDate, sevenDaysLater)
+            gte(clients.reminderDate, today),
+            lte(clients.reminderDate, laterDate)
           )
         );
 
@@ -65,16 +73,17 @@ export async function GET(request: NextRequest) {
       );
 
       for (const client of clientsToRemind) {
-        const formattedDate = format(client.revisionDate, "dd/MM/yyyy", {
+        const formattedDate = format(client.reminderDate, "dd/MM/yyyy", {
           locale: pt,
         });
 
         // Replace variables in template
         const message = smsTemplate
           .replace(/{client_name}/g, client.name)
-          .replace(/{vehicle}/g, client.car)
+          .replace(/{resource}/g, client.resource)
           .replace(/{date}/g, formattedDate)
-          .replace(/{garage_name}/g, garageName);
+          .replace(/{business_name}/g, businessName)
+          .replace(/{business_contact}/g, businessContact);
 
         const result = await sendSMS(client.phone, message, currentUser.id);
 

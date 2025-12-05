@@ -32,16 +32,17 @@ export function AddClientDialog() {
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
-    const car = formData.get("car") as string;
-    const revisionDate = formData.get("revisionDate") as string;
+    const resource = formData.get("resource") as string;
+    const reminderDate = formData.get("reminderDate") as string;
 
     // Validate
     const newErrors: Record<string, string> = {};
     if (!name?.trim()) newErrors.name = t("nameRequired");
     if (!phone?.trim()) newErrors.phone = t("phoneRequired");
-    if (!car?.trim()) newErrors.car = t("carRequired");
-    if (!revisionDate) newErrors.revisionDate = t("dateRequired");
+    if (!resource?.trim()) newErrors.resource = t("resourceRequired");
+    if (!reminderDate) newErrors.reminderDate = t("dateRequired");
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -100,6 +101,19 @@ export function AddClientDialog() {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="email" className="text-sm font-medium text-foreground">
+              {t("clientEmail")}
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="e.g. john@example.com"
+              className="h-11 rounded-xl border-border/40"
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="phone" className="text-sm font-medium text-foreground">
               {t("phoneNumber")}
             </Label>
@@ -114,30 +128,30 @@ export function AddClientDialog() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="car" className="text-sm font-medium text-foreground">
-              {t("carModel")}
+            <Label htmlFor="resource" className="text-sm font-medium text-foreground">
+              {t("resource")}
             </Label>
             <Input
-              id="car"
-              name="car"
+              id="resource"
+              name="resource"
               type="text"
               placeholder="e.g. Toyota Camry 2020"
-              className={errors.car ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
+              className={errors.resource ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.car && <p className="text-sm text-destructive">{errors.car}</p>}
+            {errors.resource && <p className="text-sm text-destructive">{errors.resource}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="revisionDate" className="text-sm font-medium text-foreground">
-              {t("maintenanceDate")}
+            <Label htmlFor="reminderDate" className="text-sm font-medium text-foreground">
+              {t("reminderDate")}
             </Label>
             <Input
-              id="revisionDate"
-              name="revisionDate"
+              id="reminderDate"
+              name="reminderDate"
               type="date"
-              className={errors.revisionDate ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
+              className={errors.reminderDate ? "border-destructive focus-visible:ring-destructive h-11 rounded-xl border-border/40" : "h-11 rounded-xl border-border/40"}
             />
-            {errors.revisionDate && <p className="text-sm text-destructive">{errors.revisionDate}</p>}
+            {errors.reminderDate && <p className="text-sm text-destructive">{errors.reminderDate}</p>}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">

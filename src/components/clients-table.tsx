@@ -17,9 +17,10 @@ import { ExportClientsButton } from "./export-clients-button";
 interface Client {
   id: number;
   name: string;
+  email?: string | null;
   phone: string;
-  car: string;
-  revisionDate: Date;
+  resource: string;
+  reminderDate: Date;
   reminderSent: boolean;
   createdAt: Date;
 }
@@ -41,10 +42,11 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       },
     },
     {
-      accessorKey: "car",
-      header: t("vehicle"),
+      accessorKey: "email",
+      header: t("email"),
       cell: ({ row }) => {
-        return <div className="text-foreground/80">{row.getValue("car")}</div>;
+        const email = row.getValue("email") as string | null;
+        return <div className="text-sm text-foreground/70">{email || "-"}</div>;
       },
     },
     {
@@ -59,10 +61,19 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       },
     },
     {
-      accessorKey: "revisionDate",
-      header: t("maintenance"),
+      accessorKey: "resource",
+      header: t("resource"),
       cell: ({ row }) => {
-        const date = row.getValue("revisionDate") as Date;
+        return (
+          <div className="text-foreground/80">{row.getValue("resource")}</div>
+        );
+      },
+    },
+    {
+      accessorKey: "reminderDate",
+      header: t("reminderDate"),
+      cell: ({ row }) => {
+        const date = row.getValue("reminderDate") as Date;
         const formattedDate = format(date, "MMM dd, yyyy");
         const today = new Date();
         const daysRemaining = Math.ceil(
@@ -114,9 +125,10 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
               client={{
                 id: client.id,
                 name: client.name,
+                email: client.email,
                 phone: client.phone,
-                car: client.car,
-                revisionDate: client.revisionDate,
+                resource: client.resource,
+                reminderDate: client.reminderDate,
               }}
             />
             <DeleteClientButton clientId={client.id} />

@@ -28,10 +28,12 @@ export default async function SettingsPage() {
     configs.find((c) => c.key === "twilio_auth_token")?.value || "";
   const phoneNumber =
     configs.find((c) => c.key === "twilio_phone_number")?.value || "";
-  const garageName = configs.find((c) => c.key === "garage_name")?.value || "";
+  const businessName = configs.find((c) => c.key === "business_name")?.value || "";
+  const businessContact = configs.find((c) => c.key === "business_contact")?.value || "";
+  const reminderDaysBefore = configs.find((c) => c.key === "reminder_days_before")?.value || "7";
   const smsTemplate =
     configs.find((c) => c.key === "sms_template")?.value ||
-    "Hello {client_name}, your {vehicle} is scheduled for maintenance on {date}. Please contact {garage_name} to confirm. Thank you!";
+    "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
   return (
     <div className="max-w-6xl animate-fade-in">
@@ -42,7 +44,9 @@ export default async function SettingsPage() {
           accountSid,
           authToken,
           phoneNumber,
-          garageName,
+          businessName,
+          businessContact,
+          reminderDaysBefore,
           smsTemplate,
         }}
       />

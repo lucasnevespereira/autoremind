@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { clients, settings } from "@/db/schema";
-import { sendSMS, formatPortuguesePhone } from "@/lib/twilio";
+import { sendSMS, formatPhone } from "@/lib/twilio";
 import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
 import { format } from "date-fns";
@@ -22,22 +22,24 @@ export async function addClient(formData: FormData) {
     }
 
     const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
-    const car = formData.get("car") as string;
-    const revisionDate = formData.get("revisionDate") as string;
+    const resource = formData.get("resource") as string;
+    const reminderDate = formData.get("reminderDate") as string;
 
-    if (!name || !phone || !car || !revisionDate) {
+    if (!name || !phone || !resource || !reminderDate) {
       return { success: false, errorKey: "allFieldsRequired" };
     }
 
-    const formattedPhone = formatPortuguesePhone(phone);
+    const formattedPhone = formatPhone(phone);
 
     await db.insert(clients).values({
       userId: session.user.id,
       name,
+      email: email || null,
       phone: formattedPhone,
-      car,
-      revisionDate: new Date(revisionDate),
+      resource,
+      reminderDate: new Date(reminderDate),
       reminderSent: false,
     });
 
@@ -60,16 +62,17 @@ export async function updateClient(id: number, formData: FormData) {
     }
 
     const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
-    const car = formData.get("car") as string;
-    const revisionDate = formData.get("revisionDate") as string;
+    const resource = formData.get("resource") as string;
+    const reminderDate = formData.get("reminderDate") as string;
 
-    if (!name || !phone || !car || !revisionDate) {
+    if (!name || !phone || !resource || !reminderDate) {
       return { success: false, errorKey: "allFieldsRequired" };
     }
 
-    const formattedPhone = formatPortuguesePhone(phone);
-    const newRevisionDate = new Date(revisionDate);
+    const formattedPhone = formatPhone(phone);
+    const newReminderDate = new Date(reminderDate);
 
     // Get the existing client to check if date changed
     const existingClient = await db
@@ -81,18 +84,19 @@ export async function updateClient(id: number, formData: FormData) {
       return { success: false, errorKey: "clientNotFound" };
     }
 
-    // Check if revision date has changed
+    // Check if reminder date has changed
     const dateChanged =
-      existingClient[0].revisionDate.getTime() !== newRevisionDate.getTime();
+      existingClient[0].reminderDate.getTime() !== newReminderDate.getTime();
 
     // Reset reminderSent if date changed, so a new reminder can be sent
     await db
       .update(clients)
       .set({
         name,
+        email: email || null,
         phone: formattedPhone,
-        car,
-        revisionDate: newRevisionDate,
+        resource,
+        reminderDate: newReminderDate,
         ...(dateChanged && { reminderSent: false }),
       })
       .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
@@ -139,7 +143,9 @@ export async function saveTwilioConfig(formData: FormData) {
     const accountSid = formData.get("accountSid") as string;
     const authToken = formData.get("authToken") as string;
     const phoneNumber = formData.get("phoneNumber") as string;
-    const garageName = formData.get("garageName") as string;
+    const businessName = formData.get("businessName") as string;
+    const businessContact = formData.get("businessContact") as string;
+    const reminderDaysBefore = formData.get("reminderDaysBefore") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
 
     // Build configs array only with non-empty values
@@ -154,8 +160,17 @@ export async function saveTwilioConfig(formData: FormData) {
     if (phoneNumber?.trim()) {
       configs.push({ key: "twilio_phone_number", value: phoneNumber.trim() });
     }
-    if (garageName?.trim()) {
-      configs.push({ key: "garage_name", value: garageName.trim() });
+    if (businessName?.trim()) {
+      configs.push({ key: "business_name", value: businessName.trim() });
+    }
+    if (businessContact?.trim()) {
+      configs.push({ key: "business_contact", value: businessContact.trim() });
+    }
+    if (reminderDaysBefore?.trim()) {
+      configs.push({
+        key: "reminder_days_before",
+        value: reminderDaysBefore.trim(),
+      });
     }
     if (smsTemplate?.trim()) {
       configs.push({ key: "sms_template", value: smsTemplate.trim() });
@@ -256,26 +271,29 @@ export async function sendManualReminder(clientId: number) {
 
     const c = client[0];
 
-    // Get SMS template and garage name from settings for this user
+    // Get SMS template and business info from settings for this user
     const configs = await db
       .select()
       .from(settings)
       .where(eq(settings.userId, session.user.id));
-    const garageName =
-      configs.find((config) => config.key === "garage_name")?.value ||
+    const businessName =
+      configs.find((config) => config.key === "business_name")?.value ||
       "Auto Service";
+    const businessContact =
+      configs.find((config) => config.key === "business_contact")?.value || "";
     const smsTemplate =
       configs.find((config) => config.key === "sms_template")?.value ||
-      "Hello {client_name}, your {vehicle} is scheduled for maintenance on {date}. Please contact {garage_name} to confirm. Thank you!";
+      "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
-    const formattedDate = format(c.revisionDate, "dd/MM/yyyy", { locale: pt });
+    const formattedDate = format(c.reminderDate, "dd/MM/yyyy", { locale: pt });
 
     // Replace variables in template
     const message = smsTemplate
       .replace(/{client_name}/g, c.name)
-      .replace(/{vehicle}/g, c.car)
+      .replace(/{resource}/g, c.resource)
       .replace(/{date}/g, formattedDate)
-      .replace(/{garage_name}/g, garageName);
+      .replace(/{business_name}/g, businessName)
+      .replace(/{business_contact}/g, businessContact);
 
     const result = await sendSMS(c.phone, message, session.user.id);
 
@@ -314,13 +332,14 @@ export async function importClients(rows: any[]) {
     const userId = session.user.id;
 
     const cleanedRows = rows
-      .filter((r) => r.name && r.phone && r.car && r.revisionDate)
+      .filter((r) => r.name && r.phone && r.resource && r.reminderDate)
       .map((r) => ({
         userId,
         name: r.name.trim(),
+        email: r.email?.trim() || null,
         phone: r.phone.trim(),
-        car: r.car.trim(),
-        revisionDate: new Date(r.revisionDate),
+        resource: r.resource.trim(),
+        reminderDate: new Date(r.reminderDate),
         reminderSent: false,
       }));
 
@@ -354,10 +373,17 @@ export async function exportClients(lang: string) {
   });
 
   let sheetName = "autoremind-clients";
-  let rowHeaders = ["Name", "Phone", "Car", "RevisionDate", "Sent"];
+  let rowHeaders = [
+    "Name",
+    "Email",
+    "Phone",
+    "Resource",
+    "ReminderDate",
+    "Sent",
+  ];
   if (lang === "pt") {
     sheetName = "autoremind-clientes";
-    rowHeaders = ["Nome", "Telefone", "Carro", "Validade", "Enviado"];
+    rowHeaders = ["Nome", "Email", "Telefone", "Recurso", "Data", "Enviado"];
   }
 
   // Create workbook
@@ -369,9 +395,10 @@ export async function exportClients(lang: string) {
   data.forEach((c) => {
     sheet.addRow([
       c.name,
+      c.email || "",
       c.phone,
-      c.car,
-      c.revisionDate ? new Date(c.revisionDate) : "",
+      c.resource,
+      c.reminderDate ? new Date(c.reminderDate) : "",
       c.reminderSent ? "Sim" : "Não",
     ]);
   });

@@ -20,7 +20,7 @@ export default async function HomePage() {
     .select()
     .from(clients)
     .where(eq(clients.userId, session.user.id))
-    .orderBy(desc(clients.revisionDate));
+    .orderBy(desc(clients.reminderDate));
 
   return <ClientsTable clients={allClients} />;
 }
