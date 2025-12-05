@@ -29,9 +29,7 @@ export default function SignInPage() {
             <h1 className="text-3xl font-bold text-foreground mb-2 tracking-tight">
               {t("autoremind")}
             </h1>
-            <p className="text-muted-foreground text-sm">
-              {t("maintenanceReminderSystem")}
-            </p>
+            <p className="text-muted-foreground text-sm">{t("slogan")}</p>
           </div>
 
           {/* Login Card */}

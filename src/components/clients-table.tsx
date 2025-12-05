@@ -146,9 +146,7 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             {t("clients")}
           </h1>
-          <p className="text-muted-foreground mt-1.5">
-            {t("manageMaintenanceReminders")}
-          </p>
+          <p className="text-muted-foreground mt-1.5">{t("manageReminders")}</p>
         </div>
       </div>
 
@@ -158,7 +156,7 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="text"
-            placeholder={t("searchByNameCarPhone")}
+            placeholder={t("searchBy")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 h-11 bg-card border-border/40 rounded-xl focus-visible:ring-primary"

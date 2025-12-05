@@ -17,14 +17,14 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    maintenanceReminderSystem: "Maintenance reminder system",
+    slogan: "Easy Reminders for busy people",
     settings: "Settings",
     logout: "Logout",
 
     // Clients
     clients: "Clients",
-    manageMaintenanceReminders: "Manage your maintenance reminders",
-    searchByNameCarPhone: "Search by name, car, or phone...",
+    manageReminders: "Manage your reminders",
+    searchBy: "Search by name, email, phone...",
     addClient: "Add Client",
     noClientsYet: "No clients yet",
     addFirstClient:
@@ -211,14 +211,14 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    maintenanceReminderSystem: "Sistema de lembretes de manutenção",
+    slogan: "Lembretes fáceis para pessoas ocupadas",
     settings: "Configurações",
     logout: "Sair",
 
     // Clients
     clients: "Clientes",
-    manageMaintenanceReminders: "Gerir os seus lembretes de manutenção",
-    searchByNameCarPhone: "Pesquisar por nome, carro ou telemóvel...",
+    manageReminders: "Gerir os seus lembretes",
+    searchBy: "Pesquisar por nome, email ou telemóvel...",
     addClient: "Adicionar Cliente",
     noClientsYet: "Ainda não tem clientes",
     addFirstClient:
