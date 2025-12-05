@@ -2,6 +2,7 @@ import twilio from "twilio";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
+import { decrypt } from "./encryption";
 
 export async function getTwilioConfig(userId: string) {
   const userSettings = await db.query.settings.findFirst({
@@ -9,7 +10,10 @@ export async function getTwilioConfig(userId: string) {
   });
 
   const accountSid = userSettings?.twilioAccountSid?.trim();
-  const authToken = userSettings?.twilioAuthToken?.trim();
+  // Decrypt the auth token before using it
+  const authToken = userSettings?.twilioAuthToken
+    ? decrypt(userSettings.twilioAuthToken).trim()
+    : undefined;
   const phoneNumber = userSettings?.twilioPhoneNumber?.trim();
 
   return { accountSid, authToken, phoneNumber };

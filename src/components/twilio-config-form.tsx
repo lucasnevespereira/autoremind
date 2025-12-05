@@ -15,6 +15,8 @@ import {
   Settings2,
   TestTube,
   ExternalLink,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +41,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   const [testLoading, setTestLoading] = useState(false);
   const [testPhone, setTestPhone] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("business");
+  const [showAuthToken, setShowAuthToken] = useState(false);
 
   // Controlled form state
   const [formValues, setFormValues] = useState(initialValues);
@@ -408,18 +411,34 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   >
                     {t("authToken")}
                   </Label>
-                  <Input
-                    id="authToken"
-                    name="authToken"
-                    type="text"
-                    placeholder="Your Twilio Auth Token"
-                    value={formValues.authToken}
-                    onChange={(e) =>
-                      updateFormValue("authToken", e.target.value)
-                    }
-                    required
-                    className="font-mono text-sm h-11 rounded-xl border-border/40"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="authToken"
+                      name="authToken"
+                      type={showAuthToken ? "text" : "password"}
+                      placeholder="Your Twilio Auth Token"
+                      value={formValues.authToken}
+                      onChange={(e) =>
+                        updateFormValue("authToken", e.target.value)
+                      }
+                      required
+                      className="pr-10 font-mono text-sm h-11 rounded-xl border-border/40"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowAuthToken(!showAuthToken)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {showAuthToken ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                  <p className="text-xs text-amber-600 dark:text-amber-500">
+                    🔒 Encrypted in database
+                  </p>
                 </div>
 
                 <div className="space-y-2">

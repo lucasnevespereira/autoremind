@@ -5,6 +5,7 @@ import { settings } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
+import { decrypt } from "@/lib/encryption";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,10 @@ export default async function SettingsPage() {
   });
 
   const accountSid = userSettings?.twilioAccountSid || "";
-  const authToken = userSettings?.twilioAuthToken || "";
+  // Decrypt the auth token but show it masked in the UI
+  const authToken = userSettings?.twilioAuthToken
+    ? decrypt(userSettings.twilioAuthToken)
+    : "";
   const phoneNumber = userSettings?.twilioPhoneNumber || "";
   const businessName = userSettings?.businessName || "";
   const businessContact = userSettings?.businessContact || "";

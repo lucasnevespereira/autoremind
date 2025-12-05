@@ -11,6 +11,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ExcelJS from "exceljs";
 import { LANG } from "@/constants";
+import { encrypt } from "@/lib/encryption";
 
 export async function addClient(formData: FormData) {
   try {
@@ -155,7 +156,8 @@ export async function saveTwilioConfig(formData: FormData) {
     };
 
     if (accountSid?.trim()) updateData.twilioAccountSid = accountSid.trim();
-    if (authToken?.trim()) updateData.twilioAuthToken = authToken.trim();
+    if (authToken?.trim())
+      updateData.twilioAuthToken = encrypt(authToken.trim());
     if (phoneNumber?.trim()) updateData.twilioPhoneNumber = phoneNumber.trim();
     if (businessName?.trim()) updateData.businessName = businessName.trim();
     if (businessContact?.trim())
