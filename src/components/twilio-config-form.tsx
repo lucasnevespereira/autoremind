@@ -34,7 +34,7 @@ type Tab = "business" | "template" | "twilio" | "test";
 
 export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   const { toast } = useToast();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [testLoading, setTestLoading] = useState(false);
   const [testPhone, setTestPhone] = useState("");
@@ -77,7 +77,11 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
     }
 
     setTestLoading(true);
-    const result = await sendTestSMS(testPhone);
+    const result = await sendTestSMS(
+      testPhone,
+      formValues.businessName,
+      language
+    );
     setTestLoading(false);
 
     if (result.success) {
@@ -445,7 +449,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 {/* Useful Links - Compact */}
                 <div className="flex items-start gap-4 text-xs text-muted-foreground pt-2 border-t border-border/20">
                   <div className="flex-1">
-                    <p className="font-medium text-foreground mb-1.5">{t("usefulLinks")}:</p>
+                    <p className="font-medium text-foreground mb-1.5">
+                      {t("usefulLinks")}:
+                    </p>
                     <div className="flex flex-wrap gap-x-4 gap-y-1">
                       <a
                         href="https://console.twilio.com/us1/billing/manage-billing/billing-overview"

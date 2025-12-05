@@ -17,22 +17,18 @@ export default async function SettingsPage() {
     return null;
   }
 
-  const configs = await db
-    .select()
-    .from(settings)
-    .where(eq(settings.userId, session.user.id));
+  const userSettings = await db.query.settings.findFirst({
+    where: eq(settings.userId, session.user.id),
+  });
 
-  const accountSid =
-    configs.find((c) => c.key === "twilio_account_sid")?.value || "";
-  const authToken =
-    configs.find((c) => c.key === "twilio_auth_token")?.value || "";
-  const phoneNumber =
-    configs.find((c) => c.key === "twilio_phone_number")?.value || "";
-  const businessName = configs.find((c) => c.key === "business_name")?.value || "";
-  const businessContact = configs.find((c) => c.key === "business_contact")?.value || "";
-  const reminderDaysBefore = configs.find((c) => c.key === "reminder_days_before")?.value || "7";
+  const accountSid = userSettings?.twilioAccountSid || "";
+  const authToken = userSettings?.twilioAuthToken || "";
+  const phoneNumber = userSettings?.twilioPhoneNumber || "";
+  const businessName = userSettings?.businessName || "";
+  const businessContact = userSettings?.businessContact || "";
+  const reminderDaysBefore = userSettings?.reminderDaysBefore?.toString() || "7";
   const smsTemplate =
-    configs.find((c) => c.key === "sms_template")?.value ||
+    userSettings?.smsTemplate ||
     "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
   return (

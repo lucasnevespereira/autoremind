@@ -31,23 +31,15 @@ export async function GET(request: NextRequest) {
     // Process each user separately
     for (const currentUser of allUsers) {
       // Get this user's settings
-      const userConfigs = await db
-        .select()
-        .from(settings)
-        .where(eq(settings.userId, currentUser.id));
+      const userSettings = await db.query.settings.findFirst({
+        where: eq(settings.userId, currentUser.id),
+      });
 
-      const businessName =
-        userConfigs.find((config) => config.key === "business_name")?.value ||
-        "Auto Service";
-      const businessContact =
-        userConfigs.find((config) => config.key === "business_contact")?.value ||
-        "";
-      const reminderDaysBefore = parseInt(
-        userConfigs.find((config) => config.key === "reminder_days_before")?.value ||
-        "7"
-      );
+      const businessName = userSettings?.businessName || "Auto Service";
+      const businessContact = userSettings?.businessContact || "";
+      const reminderDaysBefore = userSettings?.reminderDaysBefore || 7;
       const smsTemplate =
-        userConfigs.find((config) => config.key === "sms_template")?.value ||
+        userSettings?.smsTemplate ||
         "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
       // Calculate the reminder window based on user's settings

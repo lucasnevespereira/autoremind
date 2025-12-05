@@ -4,41 +4,32 @@ import { settings } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 
 export async function getTwilioConfig(userId: string) {
-  const configs = await db
-    .select()
-    .from(settings)
-    .where(eq(settings.userId, userId));
+  const userSettings = await db.query.settings.findFirst({
+    where: eq(settings.userId, userId),
+  });
 
-  const accountSid = configs.find((c) => c.key === "twilio_account_sid")?.value?.trim();
-  const authToken = configs.find((c) => c.key === "twilio_auth_token")?.value?.trim();
-  const apiKeySid = configs.find((c) => c.key === "twilio_api_key_sid")?.value?.trim();
-  const apiKeySecret = configs.find((c) => c.key === "twilio_api_key_secret")?.value?.trim();
-  const phoneNumber = configs.find(
-    (c) => c.key === "twilio_phone_number"
-  )?.value?.trim();
+  const accountSid = userSettings?.twilioAccountSid?.trim();
+  const authToken = userSettings?.twilioAuthToken?.trim();
+  const phoneNumber = userSettings?.twilioPhoneNumber?.trim();
 
-  return { accountSid, authToken, apiKeySid, apiKeySecret, phoneNumber };
+  return { accountSid, authToken, phoneNumber };
 }
 
 export async function sendSMS(to: string, message: string, userId: string) {
   try {
-    const { accountSid, authToken, apiKeySid, apiKeySecret, phoneNumber } = await getTwilioConfig(userId);
+    const { accountSid, authToken, phoneNumber } = await getTwilioConfig(userId);
 
     if (!phoneNumber) {
       throw new Error("Phone number not configured");
     }
 
-    // Use API Key if available, otherwise use Auth Token
-    let client;
-    if (apiKeySid && apiKeySecret && accountSid) {
-      client = twilio(apiKeySid, apiKeySecret, { accountSid });
-    } else if (accountSid && authToken) {
-      client = twilio(accountSid, authToken);
-    } else {
+    if (!accountSid || !authToken) {
       throw new Error(
         "Configurações do Twilio não encontradas. Configure nas Definições."
       );
     }
+
+    const client = twilio(accountSid, authToken);
 
     const messageResponse = await client.messages.create({
       body: message,

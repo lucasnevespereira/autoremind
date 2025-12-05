@@ -10,6 +10,7 @@ import { pt } from "date-fns/locale";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ExcelJS from "exceljs";
+import { LANG } from "@/constants";
 
 export async function addClient(formData: FormData) {
   try {
@@ -148,66 +149,40 @@ export async function saveTwilioConfig(formData: FormData) {
     const reminderDaysBefore = formData.get("reminderDaysBefore") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
 
-    // Build configs array only with non-empty values
-    const configs = [];
+    // Build update object with only provided values
+    const updateData: any = {
+      updatedAt: new Date(),
+    };
 
-    if (accountSid?.trim()) {
-      configs.push({ key: "twilio_account_sid", value: accountSid.trim() });
-    }
-    if (authToken?.trim()) {
-      configs.push({ key: "twilio_auth_token", value: authToken.trim() });
-    }
-    if (phoneNumber?.trim()) {
-      configs.push({ key: "twilio_phone_number", value: phoneNumber.trim() });
-    }
-    if (businessName?.trim()) {
-      configs.push({ key: "business_name", value: businessName.trim() });
-    }
-    if (businessContact?.trim()) {
-      configs.push({ key: "business_contact", value: businessContact.trim() });
-    }
+    if (accountSid?.trim()) updateData.twilioAccountSid = accountSid.trim();
+    if (authToken?.trim()) updateData.twilioAuthToken = authToken.trim();
+    if (phoneNumber?.trim()) updateData.twilioPhoneNumber = phoneNumber.trim();
+    if (businessName?.trim()) updateData.businessName = businessName.trim();
+    if (businessContact?.trim())
+      updateData.businessContact = businessContact.trim();
     if (reminderDaysBefore?.trim()) {
-      configs.push({
-        key: "reminder_days_before",
-        value: reminderDaysBefore.trim(),
+      updateData.reminderDaysBefore = parseInt(reminderDaysBefore.trim()) || 7;
+    }
+    if (smsTemplate?.trim()) updateData.smsTemplate = smsTemplate.trim();
+
+    // Check if settings row exists for this user
+    const existing = await db
+      .select()
+      .from(settings)
+      .where(eq(settings.userId, session.user.id));
+
+    if (existing.length > 0) {
+      // Update existing settings
+      await db
+        .update(settings)
+        .set(updateData)
+        .where(eq(settings.userId, session.user.id));
+    } else {
+      // Insert new settings row
+      await db.insert(settings).values({
+        userId: session.user.id,
+        ...updateData,
       });
-    }
-    if (smsTemplate?.trim()) {
-      configs.push({ key: "sms_template", value: smsTemplate.trim() });
-    }
-
-    // At least one field must be provided
-    if (configs.length === 0) {
-      return { success: false, errorKey: "atLeastOneField" };
-    }
-
-    for (const config of configs) {
-      const exists = await db
-        .select()
-        .from(settings)
-        .where(
-          and(
-            eq(settings.key, config.key),
-            eq(settings.userId, session.user.id)
-          )
-        );
-
-      if (exists.length > 0) {
-        await db
-          .update(settings)
-          .set({ value: config.value, updatedAt: new Date() })
-          .where(
-            and(
-              eq(settings.key, config.key),
-              eq(settings.userId, session.user.id)
-            )
-          );
-      } else {
-        await db.insert(settings).values({
-          userId: session.user.id,
-          ...config,
-        });
-      }
     }
 
     revalidatePath("/settings");
@@ -218,7 +193,11 @@ export async function saveTwilioConfig(formData: FormData) {
   }
 }
 
-export async function sendTestSMS(phone: string) {
+export async function sendTestSMS(
+  phone: string,
+  businessName: string | "AutoRemind",
+  lang: string
+) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -228,11 +207,12 @@ export async function sendTestSMS(phone: string) {
       return { success: false, errorKey: "unauthorized" };
     }
 
-    const result = await sendSMS(
-      phone,
-      "Este é um SMS de teste do AutoRemind. Tudo a funcionar! 🚗",
-      session.user.id
-    );
+    const message =
+      lang === LANG.PT
+        ? `Ola! Mensagem de teste do ${businessName}. Se recebeu isto, tudo esta a funcionar corretamente.`
+        : `Hello! Test message from ${businessName}. If you received this, everything is working correctly.`;
+
+    const result = await sendSMS(phone, message, session.user.id);
 
     if (result.success) {
       return { success: true, messageKey: "testSmsSentSuccess" };
@@ -272,17 +252,14 @@ export async function sendManualReminder(clientId: number) {
     const c = client[0];
 
     // Get SMS template and business info from settings for this user
-    const configs = await db
-      .select()
-      .from(settings)
-      .where(eq(settings.userId, session.user.id));
-    const businessName =
-      configs.find((config) => config.key === "business_name")?.value ||
-      "Auto Service";
-    const businessContact =
-      configs.find((config) => config.key === "business_contact")?.value || "";
+    const userSettings = await db.query.settings.findFirst({
+      where: eq(settings.userId, session.user.id),
+    });
+
+    const businessName = userSettings?.businessName || "Auto Service";
+    const businessContact = userSettings?.businessContact || "";
     const smsTemplate =
-      configs.find((config) => config.key === "sms_template")?.value ||
+      userSettings?.smsTemplate ||
       "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
 
     const formattedDate = format(c.reminderDate, "dd/MM/yyyy", { locale: pt });

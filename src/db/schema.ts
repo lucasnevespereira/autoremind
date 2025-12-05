@@ -1,4 +1,11 @@
-import { pgTable, text, timestamp, boolean, serial } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  timestamp,
+  boolean,
+  serial,
+  integer,
+} from "drizzle-orm/pg-core";
 
 // Clients table
 export const clients = pgTable("clients", {
@@ -15,14 +22,29 @@ export const clients = pgTable("clients", {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 
-// Settings table
+// Settings table - one row per user with structured fields
 export const settings = pgTable("settings", {
   id: serial("id").primaryKey(),
   userId: text("user_id")
     .notNull()
-    .references(() => user.id),
-  key: text("key").notNull(),
-  value: text("value").notNull(),
+    .references(() => user.id)
+    .unique(), // Ensure one settings row per user
+
+  // Business settings
+  businessName: text("business_name"),
+  businessContact: text("business_contact"),
+  reminderDaysBefore: integer("reminder_days_before").default(7),
+
+  // Twilio settings
+  twilioAccountSid: text("twilio_account_sid"),
+  twilioAuthToken: text("twilio_auth_token"),
+  twilioPhoneNumber: text("twilio_phone_number"),
+
+  // SMS template
+  smsTemplate: text("sms_template"),
+
+  // Timestamps
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
 });
 

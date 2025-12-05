@@ -18,9 +18,10 @@ CREATE TABLE IF NOT EXISTS "clients" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
 	"name" text NOT NULL,
+	"email" text,
 	"phone" text NOT NULL,
-	"car" text NOT NULL,
-	"revision_date" timestamp NOT NULL,
+	"resource" text NOT NULL,
+	"reminder_date" timestamp NOT NULL,
 	"reminder_sent" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
@@ -40,9 +41,16 @@ CREATE TABLE IF NOT EXISTS "session" (
 CREATE TABLE IF NOT EXISTS "settings" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" text NOT NULL,
-	"key" text NOT NULL,
-	"value" text NOT NULL,
-	"updated_at" timestamp DEFAULT now() NOT NULL
+	"business_name" text,
+	"business_contact" text,
+	"reminder_days_before" integer DEFAULT 7,
+	"twilio_account_sid" text,
+	"twilio_auth_token" text,
+	"twilio_phone_number" text,
+	"sms_template" text,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "settings_user_id_unique" UNIQUE("user_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
