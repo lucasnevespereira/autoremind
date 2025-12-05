@@ -12,7 +12,14 @@ import {
 } from "@/components/ui/dialog";
 import ExcelJS from "exceljs";
 import { importClients } from "@/app/actions";
-import { Loader2, Upload, FileSpreadsheet, Info, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Loader2,
+  Upload,
+  FileSpreadsheet,
+  Info,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 import {
   normalizePhone,
   normalizeHeader,
@@ -67,7 +74,10 @@ export function ImportClientsDialog() {
           return;
         }
 
-        console.log(`Row ${rowNumber} raw phone from Excel:`, normalizedRow.phone);
+        console.log(
+          `Row ${rowNumber} raw phone from Excel:`,
+          normalizedRow.phone
+        );
         const formattedPhone = normalizePhone(normalizedRow.phone);
         console.log(`Row ${rowNumber} formatted phone:`, formattedPhone);
         if (!formattedPhone) {
@@ -163,7 +173,9 @@ export function ImportClientsDialog() {
                     onClick={() => setShowExample(!showExample)}
                     className="flex items-center gap-1 text-primary hover:text-primary/80 transition-colors"
                   >
-                    <span className="text-[11px]">{showExample ? t("hideExample") : t("viewExample")}</span>
+                    <span className="text-[11px]">
+                      {showExample ? t("hideExample") : t("viewExample")}
+                    </span>
                     {showExample ? (
                       <ChevronUp className="h-3 w-3" />
                     ) : (
@@ -183,39 +195,60 @@ export function ImportClientsDialog() {
                       <table className="w-full text-[10px] border-collapse bg-card/50 rounded">
                         <thead>
                           <tr className="border-b border-primary/20">
-                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Nome</th>
-                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary/60">Email*</th>
-                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Telemóvel</th>
-                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Recurso</th>
-                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">Data</th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">
+                              Name
+                            </th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">
+                              Email
+                            </th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">
+                              Phone
+                            </th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">
+                              Resource
+                            </th>
+                            <th className="px-2 py-1 text-left font-mono font-semibold text-primary">
+                              Date
+                            </th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr className="border-b border-primary/10">
-                            <td className="px-2 py-1 text-muted-foreground">João Silva</td>
-                            <td className="px-2 py-1 text-muted-foreground/60">joao@email.com</td>
-                            <td className="px-2 py-1 text-muted-foreground">912345678</td>
-                            <td className="px-2 py-1 text-muted-foreground">Toyota Camry</td>
-                            <td className="px-2 py-1 text-muted-foreground">15/12/2025</td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              João Silva
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              joao@email.com
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              912345678
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              Seat Ibiza
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              15/12/2025
+                            </td>
                           </tr>
                           <tr>
-                            <td className="px-2 py-1 text-muted-foreground">Marie Dupont</td>
-                            <td className="px-2 py-1 text-muted-foreground/60">-</td>
-                            <td className="px-2 py-1 text-muted-foreground">0612345678</td>
-                            <td className="px-2 py-1 text-muted-foreground">Audi A4</td>
-                            <td className="px-2 py-1 text-muted-foreground">20/01/2026</td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              Marie Dupont
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              marie@email.com
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              0612345678
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              Audi A4
+                            </td>
+                            <td className="px-2 py-1 text-muted-foreground">
+                              20/01/2026
+                            </td>
                           </tr>
                         </tbody>
                       </table>
-                    </div>
-
-                    <div className="space-y-1">
-                      <p className="text-[10px] text-muted-foreground/70 italic">
-                        * {t("optional")} • {t("excelColumnFlexible")}
-                      </p>
-                      <p className="text-[10px] text-amber-600 dark:text-amber-500 font-medium">
-                        ⚠️ {t("excelPhoneFormat")}
-                      </p>
                     </div>
                   </div>
                 )}

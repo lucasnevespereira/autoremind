@@ -83,8 +83,7 @@ export const translations = {
       "This name will appear in your SMS messages as {business_name}",
     businessContact: "Business Contact",
     businessContactPlaceholder: "e.g., +351912345678 or info@business.com",
-    businessContactHint:
-      "Phone, email, or website shown as {business_contact}",
+    businessContactHint: "Phone, email, or website shown as {business_contact}",
     reminderDaysBefore: "Days Before Reminder",
     reminderDaysBeforeHint:
       "How many days before the date to send the reminder (default: 7)",
@@ -187,9 +186,10 @@ export const translations = {
     noValidRows: "No valid rows found in the file. Please check the format.",
     excelFormatRequired: "Excel format required",
     excelFormatDescription:
-      "First row must be headers. Column names are flexible (Nome/Name, Telemóvel/Phone, etc.):",
+      "Name, Email (optional), Phone, Resource, Date (DD/MM/YYYY)",
     excelColumnFlexible: "Column names are flexible (Portuguese or English)",
-    excelPhoneFormat: "Format phone column as Text to preserve leading zeros (e.g., 0612345678)",
+    excelPhoneFormat:
+      "Format phone column as Text to preserve leading zeros (e.g., 0612345678)",
     viewExample: "View example",
     hideExample: "Hide example",
   },
@@ -380,12 +380,15 @@ export const translations = {
     errorReadingFile: "Erro ao ler o ficheiro.",
     errorExportingClients: "Erro ao exportar clientes.",
     clientsImportedSuccess: "clientes importados com sucesso!",
-    noValidRows: "Nenhuma linha válida encontrada no ficheiro. Verifique o formato.",
+    noValidRows:
+      "Nenhuma linha válida encontrada no ficheiro. Verifique o formato.",
     excelFormatRequired: "Formato Excel necessário",
     excelFormatDescription:
-      "Primeira linha deve ser cabeçalhos. Nomes das colunas são flexíveis (Nome/Name, Telemóvel/Phone, etc.):",
-    excelColumnFlexible: "Nomes das colunas são flexíveis (Português ou Inglês)",
-    excelPhoneFormat: "Formate a coluna de telefone como Texto para preservar zeros à esquerda (ex: 0612345678)",
+      "Name, Email (optional), Phone, Resource, Date (DD/MM/YYYY)",
+    excelColumnFlexible:
+      "Nomes das colunas são flexíveis (Português ou Inglês)",
+    excelPhoneFormat:
+      "Formate a coluna de telefone como Texto para preservar zeros à esquerda (ex: 0612345678)",
     viewExample: "Ver exemplo",
     hideExample: "Ocultar exemplo",
   },
