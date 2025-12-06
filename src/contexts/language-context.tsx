@@ -1,13 +1,8 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { translations, Language, TranslationKey } from "@/lib/i18n";
+import { LANG } from "@/constants";
 
 interface LanguageContextType {
   language: Language;
@@ -20,15 +15,21 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>("en");
-
-  // Load language preference from localStorage on mount
-  useEffect(() => {
-    const savedLang = localStorage.getItem("autoremind-language") as Language;
-    if (savedLang && (savedLang === "en" || savedLang === "pt" || savedLang === "fr")) {
-      setLanguageState(savedLang);
+  // Initialize language from localStorage
+  const [language, setLanguageState] = useState<Language>(() => {
+    if (typeof window !== "undefined") {
+      const savedLang = localStorage.getItem("autoremind-language") as Language;
+      if (
+        savedLang &&
+        (savedLang === LANG.EN ||
+          savedLang === LANG.PT ||
+          savedLang === LANG.FR)
+      ) {
+        return savedLang;
+      }
     }
-  }, []);
+    return LANG.EN;
+  });
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

@@ -73,17 +73,6 @@ export async function sendSMS(to: string, message: string, userId: string) {
 }
 
 export function formatPhone(phone: string): string {
-  const SUPPORTED_CODES = [
-    "+351",
-    "+33",
-    "+41",
-    "+44",
-    "+49",
-    "+34",
-    "+39",
-    "+1",
-  ];
-
   // Remove all non-digit characters except +
   let cleaned = phone.replace(/[^\d+]/g, "");
 
