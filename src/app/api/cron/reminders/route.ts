@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
       const reminderDaysBefore = userSettings?.reminderDaysBefore || 7;
       const smsTemplate =
         userSettings?.smsTemplate ||
-        "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
+        "Hello {client_name}, your {client_resource} is scheduled for {reminder_date}. Please contact {business_name} to confirm. Thank you!";
 
       // Calculate the reminder window based on user's settings
       const laterDate = new Date(today);
@@ -72,8 +72,8 @@ export async function GET(request: NextRequest) {
         // Replace variables in template
         const message = smsTemplate
           .replace(/{client_name}/g, client.name)
-          .replace(/{resource}/g, client.resource)
-          .replace(/{date}/g, formattedDate)
+          .replace(/{client_resource}/g, client.resource)
+          .replace(/{reminder_date}/g, formattedDate)
           .replace(/{business_name}/g, businessName)
           .replace(/{business_contact}/g, businessContact);
 

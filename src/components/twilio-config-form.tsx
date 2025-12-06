@@ -334,18 +334,18 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
-                        {"{resource}"}
+                        {"{client_resource}"}
                       </code>
                       <span className="text-muted-foreground">
-                        {t("resourceVar")}
+                        {t("clientResourceVar")}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <code className="bg-card px-2.5 py-1.5 rounded-lg border border-border/40 font-mono text-primary">
-                        {"{date}"}
+                        {"{reminder_date}"}
                       </code>
                       <span className="text-muted-foreground">
-                        {t("dateVar")}
+                        {t("reminderDateVar")}
                       </span>
                     </div>
                     <div className="flex items-center gap-2">

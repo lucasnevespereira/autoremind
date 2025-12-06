@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FileDown } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/language-context";
+import { LANG } from "@/constants";
 
 export function ExportClientsButton() {
   const [loading, setLoading] = useState(false);
@@ -13,8 +14,8 @@ export function ExportClientsButton() {
   const handleExport = async () => {
     setLoading(true);
     let lang = language;
-    if (lang !== "en" && lang !== "pt") {
-      lang = "en";
+    if (lang !== LANG.EN && lang !== LANG.PT && lang !== LANG.FR) {
+      lang = LANG.EN;
     }
     const result = await exportClients(lang);
     setLoading(false);

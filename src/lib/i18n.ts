@@ -94,9 +94,8 @@ export const translations = {
     availableVariables: "Available Variables:",
     clientNameVar: "Client's name",
     carModelVar: "Car model",
-    resourceVar: "Resource (car, equipment, etc.)",
-    maintenanceDateVar: "Maintenance date",
-    dateVar: "Date",
+    clientResourceVar: "Client's resource (car, equipment, etc.)",
+    reminderDateVar: "Reminder Date",
     businessNameVar: "Your business name",
     businessContactVar: "Your business contact",
 
@@ -212,7 +211,7 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    slogan: "Lembretes fáceis para pessoas ocupadas",
+    slogan: "Easy Reminders for busy people",
     settings: "Configurações",
     logout: "Sair",
 
@@ -290,9 +289,8 @@ export const translations = {
     availableVariables: "Variáveis Disponíveis:",
     clientNameVar: "Nome do cliente",
     carModelVar: "Modelo do carro",
-    resourceVar: "Recurso (carro, equipamento, etc.)",
-    maintenanceDateVar: "Data de manutenção",
-    dateVar: "Data",
+    clientResourceVar: "Recurso do cliente (carro, equipamento, etc.)",
+    reminderDateVar: "Data do lembrete",
     businessNameVar: "Nome do seu negócio",
     businessContactVar: "Contacto do seu negócio",
 
@@ -412,7 +410,7 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    slogan: "Rappels faciles pour les personnes occupées",
+    slogan: "Easy Reminders for busy people",
     settings: "Paramètres",
     logout: "Déconnexion",
 
@@ -470,7 +468,8 @@ export const translations = {
       "Configurez les informations de votre entreprise et les notifications SMS",
     backToDashboard: "Retour au tableau de bord",
     businessInformation: "Informations sur l'entreprise",
-    businessDetails: "Les détails de votre entreprise utilisés dans les messages SMS",
+    businessDetails:
+      "Les détails de votre entreprise utilisés dans les messages SMS",
     businessName: "Nom de l'entreprise",
     businessGarageName: "Nom de l'entreprise/Garage",
     businessNamePlaceholder: "ex., Centre de service automobile",
@@ -490,9 +489,8 @@ export const translations = {
     availableVariables: "Variables disponibles :",
     clientNameVar: "Nom du client",
     carModelVar: "Modèle de voiture",
-    resourceVar: "Ressource (voiture, équipement, etc.)",
-    maintenanceDateVar: "Date de maintenance",
-    dateVar: "Date",
+    clientResourceVar: "Ressource du client (voiture, équipement, etc.)",
+    reminderDateVar: "Date du rappel",
     businessNameVar: "Nom de votre entreprise",
     businessContactVar: "Contact de votre entreprise",
 
@@ -500,7 +498,8 @@ export const translations = {
     connectTwilioAccount: "Connectez votre compte Twilio pour envoyer des SMS",
     requirements: "Exigences",
     twilioReq1: "Le numéro de téléphone doit être acheté auprès de Twilio",
-    twilioReq2: "Les comptes d'essai ne peuvent envoyer qu'aux numéros vérifiés",
+    twilioReq2:
+      "Les comptes d'essai ne peuvent envoyer qu'aux numéros vérifiés",
     twilioReq3: "Utilisez le format E.164 : +[pays][numéro]",
     accountSid: "Account SID",
     authToken: "Auth Token",
@@ -516,8 +515,7 @@ export const translations = {
     sendTestMessage:
       "Envoyez un message de test pour vérifier votre configuration",
     testPhoneNumber: "Numéro de téléphone de test",
-    testPhoneHint:
-      "Entrez un numéro de téléphone pour recevoir un SMS de test",
+    testPhoneHint: "Entrez un numéro de téléphone pour recevoir un SMS de test",
     sendTestSms: "Envoyer un SMS de test",
     sending: "Envoi...",
 
@@ -582,11 +580,13 @@ export const translations = {
     errorReadingFile: "Erreur lors de la lecture du fichier.",
     errorExportingClients: "Erreur lors de l'exportation des clients.",
     clientsImportedSuccess: "clients importés avec succès !",
-    noValidRows: "Aucune ligne valide trouvée dans le fichier. Veuillez vérifier le format.",
+    noValidRows:
+      "Aucune ligne valide trouvée dans le fichier. Veuillez vérifier le format.",
     excelFormatRequired: "Format Excel requis",
     excelFormatDescription:
       "Name, Email (optional), Phone, Resource, Date (DD/MM/YYYY)",
-    excelColumnFlexible: "Les noms de colonnes sont flexibles (Portugais ou Anglais)",
+    excelColumnFlexible:
+      "Les noms de colonnes sont flexibles (Portugais ou Anglais)",
     excelPhoneFormat:
       "Formatez la colonne téléphone en Texte pour conserver les zéros de tête (ex : 0612345678)",
     viewExample: "Voir l'exemple",

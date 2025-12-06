@@ -212,6 +212,8 @@ export async function sendTestSMS(
     const message =
       lang === LANG.PT
         ? `Ola! Mensagem de teste do ${businessName}. Se recebeu isto, tudo esta a funcionar corretamente.`
+        : lang === LANG.FR
+        ? `Bonjour! Message de test de ${businessName}. Si vous recevez ceci, tout fonctionne correctement.`
         : `Hello! Test message from ${businessName}. If you received this, everything is working correctly.`;
 
     const result = await sendSMS(phone, message, session.user.id);
@@ -262,15 +264,15 @@ export async function sendManualReminder(clientId: number) {
     const businessContact = userSettings?.businessContact || "";
     const smsTemplate =
       userSettings?.smsTemplate ||
-      "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
+      "Hello {client_name}, your {client_resource} is scheduled for {reminder_date}. Please contact {business_name} to confirm. Thank you!";
 
     const formattedDate = format(c.reminderDate, "dd/MM/yyyy", { locale: pt });
 
     // Replace variables in template
     const message = smsTemplate
       .replace(/{client_name}/g, c.name)
-      .replace(/{resource}/g, c.resource)
-      .replace(/{date}/g, formattedDate)
+      .replace(/{client_resource}/g, c.resource)
+      .replace(/{reminder_date}/g, formattedDate)
       .replace(/{business_name}/g, businessName)
       .replace(/{business_contact}/g, businessContact);
 

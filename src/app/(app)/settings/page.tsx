@@ -30,10 +30,11 @@ export default async function SettingsPage() {
   const phoneNumber = userSettings?.twilioPhoneNumber || "";
   const businessName = userSettings?.businessName || "";
   const businessContact = userSettings?.businessContact || "";
-  const reminderDaysBefore = userSettings?.reminderDaysBefore?.toString() || "7";
+  const reminderDaysBefore =
+    userSettings?.reminderDaysBefore?.toString() || "7";
   const smsTemplate =
     userSettings?.smsTemplate ||
-    "Hello {client_name}, your {resource} is scheduled for {date}. Please contact {business_name} to confirm. Thank you!";
+    "Hello {client_name}, your {client_resource} is scheduled for {reminder_date}. Please contact {business_name} to confirm. Thank you!";
 
   return (
     <div className="max-w-6xl animate-fade-in">
