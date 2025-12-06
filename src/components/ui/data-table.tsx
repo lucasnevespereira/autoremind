@@ -12,7 +12,12 @@ import {
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
 
 import {
   Table,
@@ -42,7 +47,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const { t } = useLanguage();
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
 
   const table = useReactTable({
     data,
@@ -59,7 +66,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: 20,
+        pageSize: 5,
       },
     },
   });
@@ -77,12 +84,21 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-muted/30 hover:bg-muted/30 border-b border-border/40">
+              <TableRow
+                key={headerGroup.id}
+                className="bg-muted/30 hover:bg-muted/30 border-b border-border/40"
+              >
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="font-semibold text-foreground/90 h-12">
+                  <TableHead
+                    key={header.id}
+                    className="font-semibold text-foreground/90 h-12"
+                  >
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -98,14 +114,20 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="py-4">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-32 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-32 text-center"
+                >
                   <div className="flex flex-col items-center justify-center text-muted-foreground">
                     <p className="text-sm font-medium">{t("noResultsFound")}</p>
                     <p className="text-xs mt-1">{t("tryDifferentSearch")}</p>
@@ -122,12 +144,15 @@ export function DataTable<TData, TValue>({
         <div className="text-sm text-muted-foreground">
           {t("showing")}{" "}
           <span className="font-medium text-foreground">
-            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}
           </span>{" "}
           {t("to")}{" "}
           <span className="font-medium text-foreground">
             {Math.min(
-              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+              (table.getState().pagination.pageIndex + 1) *
+                table.getState().pagination.pageSize,
               table.getFilteredRowModel().rows.length
             )}
           </span>{" "}
@@ -162,7 +187,9 @@ export function DataTable<TData, TValue>({
               {table.getState().pagination.pageIndex + 1}
             </span>
             <span className="text-muted-foreground">{t("of")}</span>
-            <span className="font-medium text-foreground">{table.getPageCount()}</span>
+            <span className="font-medium text-foreground">
+              {table.getPageCount()}
+            </span>
           </div>
           <Button
             variant="outline"

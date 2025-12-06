@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Search } from "lucide-react";
+import { Search, Copy, Trash2, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
 import { DeleteClientButton } from "@/components/delete-client-button";
 import { SendReminderButton } from "@/components/send-reminder-button";
@@ -10,9 +10,13 @@ import { AddClientDialog } from "@/components/add-client-dialog";
 import { EditClientDialog } from "@/components/edit-client-dialog";
 import { ImportClientsDialog } from "@/components/import-clients-dialog";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import { useLanguage } from "@/contexts/language-context";
 import { ExportClientsButton } from "./export-clients-button";
+import { useToast } from "@/hooks/use-toast";
+import { bulkDeleteClients } from "@/app/actions";
 
 interface Client {
   id: number;
@@ -27,16 +31,103 @@ interface Client {
 
 export function ClientsTable({ clients }: { clients: Client[] }) {
   const { t } = useLanguage();
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: t("success"),
+        description: "Copied to clipboard!",
+        duration: 2000,
+      });
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedRows(new Set(clients.map((c) => c.id)));
+    } else {
+      setSelectedRows(new Set());
+    }
+  };
+
+  const handleSelectRow = (clientId: number, checked: boolean) => {
+    const newSelection = new Set(selectedRows);
+    if (checked) {
+      newSelection.add(clientId);
+    } else {
+      newSelection.delete(clientId);
+    }
+    setSelectedRows(newSelection);
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedRows.size === 0) return;
+
+    const confirmed = confirm(
+      `Are you sure you want to delete ${selectedRows.size} client(s)?`
+    );
+
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    const result = await bulkDeleteClients(Array.from(selectedRows));
+    setIsDeleting(false);
+
+    if (result.success) {
+      toast({
+        title: t("success"),
+        description: result.messageKey ? t(result.messageKey as any) : "Deleted successfully",
+      });
+      setSelectedRows(new Set());
+    } else {
+      toast({
+        variant: "destructive",
+        title: t("error"),
+        description: result.errorKey ? t(result.errorKey as any) : "Error deleting clients",
+      });
+    }
+  };
 
   const columns: ColumnDef<Client>[] = [
+    {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={selectedRows.size === clients.length && clients.length > 0}
+          onCheckedChange={handleSelectAll}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={selectedRows.has(row.original.id)}
+          onCheckedChange={(checked) => handleSelectRow(row.original.id, checked as boolean)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
     {
       accessorKey: "name",
       header: t("client"),
       cell: ({ row }) => {
+        const name = row.getValue("name") as string;
         return (
-          <div className="font-medium text-foreground">
-            {row.getValue("name")}
+          <div
+            className="font-medium text-foreground cursor-pointer hover:text-primary flex items-center gap-2 group"
+            onClick={() => copyToClipboard(name)}
+            title="Click to copy"
+          >
+            {name}
+            <Copy className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
           </div>
         );
       },
@@ -46,16 +137,32 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       header: t("email"),
       cell: ({ row }) => {
         const email = row.getValue("email") as string | null;
-        return <div className="text-sm text-foreground/70">{email || "-"}</div>;
+        if (!email) return <div className="text-sm text-foreground/70">-</div>;
+        return (
+          <div
+            className="text-sm text-foreground/70 cursor-pointer hover:text-primary flex items-center gap-2 group"
+            onClick={() => copyToClipboard(email)}
+            title="Click to copy"
+          >
+            {email}
+            <Copy className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+          </div>
+        );
       },
     },
     {
       accessorKey: "phone",
       header: t("phone"),
       cell: ({ row }) => {
+        const phone = row.getValue("phone") as string;
         return (
-          <div className="font-mono text-sm text-foreground/70">
-            {row.getValue("phone")}
+          <div
+            className="font-mono text-sm text-foreground/70 cursor-pointer hover:text-primary flex items-center gap-2 group"
+            onClick={() => copyToClipboard(phone)}
+            title="Click to copy"
+          >
+            {phone}
+            <Copy className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
           </div>
         );
       },
@@ -64,8 +171,16 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       accessorKey: "resource",
       header: t("resource"),
       cell: ({ row }) => {
+        const resource = row.getValue("resource") as string;
         return (
-          <div className="text-foreground/80">{row.getValue("resource")}</div>
+          <div
+            className="text-foreground/80 cursor-pointer hover:text-primary flex items-center gap-2 group"
+            onClick={() => copyToClipboard(resource)}
+            title="Click to copy"
+          >
+            {resource}
+            <Copy className="h-3 w-3 opacity-0 group-hover:opacity-50 transition-opacity" />
+          </div>
         );
       },
     },
@@ -162,6 +277,17 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
             className="pl-10 h-11 bg-card border-border/40 rounded-xl focus-visible:ring-primary"
           />
         </div>
+        {selectedRows.size > 0 && (
+          <Button
+            variant="destructive"
+            onClick={handleBulkDelete}
+            disabled={isDeleting}
+            className="gap-2"
+          >
+            <Trash2 className="h-4 w-4" />
+            {isDeleting ? t("deleting") : `${t("delete")} ${selectedRows.size} ${t("selected")}`}
+          </Button>
+        )}
         <AddClientDialog />
         <ImportClientsDialog />
         {clients.length > 0 && (

@@ -132,6 +132,35 @@ export async function deleteClient(id: number) {
   }
 }
 
+export async function bulkDeleteClients(ids: number[]) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    if (ids.length === 0) {
+      return { success: false, errorKey: "allFieldsRequired" };
+    }
+
+    // Delete all clients with matching IDs for this user
+    for (const id of ids) {
+      await db
+        .delete(clients)
+        .where(and(eq(clients.id, id), eq(clients.userId, session.user.id)));
+    }
+
+    revalidatePath("/");
+    return { success: true, messageKey: "clientDeletedSuccess" };
+  } catch (error) {
+    console.error("Error bulk deleting clients:", error);
+    return { success: false, errorKey: "clientDeleteError" };
+  }
+}
+
 export async function saveTwilioConfig(formData: FormData) {
   try {
     const session = await auth.api.getSession({

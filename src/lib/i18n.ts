@@ -24,7 +24,7 @@ export const translations = {
     // Clients
     clients: "Clients",
     manageReminders: "Manage your reminders",
-    searchBy: "Search by name, email, phone...",
+    searchBy: "Search by name...",
     addClient: "Add Client",
     noClientsYet: "No clients yet",
     addFirstClient:
@@ -128,6 +128,9 @@ export const translations = {
     success: "Success!",
     error: "Error",
     send: "Send",
+    delete: "Delete",
+    deleting: "Deleting...",
+    selected: "selected",
     deleteConfirmation: "Are you sure you want to delete this client?",
     loading: "Loading...",
     unauthorized: "Unauthorized",
@@ -218,7 +221,7 @@ export const translations = {
     // Clients
     clients: "Clientes",
     manageReminders: "Gerir os seus lembretes",
-    searchBy: "Pesquisar por nome, email ou telemóvel...",
+    searchBy: "Pesquisar por nome...",
     addClient: "Adicionar Cliente",
     noClientsYet: "Ainda não tem clientes",
     addFirstClient:
@@ -325,6 +328,9 @@ export const translations = {
     success: "Sucesso!",
     error: "Erro",
     send: "Enviar",
+    delete: "Eliminar",
+    deleting: "A eliminar...",
+    selected: "selecionado(s)",
     deleteConfirmation: "Tem a certeza que deseja eliminar este cliente?",
     loading: "A carregar...",
     unauthorized: "Não autorizado",
@@ -417,7 +423,7 @@ export const translations = {
     // Clients
     clients: "Clients",
     manageReminders: "Gérer vos rappels",
-    searchBy: "Rechercher par nom, email, téléphone...",
+    searchBy: "Rechercher par nom...",
     addClient: "Ajouter un client",
     noClientsYet: "Pas encore de clients",
     addFirstClient:
@@ -525,6 +531,9 @@ export const translations = {
     success: "Succès !",
     error: "Erreur",
     send: "Envoyer",
+    delete: "Supprimer",
+    deleting: "Suppression...",
+    selected: "sélectionné(s)",
     deleteConfirmation: "Êtes-vous sûr de vouloir supprimer ce client ?",
     loading: "Chargement...",
     unauthorized: "Non autorisé",
