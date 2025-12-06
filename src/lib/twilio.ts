@@ -21,7 +21,9 @@ export async function getTwilioConfig(userId: string) {
 
 export async function sendSMS(to: string, message: string, userId: string) {
   try {
-    const { accountSid, authToken, phoneNumber } = await getTwilioConfig(userId);
+    const { accountSid, authToken, phoneNumber } = await getTwilioConfig(
+      userId
+    );
 
     if (!phoneNumber) {
       throw new Error("Phone number not configured");
@@ -45,15 +47,22 @@ export async function sendSMS(to: string, message: string, userId: string) {
   } catch (error: any) {
     console.error("Erro ao enviar SMS:", error);
 
-    let errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+    let errorMessage =
+      error instanceof Error ? error.message : "Erro desconhecido";
 
     // Provide more helpful error messages for common Twilio errors
     if (error.code === 20003 || errorMessage.includes("Authenticate")) {
-      errorMessage = "Authentication failed. Please verify your Twilio Account SID and Auth Token in Settings. Make sure you're using live credentials (not test credentials) from https://console.twilio.com/";
+      errorMessage =
+        "Authentication failed. Please verify your Twilio Account SID and Auth Token in Settings. Make sure you're using live credentials (not test credentials) from https://console.twilio.com/";
     } else if (errorMessage.includes("not a valid")) {
-      errorMessage = "The 'From' phone number must be a valid Twilio number you purchased. Check your Twilio console.";
-    } else if (errorMessage.includes("trial") || errorMessage.includes("Trial")) {
-      errorMessage = "Trial accounts can only send to verified numbers. Verify the destination number in Twilio console or upgrade your account.";
+      errorMessage =
+        "The 'From' phone number must be a valid Twilio number you purchased. Check your Twilio console.";
+    } else if (
+      errorMessage.includes("trial") ||
+      errorMessage.includes("Trial")
+    ) {
+      errorMessage =
+        "Trial accounts can only send to verified numbers. Verify the destination number in Twilio console or upgrade your account.";
     }
 
     return {
@@ -64,7 +73,16 @@ export async function sendSMS(to: string, message: string, userId: string) {
 }
 
 export function formatPhone(phone: string): string {
-  const SUPPORTED_CODES = ["+351", "+33", "+41", "+44", "+49", "+34", "+39", "+1"];
+  const SUPPORTED_CODES = [
+    "+351",
+    "+33",
+    "+41",
+    "+44",
+    "+49",
+    "+34",
+    "+39",
+    "+1",
+  ];
 
   // Remove all non-digit characters except +
   let cleaned = phone.replace(/[^\d+]/g, "");
@@ -109,7 +127,11 @@ export function formatPhone(phone: string): string {
   if (cleaned.startsWith("41") && cleaned.length === 11) {
     return "+" + cleaned;
   }
-  if (cleaned.startsWith("39") && cleaned.length >= 11 && cleaned.length <= 13) {
+  if (
+    cleaned.startsWith("39") &&
+    cleaned.length >= 11 &&
+    cleaned.length <= 13
+  ) {
     return "+" + cleaned;
   }
   if (cleaned.startsWith("34") && cleaned.length === 11) {
