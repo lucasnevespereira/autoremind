@@ -27,8 +27,7 @@ export const translations = {
     searchBy: "Search by name...",
     addClient: "Add Client",
     noClientsYet: "No clients yet",
-    addFirstClient:
-      "Add your first client to start managing maintenance reminders",
+    addFirstClient: "Add your first client to start managing reminders",
     noResultsFound: "No results found",
     tryDifferentSearch: "Try adjusting your search",
 
@@ -48,8 +47,7 @@ export const translations = {
     // Dialog
     addNewClient: "Add New Client",
     editClient: "Edit Client",
-    enterClientDetails:
-      "Enter client details to schedule maintenance reminders",
+    enterClientDetails: "Enter client details to schedule  reminders",
     updateClientDetails: "Update client details",
     clientName: "Client Name",
     clientEmail: "Client Email",
@@ -386,7 +384,7 @@ export const translations = {
     addClient: "Adicionar Cliente",
     noClientsYet: "Ainda não tem clientes",
     addFirstClient:
-      "Adicione o seu primeiro cliente para começar a gerir lembretes de manutenção",
+      "Adicione o seu primeiro cliente para começar a gerir lembretes",
     noResultsFound: "Nenhum resultado encontrado",
     tryDifferentSearch: "Tente ajustar a sua pesquisa",
 
@@ -407,7 +405,7 @@ export const translations = {
     addNewClient: "Adicionar Novo Cliente",
     editClient: "Editar Cliente",
     enterClientDetails:
-      "Introduza os detalhes do cliente para agendar lembretes de manutenção",
+      "Introduza os detalhes do cliente para agendar lembretes",
     updateClientDetails: "Atualizar detalhes do cliente",
     clientName: "Nome do Cliente",
     clientEmail: "Email do Cliente",
@@ -755,7 +753,7 @@ export const translations = {
     addClient: "Ajouter un client",
     noClientsYet: "Pas encore de clients",
     addFirstClient:
-      "Ajoutez votre premier client pour commencer à gérer les rappels de maintenance",
+      "Ajoutez votre premier client pour commencer à gérer les rappels",
     noResultsFound: "Aucun résultat trouvé",
     tryDifferentSearch: "Essayez d'ajuster votre recherche",
 
@@ -776,7 +774,7 @@ export const translations = {
     addNewClient: "Ajouter un nouveau client",
     editClient: "Modifier le client",
     enterClientDetails:
-      "Entrez les détails du client pour programmer les rappels de maintenance",
+      "Entrez les détails du client pour programmer les rappels",
     updateClientDetails: "Mettre à jour les détails du client",
     clientName: "Nom du client",
     clientEmail: "Email du client",
