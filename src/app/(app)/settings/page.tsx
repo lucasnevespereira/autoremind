@@ -1,7 +1,7 @@
 import { TwilioConfigForm } from "@/components/twilio-config-form";
 import { SettingsHeader } from "@/components/settings-header";
 import { db } from "@/db";
-import { settings } from "@/db/schema";
+import { settings, subscriptions } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
@@ -22,6 +22,11 @@ export default async function SettingsPage() {
     where: eq(settings.userId, session.user.id),
   });
 
+  // Get user's subscription to check plan
+  const userSubscription = await db.query.subscriptions.findFirst({
+    where: eq(subscriptions.userId, session.user.id),
+  });
+
   const accountSid = userSettings?.twilioAccountSid || "";
   // Decrypt the auth token but show it masked in the UI
   const authToken = userSettings?.twilioAuthToken
@@ -35,6 +40,10 @@ export default async function SettingsPage() {
   const smsTemplate =
     userSettings?.smsTemplate ||
     "Hello {client_name}, your {client_resource} is scheduled for {reminder_date}. Please contact {business_name} to confirm. Thank you!";
+  const useManagedSms = userSettings?.useManagedSms || false;
+
+  const planType = userSubscription?.planType || "free";
+  const isPaidPlan = planType === "starter" || planType === "pro";
 
   return (
     <div className="max-w-6xl animate-fade-in">
@@ -49,7 +58,10 @@ export default async function SettingsPage() {
           businessContact,
           reminderDaysBefore,
           smsTemplate,
+          useManagedSms,
         }}
+        planType={planType}
+        isPaidPlan={isPaidPlan}
       />
     </div>
   );

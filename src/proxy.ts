@@ -36,10 +36,11 @@ export const config = {
      * Match all request paths except:
      * - api/auth (auth endpoints)
      * - api/cron (cron jobs have their own auth)
+     * - api/stripe (Stripe webhooks need to be public)
      * - _next/static (static files)
      * - _next/image (image optimization)
      * - favicon.ico
      */
-    "/((?!api/auth|api/cron|_next/static|_next/image|favicon.ico).*)",
+    "/((?!api/auth|api/cron|api/stripe|_next/static|_next/image|favicon.ico).*)",
   ],
 };

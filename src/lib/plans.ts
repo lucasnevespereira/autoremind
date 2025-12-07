@@ -2,7 +2,7 @@ export const PLANS = {
   free: {
     id: "free",
     name: "Free",
-    clientLimit: null, // Unlimited
+    clientLimit: 10, // 10 clients max
     price: 0,
     smsHandling: "own", // User provides own Twilio (they pay per SMS)
   },

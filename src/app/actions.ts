@@ -12,6 +12,7 @@ import { headers } from "next/headers";
 import ExcelJS from "exceljs";
 import { LANG } from "@/constants";
 import { encrypt } from "@/lib/encryption";
+import { canAddClients } from "@/lib/subscription";
 
 export async function addClient(formData: FormData) {
   try {
@@ -31,6 +32,17 @@ export async function addClient(formData: FormData) {
 
     if (!name || !phone || !resource || !reminderDate) {
       return { success: false, errorKey: "allFieldsRequired" };
+    }
+
+    // Check client limit before adding
+    const limitCheck = await canAddClients(session.user.id, 1);
+    if (!limitCheck.canAdd) {
+      return {
+        success: false,
+        errorKey: "clientLimitReached",
+        limit: limitCheck.limit,
+        currentCount: limitCheck.currentCount,
+      };
     }
 
     const formattedPhone = formatPhone(phone);
@@ -357,6 +369,18 @@ export async function importClients(rows: any[]) {
       return { success: false, errorKey: "noValidRows" };
     }
 
+    // Check client limit before importing
+    const limitCheck = await canAddClients(userId, cleanedRows.length);
+    if (!limitCheck.canAdd) {
+      return {
+        success: false,
+        errorKey: "clientLimitReached",
+        limit: limitCheck.limit,
+        currentCount: limitCheck.currentCount,
+        attemptedToAdd: cleanedRows.length,
+      };
+    }
+
     await db.insert(clients).values(cleanedRows);
 
     revalidatePath("/");
@@ -432,4 +456,66 @@ export async function exportClients(lang: string) {
     success: true,
     file: Buffer.from(buffer).toString("base64"),
   };
+}
+
+// Subscription Actions
+
+export async function createCheckoutSession(priceId: string) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    // Validate price ID
+    const validPriceIds = [
+      process.env.STRIPE_PRICE_ID_STARTER,
+      process.env.STRIPE_PRICE_ID_PRO,
+    ];
+
+    if (!validPriceIds.includes(priceId)) {
+      return { success: false, errorKey: "invalidPriceId" };
+    }
+
+    // Import Stripe utilities directly
+    const { createCheckoutSessionUrl } = await import("@/lib/stripe");
+    const checkoutUrl = await createCheckoutSessionUrl(session.user.id, priceId);
+
+    return { success: true, url: checkoutUrl };
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    return { success: false, errorKey: "checkoutError" };
+  }
+}
+
+export async function createPortalSession() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    // Import utilities directly
+    const { getUserSubscription } = await import("@/lib/subscription");
+    const { createPortalSessionUrl } = await import("@/lib/stripe");
+
+    const subscription = await getUserSubscription(session.user.id);
+
+    if (!subscription.stripeCustomerId) {
+      return { success: false, errorKey: "noStripeCustomer" };
+    }
+
+    const portalUrl = await createPortalSessionUrl(subscription.stripeCustomerId);
+
+    return { success: true, url: portalUrl };
+  } catch (error) {
+    console.error("Error creating portal session:", error);
+    return { success: false, errorKey: "portalError" };
+  }
 }

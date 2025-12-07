@@ -195,6 +195,78 @@ export const translations = {
       "Format phone column as Text to preserve leading zeros (e.g., 0612345678)",
     viewExample: "View example",
     hideExample: "Hide example",
+
+    // Billing & Subscription
+    billing: "Billing",
+    subscription: "Subscription",
+    currentPlan: "Current Plan",
+    upgradePlan: "Upgrade Plan",
+    manageBilling: "Manage Billing",
+    price: "Price",
+    perMonth: "/month",
+    renewsOn: "Renews on",
+    expiresOn: "Expires on",
+    active: "Active",
+    pastDue: "Past Due",
+    canceledAtPeriodEnd: "Canceled",
+
+    // Plans
+    planFree: "Free",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Perfect for getting started",
+    planStarterDescription: "For growing businesses",
+    planProDescription: "For established businesses",
+
+    // Features
+    feature10Clients: "Up to 10 clients",
+    feature100Clients: "Up to 100 clients",
+    featureUnlimitedClients: "Unlimited clients",
+    featureOwnTwilio: "Use your own Twilio account",
+    featureManagedSms: "Managed SMS (included)",
+    featureBasicSupport: "Basic support",
+    featurePrioritySupport: "Priority support",
+    featurePremiumSupport: "Premium support",
+    featureAdvancedTemplates: "Advanced templates",
+    featureCustomBranding: "Custom branding",
+    ownTwilio: "Own Twilio",
+    managedSms: "Managed SMS",
+    unlimitedClients: "Unlimited clients",
+    managedSmsDescription:
+      "Let us handle SMS delivery for you - no Twilio account needed",
+    managedSmsActiveDescription:
+      "We're handling SMS delivery for you. Toggle off to use your own Twilio account.",
+    managedSmsEnabled: "Managed SMS is Active",
+    managedSmsEnabledDescription:
+      "We're handling SMS delivery for you. Your messages will be sent using our reliable infrastructure.",
+    noTwilioAccountNeeded: "No Twilio account needed",
+    autoConfiguration: "Automatic configuration",
+    reliableDelivery: "Reliable message delivery",
+
+    // Usage Stats
+    usageStats: "Usage Statistics",
+    clientUsageTracking: "Track your client usage",
+    clientsUsed: "clients used",
+    clientsUsedOf: "of {total} clients",
+    used: "used",
+    clientsRemaining: "{remaining} clients remaining",
+    approachingLimit: "Approaching your limit",
+    considerUpgrading: "Consider upgrading to add more clients",
+    viewPlans: "View Plans",
+
+    // Errors & Messages
+    clientLimitReached: "Client limit reached",
+    upgradeToAddMoreClients: "Upgrade your plan to add more clients",
+    checkoutError: "Failed to create checkout session",
+    portalError: "Failed to open billing portal",
+    paymentFailedMessage: "Your payment failed. Please update your payment method to continue using premium features.",
+    subscriptionCanceledMessage: "Your subscription will be canceled at the end of the billing period. You can reactivate it anytime.",
+    subscriptionUpdated: "Your subscription has been updated successfully!",
+    checkoutCanceled: "Checkout was canceled. You can try again anytime.",
+    contactSales: "Contact Sales",
+    upgradeToPlan: "Upgrade to {plan}",
+    smsHandling: "SMS Handling",
+    canceled: "Canceled",
   },
   pt: {
     // Auth
@@ -397,6 +469,78 @@ export const translations = {
       "Formate a coluna de telefone como Texto para preservar zeros à esquerda (ex: 0612345678)",
     viewExample: "Ver exemplo",
     hideExample: "Ocultar exemplo",
+
+    // Billing & Subscription
+    billing: "Faturação",
+    subscription: "Subscrição",
+    currentPlan: "Plano Atual",
+    upgradePlan: "Fazer Upgrade",
+    manageBilling: "Gerir Faturação",
+    price: "Preço",
+    perMonth: "/mês",
+    renewsOn: "Renova em",
+    expiresOn: "Expira em",
+    active: "Ativo",
+    pastDue: "Pagamento Atrasado",
+    canceledAtPeriodEnd: "Cancelado",
+
+    // Plans
+    planFree: "Grátis",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Perfeito para começar",
+    planStarterDescription: "Para negócios em crescimento",
+    planProDescription: "Para negócios estabelecidos",
+
+    // Features
+    feature10Clients: "Até 10 clientes",
+    feature100Clients: "Até 100 clientes",
+    featureUnlimitedClients: "Clientes ilimitados",
+    featureOwnTwilio: "Use a sua própria conta Twilio",
+    featureManagedSms: "SMS gerido (incluído)",
+    featureBasicSupport: "Suporte básico",
+    featurePrioritySupport: "Suporte prioritário",
+    featurePremiumSupport: "Suporte premium",
+    featureAdvancedTemplates: "Modelos avançados",
+    featureCustomBranding: "Marca personalizada",
+    ownTwilio: "Twilio Próprio",
+    managedSms: "SMS Gerido",
+    unlimitedClients: "Clientes ilimitados",
+    managedSmsDescription:
+      "Deixe-nos lidar com o envio de SMS por si - não precisa de conta Twilio",
+    managedSmsActiveDescription:
+      "Estamos a lidar com o envio de SMS por si. Desative para usar a sua própria conta Twilio.",
+    managedSmsEnabled: "SMS Gerido Ativo",
+    managedSmsEnabledDescription:
+      "Estamos a lidar com o envio de SMS por si. As suas mensagens serão enviadas usando a nossa infraestrutura confiável.",
+    noTwilioAccountNeeded: "Não precisa de conta Twilio",
+    autoConfiguration: "Configuração automática",
+    reliableDelivery: "Entrega confiável de mensagens",
+
+    // Usage Stats
+    usageStats: "Estatísticas de Uso",
+    clientUsageTracking: "Acompanhe o uso de clientes",
+    clientsUsed: "clientes usados",
+    clientsUsedOf: "de {total} clientes",
+    used: "usado",
+    clientsRemaining: "{remaining} clientes restantes",
+    approachingLimit: "A aproximar-se do limite",
+    considerUpgrading: "Considere fazer upgrade para adicionar mais clientes",
+    viewPlans: "Ver Planos",
+
+    // Errors & Messages
+    clientLimitReached: "Limite de clientes atingido",
+    upgradeToAddMoreClients: "Faça upgrade do seu plano para adicionar mais clientes",
+    checkoutError: "Erro ao criar sessão de pagamento",
+    portalError: "Erro ao abrir portal de faturação",
+    paymentFailedMessage: "O seu pagamento falhou. Por favor atualize o método de pagamento para continuar a usar funcionalidades premium.",
+    subscriptionCanceledMessage: "A sua subscrição será cancelada no final do período de faturação. Pode reativá-la a qualquer momento.",
+    subscriptionUpdated: "A sua subscrição foi atualizada com sucesso!",
+    checkoutCanceled: "O pagamento foi cancelado. Pode tentar novamente a qualquer momento.",
+    contactSales: "Contactar Vendas",
+    upgradeToPlan: "Upgrade para {plan}",
+    smsHandling: "Gestão de SMS",
+    canceled: "Cancelado",
   },
   fr: {
     // Auth
@@ -600,6 +744,78 @@ export const translations = {
       "Formatez la colonne téléphone en Texte pour conserver les zéros de tête (ex : 0612345678)",
     viewExample: "Voir l'exemple",
     hideExample: "Masquer l'exemple",
+
+    // Billing & Subscription
+    billing: "Facturation",
+    subscription: "Abonnement",
+    currentPlan: "Plan Actuel",
+    upgradePlan: "Mettre à niveau",
+    manageBilling: "Gérer la facturation",
+    price: "Prix",
+    perMonth: "/mois",
+    renewsOn: "Renouvellement le",
+    expiresOn: "Expire le",
+    active: "Actif",
+    pastDue: "Paiement en retard",
+    canceledAtPeriodEnd: "Annulé",
+
+    // Plans
+    planFree: "Gratuit",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Parfait pour commencer",
+    planStarterDescription: "Pour les entreprises en croissance",
+    planProDescription: "Pour les entreprises établies",
+
+    // Features
+    feature10Clients: "Jusqu'à 10 clients",
+    feature100Clients: "Jusqu'à 100 clients",
+    featureUnlimitedClients: "Clients illimités",
+    featureOwnTwilio: "Utilisez votre propre compte Twilio",
+    featureManagedSms: "SMS géré (inclus)",
+    featureBasicSupport: "Support de base",
+    featurePrioritySupport: "Support prioritaire",
+    featurePremiumSupport: "Support premium",
+    featureAdvancedTemplates: "Modèles avancés",
+    featureCustomBranding: "Marque personnalisée",
+    ownTwilio: "Twilio propre",
+    managedSms: "SMS géré",
+    unlimitedClients: "Clients illimités",
+    managedSmsDescription:
+      "Laissez-nous gérer l'envoi de SMS pour vous - pas besoin de compte Twilio",
+    managedSmsActiveDescription:
+      "Nous gérons l'envoi de SMS pour vous. Désactivez pour utiliser votre propre compte Twilio.",
+    managedSmsEnabled: "SMS Géré Actif",
+    managedSmsEnabledDescription:
+      "Nous gérons l'envoi de SMS pour vous. Vos messages seront envoyés via notre infrastructure fiable.",
+    noTwilioAccountNeeded: "Pas besoin de compte Twilio",
+    autoConfiguration: "Configuration automatique",
+    reliableDelivery: "Livraison fiable des messages",
+
+    // Usage Stats
+    usageStats: "Statistiques d'utilisation",
+    clientUsageTracking: "Suivez votre utilisation des clients",
+    clientsUsed: "clients utilisés",
+    clientsUsedOf: "sur {total} clients",
+    used: "utilisé",
+    clientsRemaining: "{remaining} clients restants",
+    approachingLimit: "Approche de votre limite",
+    considerUpgrading: "Envisagez de mettre à niveau pour ajouter plus de clients",
+    viewPlans: "Voir les plans",
+
+    // Errors & Messages
+    clientLimitReached: "Limite de clients atteinte",
+    upgradeToAddMoreClients: "Mettez à niveau votre plan pour ajouter plus de clients",
+    checkoutError: "Échec de la création de la session de paiement",
+    portalError: "Échec de l'ouverture du portail de facturation",
+    paymentFailedMessage: "Votre paiement a échoué. Veuillez mettre à jour votre méthode de paiement pour continuer à utiliser les fonctionnalités premium.",
+    subscriptionCanceledMessage: "Votre abonnement sera annulé à la fin de la période de facturation. Vous pouvez le réactiver à tout moment.",
+    subscriptionUpdated: "Votre abonnement a été mis à jour avec succès!",
+    checkoutCanceled: "Le paiement a été annulé. Vous pouvez réessayer à tout moment.",
+    contactSales: "Contacter les ventes",
+    upgradeToPlan: "Passer à {plan}",
+    smsHandling: "Gestion des SMS",
+    canceled: "Annulé",
   },
 } as const;
 
