@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/db";
-import { subscriptions } from "@/db/schema";
+import { subscriptions, settings } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import Stripe from "stripe";
+import { PLAN } from "@/constants";
 
 // Force dynamic rendering and disable static optimization
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
   console.log("\n\n");
@@ -147,7 +148,10 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     });
 
     // Log the entire subscription object to see what fields are actually available
-    console.log("🔍 Full subscription object keys:", Object.keys(stripeSubscription));
+    console.log(
+      "🔍 Full subscription object keys:",
+      Object.keys(stripeSubscription)
+    );
 
     // Find user by customer ID
     console.log("🔍 Looking up user by customer ID:", customerId);
@@ -185,9 +189,10 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     let currentPeriodEnd: Date | null = null;
     if (stripeSubscription.latest_invoice) {
       try {
-        const invoiceId = typeof stripeSubscription.latest_invoice === 'string'
-          ? stripeSubscription.latest_invoice
-          : stripeSubscription.latest_invoice.id;
+        const invoiceId =
+          typeof stripeSubscription.latest_invoice === "string"
+            ? stripeSubscription.latest_invoice
+            : stripeSubscription.latest_invoice.id;
 
         const invoice = await stripe.invoices.retrieve(invoiceId);
         if (invoice.period_end) {
@@ -225,9 +230,39 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeSubscriptionId: verifySubscription?.stripeSubscriptionId,
     });
 
+    // Enable managed SMS for paid plans (starter or pro)
+    if (planType === PLAN.STARTER || planType === PLAN.PRO) {
+      console.log("📧 Enabling managed SMS for paid plan user");
+
+      // Check if settings exist
+      const userSettings = await db.query.settings.findFirst({
+        where: eq(settings.userId, userSubscription.userId),
+      });
+
+      if (userSettings) {
+        // Update existing settings
+        await db
+          .update(settings)
+          .set({
+            useManagedSms: true,
+            updatedAt: new Date(),
+          })
+          .where(eq(settings.userId, userSubscription.userId));
+        console.log("✅ Updated existing settings to enable managed SMS");
+      } else {
+        // Create new settings with managed SMS enabled
+        await db.insert(settings).values({
+          userId: userSubscription.userId,
+          useManagedSms: true,
+        });
+        console.log("✅ Created new settings with managed SMS enabled");
+      }
+    }
+
     // Revalidate billing page to show updated subscription
     revalidatePath("/billing");
     revalidatePath("/");
+    revalidatePath("/settings");
 
     console.log("🎉 Checkout completed successfully!");
   } catch (error) {
@@ -280,9 +315,10 @@ async function handleSubscriptionUpdated(
     let currentPeriodEnd: Date | null = null;
     if (stripeSubscription.latest_invoice) {
       try {
-        const invoiceId = typeof stripeSubscription.latest_invoice === 'string'
-          ? stripeSubscription.latest_invoice
-          : stripeSubscription.latest_invoice.id;
+        const invoiceId =
+          typeof stripeSubscription.latest_invoice === "string"
+            ? stripeSubscription.latest_invoice
+            : stripeSubscription.latest_invoice.id;
 
         const invoice = await stripe.invoices.retrieve(invoiceId);
         if (invoice.period_end) {
@@ -310,9 +346,57 @@ async function handleSubscriptionUpdated(
 
     console.log("✅ Subscription updated successfully:", updateResult);
 
+    // Enable managed SMS for paid plans (starter or pro)
+    if (planType === "starter" || planType === "pro") {
+      console.log("📧 Enabling managed SMS for paid plan user");
+
+      // Check if settings exist
+      const userSettings = await db.query.settings.findFirst({
+        where: eq(settings.userId, userSubscription.userId),
+      });
+
+      if (userSettings) {
+        // Update existing settings
+        await db
+          .update(settings)
+          .set({
+            useManagedSms: true,
+            updatedAt: new Date(),
+          })
+          .where(eq(settings.userId, userSubscription.userId));
+        console.log("✅ Updated existing settings to enable managed SMS");
+      } else {
+        // Create new settings with managed SMS enabled
+        await db.insert(settings).values({
+          userId: userSubscription.userId,
+          useManagedSms: true,
+        });
+        console.log("✅ Created new settings with managed SMS enabled");
+      }
+    } else if (planType === PLAN.FREE) {
+      // Disable managed SMS for free plan
+      console.log("📧 Disabling managed SMS for free plan user");
+
+      const userSettings = await db.query.settings.findFirst({
+        where: eq(settings.userId, userSubscription.userId),
+      });
+
+      if (userSettings) {
+        await db
+          .update(settings)
+          .set({
+            useManagedSms: false,
+            updatedAt: new Date(),
+          })
+          .where(eq(settings.userId, userSubscription.userId));
+        console.log("✅ Disabled managed SMS for free plan user");
+      }
+    }
+
     // Revalidate billing page to show updated subscription
     revalidatePath("/billing");
     revalidatePath("/");
+    revalidatePath("/settings");
   } catch (error) {
     console.error("💥 ERROR in handleSubscriptionUpdated:", error);
     console.error("Error stack:", error instanceof Error ? error.stack : "N/A");
@@ -341,7 +425,7 @@ async function handleSubscriptionDeleted(
     .set({
       stripeSubscriptionId: null,
       stripePriceId: null,
-      planType: "free",
+      planType: PLAN.FREE,
       status: "canceled",
       currentPeriodEnd: null,
       cancelAtPeriodEnd: false,
@@ -351,9 +435,26 @@ async function handleSubscriptionDeleted(
 
   console.log(`Subscription canceled for user ${userSubscription.userId}`);
 
+  // Disable managed SMS for canceled subscription
+  const userSettings = await db.query.settings.findFirst({
+    where: eq(settings.userId, userSubscription.userId),
+  });
+
+  if (userSettings) {
+    await db
+      .update(settings)
+      .set({
+        useManagedSms: false,
+        updatedAt: new Date(),
+      })
+      .where(eq(settings.userId, userSubscription.userId));
+    console.log("✅ Disabled managed SMS for canceled subscription");
+  }
+
   // Revalidate billing page to show updated subscription
   revalidatePath("/billing");
   revalidatePath("/");
+  revalidatePath("/settings");
 }
 
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
@@ -416,19 +517,19 @@ function getPlanTypeFromPriceId(priceId: string | undefined): string {
 
   if (!priceId) {
     console.log("⚠️  No price ID provided, defaulting to free");
-    return "free";
+    return PLAN.FREE;
   }
 
   if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
     console.log("✅ Matched STARTER plan");
-    return "starter";
+    return PLAN.PRO;
   }
 
   if (priceId === process.env.STRIPE_PRICE_ID_PRO) {
     console.log("✅ Matched PRO plan");
-    return "pro";
+    return PLAN.PRO;
   }
 
   console.log("⚠️  Price ID didn't match any plan, defaulting to free");
-  return "free";
+  return PLAN.FREE;
 }

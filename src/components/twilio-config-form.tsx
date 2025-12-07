@@ -121,9 +121,9 @@ export function TwilioConfigForm({
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
+    <div className="flex flex-col lg:flex-row gap-4">
       {/* Sidebar Navigation */}
-      <div className="lg:w-64 flex-shrink-0">
+      <div className="lg:w-56 flex-shrink-0">
         <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -133,13 +133,13 @@ export function TwilioConfigForm({
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 whitespace-nowrap",
+                  "flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 whitespace-nowrap",
                   activeTab === tab.id
                     ? "bg-primary text-primary-foreground shadow-fintech"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
             );
@@ -149,7 +149,7 @@ export function TwilioConfigForm({
 
       {/* Main Content Area */}
       <div className="flex-1">
-        <form action={handleSubmit} className="space-y-6">
+        <form action={handleSubmit} className="space-y-5">
           {/* Hidden inputs to preserve values from other tabs */}
           {activeTab !== "business" && (
             <>
@@ -208,6 +208,12 @@ export function TwilioConfigForm({
               )}
             </>
           )}
+          {/* Always include useManagedSms value */}
+          <input
+            type="hidden"
+            name="useManagedSms"
+            value={useManagedSms ? "true" : "false"}
+          />
 
           {/* Business Information Section */}
           {activeTab === "business" && (
@@ -220,8 +226,8 @@ export function TwilioConfigForm({
                   {t("businessDetails")}
                 </p>
               </div>
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="businessName"
                     className="text-sm font-medium text-foreground"
@@ -238,14 +244,14 @@ export function TwilioConfigForm({
                       updateFormValue("businessName", e.target.value)
                     }
                     required
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("businessNameHint")}
                   </p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="businessContact"
                     className="text-sm font-medium text-foreground"
@@ -261,14 +267,14 @@ export function TwilioConfigForm({
                     onChange={(e) =>
                       updateFormValue("businessContact", e.target.value)
                     }
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("businessContactHint")}
                   </p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="reminderDaysBefore"
                     className="text-sm font-medium text-foreground"
@@ -286,7 +292,7 @@ export function TwilioConfigForm({
                     onChange={(e) =>
                       updateFormValue("reminderDaysBefore", e.target.value)
                     }
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("reminderDaysBeforeHint")}
@@ -308,8 +314,8 @@ export function TwilioConfigForm({
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="smsTemplate"
                     className="text-sm font-medium text-foreground"
@@ -431,7 +437,7 @@ export function TwilioConfigForm({
               {/* Conditional Rendering Based on Managed SMS */}
               {useManagedSms && isPaidPlan ? (
                 // Show info banner when using managed SMS
-                <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech">
+                <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
                       <Check className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -462,8 +468,8 @@ export function TwilioConfigForm({
                 </div>
               ) : (
                 // Show Twilio configuration fields
-                <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                  <div className="space-y-2">
+                <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                  <div className="space-y-1.5">
                     <Label
                       htmlFor="accountSid"
                       className="text-sm font-medium text-foreground"
@@ -484,7 +490,7 @@ export function TwilioConfigForm({
                     />
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label
                       htmlFor="authToken"
                       className="text-sm font-medium text-foreground"
@@ -521,7 +527,7 @@ export function TwilioConfigForm({
                     </p>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <Label
                       htmlFor="phoneNumber"
                       className="text-sm font-medium text-foreground"
@@ -538,7 +544,7 @@ export function TwilioConfigForm({
                         updateFormValue("phoneNumber", e.target.value)
                       }
                       required
-                      className="h-11 rounded-xl border-border/40"
+                      className="h-9 rounded-xl border-border/40"
                     />
                     <p className="text-xs text-muted-foreground">
                       {t("twilioPhoneHint")}
@@ -599,8 +605,8 @@ export function TwilioConfigForm({
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="testPhone"
                     className="text-sm font-medium text-foreground"
@@ -613,7 +619,7 @@ export function TwilioConfigForm({
                     placeholder="+351912345678"
                     value={testPhone}
                     onChange={(e) => setTestPhone(e.target.value)}
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("testPhoneHint")}
@@ -624,7 +630,7 @@ export function TwilioConfigForm({
                   type="button"
                   variant="outline"
                   onClick={handleSendTest}
-                  disabled={testLoading || !formValues.accountSid}
+                  disabled={testLoading}
                   className="w-full sm:w-auto h-10 rounded-xl border-border/40"
                 >
                   <Send className="mr-2 h-4 w-4" />
@@ -635,12 +641,12 @@ export function TwilioConfigForm({
           )}
 
           {/* Save Button */}
-          <div className="flex justify-end pt-6 border-t border-border/40">
+          <div className="flex justify-end pt-4 border-t border-border/40">
             <Button
               type="submit"
               disabled={loading}
-              size="lg"
-              className="w-full sm:w-auto h-11 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
+              size="default"
+              className="w-full sm:w-auto h-9 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
             >
               <Save className="mr-2 h-4 w-4" />
               {loading ? t("saving") : t("saveChanges")}

@@ -215,10 +215,12 @@ export async function saveTwilioConfig(formData: FormData) {
     const businessContact = formData.get("businessContact") as string;
     const reminderDaysBefore = formData.get("reminderDaysBefore") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
+    const useManagedSms = formData.get("useManagedSms") === "on" || formData.get("useManagedSms") === "true";
 
     // Build update object with only provided values
     const updateData: any = {
       updatedAt: new Date(),
+      useManagedSms: useManagedSms, // Always update this field
     };
 
     if (accountSid?.trim()) updateData.twilioAccountSid = accountSid.trim();
@@ -275,6 +277,8 @@ export async function sendTestSMS(
       return { success: false, errorKey: "unauthorized" };
     }
 
+    const formattedPhone = formatPhone(phone);
+
     const message =
       lang === LANG.PT
         ? `Ola! Mensagem de teste do ${businessName}. Se recebeu isto, tudo esta a funcionar corretamente.`
@@ -282,7 +286,7 @@ export async function sendTestSMS(
         ? `Bonjour! Message de test de ${businessName}. Si vous recevez ceci, tout fonctionne correctement.`
         : `Hello! Test message from ${businessName}. If you received this, everything is working correctly.`;
 
-    const result = await sendSMS(phone, message, session.user.id);
+    const result = await sendSMS(formattedPhone, message, session.user.id);
 
     if (result.success) {
       return { success: true, messageKey: "testSmsSentSuccess" };

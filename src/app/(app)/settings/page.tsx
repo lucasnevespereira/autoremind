@@ -1,11 +1,11 @@
 import { TwilioConfigForm } from "@/components/twilio-config-form";
-import { SettingsHeader } from "@/components/settings-header";
 import { db } from "@/db";
 import { settings, subscriptions } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
 import { decrypt } from "@/lib/encryption";
+import { PLAN } from "@/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -42,13 +42,11 @@ export default async function SettingsPage() {
     "Hello {client_name}, your {client_resource} is scheduled for {reminder_date}. Please contact {business_name} to confirm. Thank you!";
   const useManagedSms = userSettings?.useManagedSms || false;
 
-  const planType = userSubscription?.planType || "free";
-  const isPaidPlan = planType === "starter" || planType === "pro";
+  const planType = userSubscription?.planType || PLAN.FREE;
+  const isPaidPlan = planType === PLAN.STARTER || planType === PLAN.PRO;
 
   return (
     <div className="max-w-6xl animate-fade-in">
-      <SettingsHeader />
-
       <TwilioConfigForm
         initialValues={{
           accountSid,

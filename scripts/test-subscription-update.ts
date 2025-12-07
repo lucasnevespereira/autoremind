@@ -7,7 +7,10 @@ import { db } from "../src/db";
 import { subscriptions } from "../src/db/schema";
 import { eq } from "drizzle-orm";
 
-async function updateSubscription(userId: string, planType: "free" | "starter" | "pro") {
+async function updateSubscription(
+  userId: string,
+  planType: "free" | "starter" | "pro"
+) {
   console.log(`🔄 Updating subscription for user ${userId} to ${planType}...`);
 
   const priceIds: Record<string, string | null> = {
@@ -41,8 +44,12 @@ const userId = process.argv[2];
 const planType = process.argv[3] as "free" | "starter" | "pro";
 
 if (!userId || !planType) {
-  console.error("Usage: npx tsx scripts/test-subscription-update.ts <userId> <planType>");
-  console.error("Example: npx tsx scripts/test-subscription-update.ts 0Bo6d2fonfSv2B7bHrm2JhFagD5fsBUt starter");
+  console.error(
+    "Usage: npx tsx scripts/test-subscription-update.ts <userId> <planType>"
+  );
+  console.error(
+    "Example: npx tsx scripts/test-subscription-update.ts 0Bo6d2fonfSv2B7bHrm2JhFagD5fsBUt starter"
+  );
   process.exit(1);
 }
 

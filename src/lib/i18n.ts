@@ -162,7 +162,7 @@ export const translations = {
     // Tabs
     business: "Business",
     template: "SMS Template",
-    twilioConfig: "Twilio Config",
+    twilioConfig: "SMS Provider",
     test: "Test SMS",
 
     // Pagination
@@ -198,6 +198,12 @@ export const translations = {
 
     // Billing & Subscription
     billing: "Billing",
+    manageBillingDescription: "Manage your subscription and billing",
+    allPlans: "All Plans",
+    upgradeYourPlan: "Upgrade Your Plan",
+    bestPlanDescription:
+      "You're on the best plan. Manage your subscription on the left.",
+    choosePlanDescription: "Choose the plan that fits your needs",
     subscription: "Subscription",
     currentPlan: "Current Plan",
     upgradePlan: "Upgrade Plan",
@@ -270,6 +276,34 @@ export const translations = {
     upgradeToPlan: "Upgrade to {plan}",
     smsHandling: "SMS Handling",
     canceled: "Canceled",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirm Upgrade",
+    confirmDowngrade: "Confirm Downgrade",
+    newPlan: "New Plan",
+    whatHappensNext: "What happens next?",
+    proratedChargeExplanation:
+      "You'll be charged a prorated amount for the plan difference",
+    immediateAccessExplanation:
+      "You'll get immediate access to all new features",
+    nextBillingExplanation: "Your next billing cycle will be at the new price",
+    nextBillingLowerPriceExplanation:
+      "Your next billing cycle will be at the lower price",
+    paymentRequired: "Payment of {price}/month required",
+    monthlyBillingExplanation: "You'll be billed monthly",
+    downgradeCreditExplanation:
+      "You'll receive a prorated credit for the difference",
+    downgradeFreePortalExplanation:
+      "Use the billing portal to cancel your subscription",
+    downgradeTakesEffectExplanation:
+      "Changes take effect at the end of your billing period",
+    invalidPriceId: "Invalid price ID",
+    newPrice: "New price",
+    processing: "Processing...",
+    openBillingPortal: "Open Billing Portal",
+    confirm: "Confirm",
+    downgradePlan: "Downgrade",
+    notAvailable: "Not Available",
   },
   pt: {
     // Auth
@@ -437,7 +471,7 @@ export const translations = {
     // Tabs
     business: "Negócio",
     template: "Modelo de SMS",
-    twilioConfig: "Config. Twilio",
+    twilioConfig: "Provedor SMS",
     test: "Testar SMS",
 
     // Pagination
@@ -475,6 +509,12 @@ export const translations = {
 
     // Billing & Subscription
     billing: "Faturação",
+    manageBillingDescription: "Gerir a sua subscrição e faturação",
+    allPlans: "Todos os Planos",
+    upgradeYourPlan: "Fazer Upgrade do Plano",
+    bestPlanDescription:
+      "Está no melhor plano. Gira a sua subscrição à esquerda.",
+    choosePlanDescription: "Escolha o plano que se adequa às suas necessidades",
     subscription: "Subscrição",
     currentPlan: "Plano Atual",
     upgradePlan: "Fazer Upgrade",
@@ -549,6 +589,34 @@ export const translations = {
     upgradeToPlan: "Upgrade para {plan}",
     smsHandling: "Gestão de SMS",
     canceled: "Cancelado",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirmar Upgrade",
+    confirmDowngrade: "Confirmar Downgrade",
+    newPlan: "Novo Plano",
+    whatHappensNext: "O que acontece a seguir?",
+    proratedChargeExplanation:
+      "Será cobrado um valor proporcional pela diferença do plano",
+    immediateAccessExplanation:
+      "Terá acesso imediato a todas as novas funcionalidades",
+    nextBillingExplanation: "O próximo ciclo de faturação será ao novo preço",
+    nextBillingLowerPriceExplanation:
+      "O próximo ciclo de faturação será ao preço mais baixo",
+    paymentRequired: "Pagamento de {price}/mês necessário",
+    monthlyBillingExplanation: "Será faturado mensalmente",
+    downgradeCreditExplanation:
+      "Receberá um crédito proporcional pela diferença",
+    downgradeFreePortalExplanation:
+      "Use o portal de faturação para cancelar a sua subscrição",
+    downgradeTakesEffectExplanation:
+      "As alterações entram em vigor no final do período de faturação",
+    invalidPriceId: "ID de preço inválido",
+    newPrice: "Novo preço",
+    processing: "A processar...",
+    openBillingPortal: "Abrir Portal de Faturação",
+    confirm: "Confirmar",
+    downgradePlan: "Downgrade",
+    notAvailable: "Não Disponível",
   },
   fr: {
     // Auth
@@ -717,7 +785,7 @@ export const translations = {
     // Tabs
     business: "Entreprise",
     template: "Modèle de SMS",
-    twilioConfig: "Config. Twilio",
+    twilioConfig: "Fournisseur SMS",
     test: "Test SMS",
 
     // Pagination
@@ -755,6 +823,12 @@ export const translations = {
 
     // Billing & Subscription
     billing: "Facturation",
+    manageBillingDescription: "Gérer votre abonnement et facturation",
+    allPlans: "Tous les forfaits",
+    upgradeYourPlan: "Mettre à niveau votre forfait",
+    bestPlanDescription:
+      "Vous êtes sur le meilleur forfait. Gérez votre abonnement sur la gauche.",
+    choosePlanDescription: "Choisissez le forfait qui correspond à vos besoins",
     subscription: "Abonnement",
     currentPlan: "Plan Actuel",
     upgradePlan: "Mettre à niveau",
@@ -830,6 +904,35 @@ export const translations = {
     upgradeToPlan: "Passer à {plan}",
     smsHandling: "Gestion des SMS",
     canceled: "Annulé",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirmer la mise à niveau",
+    confirmDowngrade: "Confirmer la rétrogradation",
+    newPlan: "Nouveau forfait",
+    whatHappensNext: "Que se passe-t-il ensuite ?",
+    proratedChargeExplanation:
+      "Vous serez facturé un montant au prorata de la différence",
+    immediateAccessExplanation:
+      "Vous aurez un accès immédiat à toutes les nouvelles fonctionnalités",
+    nextBillingExplanation:
+      "Votre prochain cycle de facturation sera au nouveau prix",
+    nextBillingLowerPriceExplanation:
+      "Votre prochain cycle de facturation sera au prix inférieur",
+    paymentRequired: "Paiement de {price}/mois requis",
+    monthlyBillingExplanation: "Vous serez facturé mensuellement",
+    downgradeCreditExplanation:
+      "Vous recevrez un crédit au prorata de la différence",
+    downgradeFreePortalExplanation:
+      "Utilisez le portail de facturation pour annuler votre abonnement",
+    downgradeTakesEffectExplanation:
+      "Les modifications prennent effet à la fin de votre période de facturation",
+    invalidPriceId: "ID de prix invalide",
+    newPrice: "Nouveau prix",
+    processing: "Traitement en cours...",
+    openBillingPortal: "Ouvrir le portail de facturation",
+    confirm: "Confirmer",
+    downgradePlan: "Rétrograder",
+    notAvailable: "Non disponible",
   },
 } as const;
 

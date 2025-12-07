@@ -9,12 +9,12 @@ export function SettingsHeader() {
   const { t } = useLanguage();
 
   return (
-    <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           {t("settingsTitle")}
         </h1>
-        <p className="text-muted-foreground mt-1.5">
+        <p className="text-sm text-muted-foreground mt-1">
           {t("configureBusinessInfo")}
         </p>
       </div>

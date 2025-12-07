@@ -88,13 +88,13 @@ export async function createCheckoutSessionUrl(
       currentPlanType: subscription?.planType,
     });
 
-    // If user has an active Stripe subscription, update it instead of creating a new one
+    // If user has an active Stripe subscription, update it (works for both upgrades AND downgrades)
     if (subscription?.stripeSubscriptionId && subscription.planType !== "free") {
       console.log("User has existing subscription - updating instead of creating new one");
       return await updateSubscriptionPlan(userId, subscription.stripeSubscriptionId, priceId);
     }
 
-    // Otherwise, create a new checkout session
+    // Otherwise, create a new checkout session (for free → paid)
     console.log("Creating Stripe checkout session:", {
       userId,
       customerId,
