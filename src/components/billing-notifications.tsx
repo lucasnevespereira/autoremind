@@ -14,6 +14,7 @@ export function BillingNotifications() {
   useEffect(() => {
     const success = searchParams.get("success");
     const canceled = searchParams.get("canceled");
+    const updated = searchParams.get("updated");
 
     if (success === "true") {
       // Force a hard refresh to get latest subscription data from server
@@ -27,6 +28,21 @@ export function BillingNotifications() {
       // Clean up URL
       const url = new URL(window.location.href);
       url.searchParams.delete("success");
+      window.history.replaceState({}, "", url.toString());
+    }
+
+    if (updated === "true") {
+      // Force a hard refresh to get latest subscription data from server
+      router.refresh();
+
+      toast({
+        title: t("success"),
+        description: t("subscriptionUpdated"),
+      });
+
+      // Clean up URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete("updated");
       window.history.replaceState({}, "", url.toString());
     }
 

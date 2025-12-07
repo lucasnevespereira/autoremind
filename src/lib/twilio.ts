@@ -1,7 +1,7 @@
 import twilio from "twilio";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { decrypt } from "./encryption";
 
 export async function getTwilioConfig(userId: string) {

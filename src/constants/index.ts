@@ -8,3 +8,9 @@ export enum LANG {
   PT = "pt",
   FR = "fr",
 }
+
+export enum PLAN {
+  FREE = "free",
+  STARTER = "starter",
+  PRO = "pro",
+}

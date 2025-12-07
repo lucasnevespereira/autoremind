@@ -28,7 +28,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       toast({
         variant: "destructive",
         title: t("error"),
-        description: result.errorKey ? t(result.errorKey as any) : t("checkoutError"),
+        description: result.errorKey
+          ? t(result.errorKey as any)
+          : t("checkoutError"),
       });
     }
   }
@@ -46,7 +48,7 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       description: t("planFreeDescription"),
       icon: Star,
       features: [
-        t("feature10Clients"),
+        t("feature100Clients"),
         t("featureOwnTwilio"),
         t("featureBasicSupport"),
       ],
@@ -66,7 +68,6 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
         t("feature100Clients"),
         t("featureManagedSms"),
         t("featurePrioritySupport"),
-        t("featureAdvancedTemplates"),
       ],
       color: "text-blue-600",
       bgColor: "bg-blue-100 dark:bg-blue-900/30",
@@ -84,8 +85,6 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
         t("featureUnlimitedClients"),
         t("featureManagedSms"),
         t("featurePremiumSupport"),
-        t("featureAdvancedTemplates"),
-        t("featureCustomBranding"),
       ],
       color: "text-purple-600",
       bgColor: "bg-purple-100 dark:bg-purple-900/30",
@@ -122,7 +121,12 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
             )}
 
             {/* Compact Icon */}
-            <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center mb-3", plan.bgColor)}>
+            <div
+              className={cn(
+                "w-10 h-10 rounded-lg flex items-center justify-center mb-3",
+                plan.bgColor
+              )}
+            >
               <Icon className={cn("h-5 w-5", plan.color)} />
             </div>
 
@@ -148,7 +152,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
               {plan.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-2 text-xs">
                   <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground leading-tight">{feature}</span>
+                  <span className="text-muted-foreground leading-tight">
+                    {feature}
+                  </span>
                 </li>
               ))}
             </ul>

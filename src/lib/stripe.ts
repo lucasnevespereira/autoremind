@@ -66,7 +66,7 @@ export async function getStripeCustomerId(userId: string): Promise<string> {
 }
 
 /**
- * Create a Stripe Checkout session URL for subscription
+ * Create a Stripe Checkout session URL for subscription OR update existing subscription
  */
 export async function createCheckoutSessionUrl(
   userId: string,
@@ -75,6 +75,26 @@ export async function createCheckoutSessionUrl(
   try {
     const customerId = await getStripeCustomerId(userId);
 
+    // Check if user has an existing active subscription
+    const subscription = await db.query.subscriptions.findFirst({
+      where: eq(subscriptions.userId, userId),
+    });
+
+    console.log("Processing subscription change:", {
+      userId,
+      customerId,
+      priceId,
+      hasExistingSubscription: !!subscription?.stripeSubscriptionId,
+      currentPlanType: subscription?.planType,
+    });
+
+    // If user has an active Stripe subscription, update it instead of creating a new one
+    if (subscription?.stripeSubscriptionId && subscription.planType !== "free") {
+      console.log("User has existing subscription - updating instead of creating new one");
+      return await updateSubscriptionPlan(userId, subscription.stripeSubscriptionId, priceId);
+    }
+
+    // Otherwise, create a new checkout session
     console.log("Creating Stripe checkout session:", {
       userId,
       customerId,
@@ -114,6 +134,81 @@ export async function createCheckoutSessionUrl(
     console.error("Error creating checkout session:", error);
     throw error;
   }
+}
+
+/**
+ * Update an existing subscription to a new plan
+ */
+export async function updateSubscriptionPlan(
+  userId: string,
+  subscriptionId: string,
+  newPriceId: string
+): Promise<string> {
+  try {
+    console.log("Updating existing subscription:", {
+      userId,
+      subscriptionId,
+      newPriceId,
+    });
+
+    // Retrieve the current subscription
+    const stripeSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+
+    // Get the subscription item ID (first item)
+    const subscriptionItemId = stripeSubscription.items.data[0]?.id;
+
+    if (!subscriptionItemId) {
+      throw new Error("No subscription item found");
+    }
+
+    // Update the subscription to the new price
+    const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
+      items: [
+        {
+          id: subscriptionItemId,
+          price: newPriceId,
+        },
+      ],
+      proration_behavior: "create_prorations", // Prorate the charges
+    });
+
+    console.log("Subscription updated successfully:", updatedSubscription.id);
+
+    // Determine the new plan type
+    const planType = getPlanTypeFromPriceId(newPriceId);
+
+    // Update the database
+    await db
+      .update(subscriptions)
+      .set({
+        stripePriceId: newPriceId,
+        planType: planType,
+        status: updatedSubscription.status,
+        updatedAt: new Date(),
+      })
+      .where(eq(subscriptions.userId, userId));
+
+    console.log("Database updated with new plan type:", planType);
+
+    // Return to billing page with success message
+    return `${process.env.NEXT_PUBLIC_APP_URL}/billing?updated=true`;
+  } catch (error) {
+    console.error("Error updating subscription:", error);
+    throw error;
+  }
+}
+
+/**
+ * Helper function to determine plan type from price ID
+ */
+function getPlanTypeFromPriceId(priceId: string): string {
+  if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
+    return "starter";
+  }
+  if (priceId === process.env.STRIPE_PRICE_ID_PRO) {
+    return "pro";
+  }
+  return "free";
 }
 
 /**
