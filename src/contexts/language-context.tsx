@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { translations, Language, TranslationKey } from "@/lib/i18n";
 import { LANG } from "@/constants";
 
@@ -15,25 +15,29 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Initialize language from localStorage
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      const savedLang = localStorage.getItem("autoremind-language") as Language;
-      if (
-        savedLang &&
-        (savedLang === LANG.EN ||
-          savedLang === LANG.PT ||
-          savedLang === LANG.FR)
-      ) {
-        return savedLang;
-      }
+  // Initialize with default language (server-side safe)
+  const [language, setLanguageState] = useState<Language>(LANG.EN);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  // Load saved language after hydration
+  useEffect(() => {
+    const savedLang = localStorage.getItem("autoremind-language") as Language;
+    if (
+      savedLang &&
+      (savedLang === LANG.EN ||
+        savedLang === LANG.PT ||
+        savedLang === LANG.FR)
+    ) {
+      setLanguageState(savedLang);
     }
-    return LANG.EN;
-  });
+    setIsHydrated(true);
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);
-    localStorage.setItem("autoremind-language", lang);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("autoremind-language", lang);
+    }
   };
 
   const t = (key: TranslationKey): string => {

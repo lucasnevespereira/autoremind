@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Search, Copy, Trash2, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";

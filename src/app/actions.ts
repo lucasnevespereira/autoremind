@@ -14,6 +14,31 @@ import { LANG } from "@/constants";
 import { encrypt } from "@/lib/encryption";
 import { canAddClients } from "@/lib/subscription";
 
+// User Actions
+export async function getUserClientCount() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const countResult = await db
+      .select()
+      .from(clients)
+      .where(eq(clients.userId, session.user.id));
+
+    return { success: true, count: countResult.length };
+  } catch (error) {
+    console.error("Error getting user client count:", error);
+    return { success: false, errorKey: "countError" };
+  }
+}
+
+// Client Actions
+
 export async function addClient(formData: FormData) {
   try {
     const session = await auth.api.getSession({
@@ -482,7 +507,10 @@ export async function createCheckoutSession(priceId: string) {
 
     // Import Stripe utilities directly
     const { createCheckoutSessionUrl } = await import("@/lib/stripe");
-    const checkoutUrl = await createCheckoutSessionUrl(session.user.id, priceId);
+    const checkoutUrl = await createCheckoutSessionUrl(
+      session.user.id,
+      priceId
+    );
 
     return { success: true, url: checkoutUrl };
   } catch (error) {
@@ -511,7 +539,9 @@ export async function createPortalSession() {
       return { success: false, errorKey: "noStripeCustomer" };
     }
 
-    const portalUrl = await createPortalSessionUrl(subscription.stripeCustomerId);
+    const portalUrl = await createPortalSessionUrl(
+      subscription.stripeCustomerId
+    );
 
     return { success: true, url: portalUrl };
   } catch (error) {

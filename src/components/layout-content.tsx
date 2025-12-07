@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Settings, LogOut, CreditCard } from "lucide-react";
+import { Settings, LogOut, CreditCard, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppFooter } from "@/components/app-footer";
 import { useLanguage } from "@/contexts/language-context";
@@ -9,6 +9,7 @@ import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
 import Image from "next/image";
 import logoSquare from "@/assets/logo-square.png";
+import { UserDropdown } from "./user-dropdown";
 
 export function LayoutContent({
   children,
@@ -47,7 +48,7 @@ export function LayoutContent({
             </Link>
 
             <div className="flex items-center gap-1.5">
-              <Link href="/billing">
+              {/* <Link href="/billing">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -81,7 +82,8 @@ export function LayoutContent({
                 <span className="hidden sm:inline font-medium">
                   {t("logout")}
                 </span>
-              </Button>
+              </Button> */}
+              <UserDropdown session={session} />
             </div>
           </div>
         </div>

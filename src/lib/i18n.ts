@@ -211,6 +211,7 @@ export const translations = {
     canceledAtPeriodEnd: "Canceled",
 
     // Plans
+    plan: "Plan",
     planFree: "Free",
     planStarter: "Starter",
     planPro: "Pro",
@@ -259,8 +260,10 @@ export const translations = {
     upgradeToAddMoreClients: "Upgrade your plan to add more clients",
     checkoutError: "Failed to create checkout session",
     portalError: "Failed to open billing portal",
-    paymentFailedMessage: "Your payment failed. Please update your payment method to continue using premium features.",
-    subscriptionCanceledMessage: "Your subscription will be canceled at the end of the billing period. You can reactivate it anytime.",
+    paymentFailedMessage:
+      "Your payment failed. Please update your payment method to continue using premium features.",
+    subscriptionCanceledMessage:
+      "Your subscription will be canceled at the end of the billing period. You can reactivate it anytime.",
     subscriptionUpdated: "Your subscription has been updated successfully!",
     checkoutCanceled: "Checkout was canceled. You can try again anytime.",
     contactSales: "Contact Sales",
@@ -485,6 +488,7 @@ export const translations = {
     canceledAtPeriodEnd: "Cancelado",
 
     // Plans
+    plan: "Plano",
     planFree: "Grátis",
     planStarter: "Starter",
     planPro: "Pro",
@@ -530,13 +534,17 @@ export const translations = {
 
     // Errors & Messages
     clientLimitReached: "Limite de clientes atingido",
-    upgradeToAddMoreClients: "Faça upgrade do seu plano para adicionar mais clientes",
+    upgradeToAddMoreClients:
+      "Faça upgrade do seu plano para adicionar mais clientes",
     checkoutError: "Erro ao criar sessão de pagamento",
     portalError: "Erro ao abrir portal de faturação",
-    paymentFailedMessage: "O seu pagamento falhou. Por favor atualize o método de pagamento para continuar a usar funcionalidades premium.",
-    subscriptionCanceledMessage: "A sua subscrição será cancelada no final do período de faturação. Pode reativá-la a qualquer momento.",
+    paymentFailedMessage:
+      "O seu pagamento falhou. Por favor atualize o método de pagamento para continuar a usar funcionalidades premium.",
+    subscriptionCanceledMessage:
+      "A sua subscrição será cancelada no final do período de faturação. Pode reativá-la a qualquer momento.",
     subscriptionUpdated: "A sua subscrição foi atualizada com sucesso!",
-    checkoutCanceled: "O pagamento foi cancelado. Pode tentar novamente a qualquer momento.",
+    checkoutCanceled:
+      "O pagamento foi cancelado. Pode tentar novamente a qualquer momento.",
     contactSales: "Contactar Vendas",
     upgradeToPlan: "Upgrade para {plan}",
     smsHandling: "Gestão de SMS",
@@ -760,6 +768,7 @@ export const translations = {
     canceledAtPeriodEnd: "Annulé",
 
     // Plans
+    plan: "Plan",
     planFree: "Gratuit",
     planStarter: "Starter",
     planPro: "Pro",
@@ -800,18 +809,23 @@ export const translations = {
     used: "utilisé",
     clientsRemaining: "{remaining} clients restants",
     approachingLimit: "Approche de votre limite",
-    considerUpgrading: "Envisagez de mettre à niveau pour ajouter plus de clients",
+    considerUpgrading:
+      "Envisagez de mettre à niveau pour ajouter plus de clients",
     viewPlans: "Voir les plans",
 
     // Errors & Messages
     clientLimitReached: "Limite de clients atteinte",
-    upgradeToAddMoreClients: "Mettez à niveau votre plan pour ajouter plus de clients",
+    upgradeToAddMoreClients:
+      "Mettez à niveau votre plan pour ajouter plus de clients",
     checkoutError: "Échec de la création de la session de paiement",
     portalError: "Échec de l'ouverture du portail de facturation",
-    paymentFailedMessage: "Votre paiement a échoué. Veuillez mettre à jour votre méthode de paiement pour continuer à utiliser les fonctionnalités premium.",
-    subscriptionCanceledMessage: "Votre abonnement sera annulé à la fin de la période de facturation. Vous pouvez le réactiver à tout moment.",
+    paymentFailedMessage:
+      "Votre paiement a échoué. Veuillez mettre à jour votre méthode de paiement pour continuer à utiliser les fonctionnalités premium.",
+    subscriptionCanceledMessage:
+      "Votre abonnement sera annulé à la fin de la période de facturation. Vous pouvez le réactiver à tout moment.",
     subscriptionUpdated: "Votre abonnement a été mis à jour avec succès!",
-    checkoutCanceled: "Le paiement a été annulé. Vous pouvez réessayer à tout moment.",
+    checkoutCanceled:
+      "Le paiement a été annulé. Vous pouvez réessayer à tout moment.",
     contactSales: "Contacter les ventes",
     upgradeToPlan: "Passer à {plan}",
     smsHandling: "Gestion des SMS",
