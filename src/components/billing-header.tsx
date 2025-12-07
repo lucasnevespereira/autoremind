@@ -5,11 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { Button } from "@/components/ui/button";
 
-interface BillingHeaderProps {
-  isPro: boolean;
-}
-
-export function BillingHeader({ isPro }: BillingHeaderProps) {
+export function BillingHeader() {
   const { t } = useLanguage();
 
   return (
@@ -33,15 +29,6 @@ export function BillingHeader({ isPro }: BillingHeaderProps) {
             {t("backToDashboard")}
           </Button>
         </Link>
-      </div>
-
-      <div className="mb-4">
-        <h2 className="text-base font-semibold text-foreground">
-          {isPro ? t("allPlans") : t("upgradeYourPlan")}
-        </h2>
-        <p className="text-sm text-muted-foreground mt-0.5">
-          {isPro ? t("bestPlanDescription") : t("choosePlanDescription")}
-        </p>
       </div>
     </>
   );

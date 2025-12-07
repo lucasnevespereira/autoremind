@@ -83,14 +83,18 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
     if (result.success) {
       toast({
         title: t("success"),
-        description: result.messageKey ? t(result.messageKey as any) : "Deleted successfully",
+        description: result.messageKey
+          ? t(result.messageKey as any)
+          : "Deleted successfully",
       });
       setSelectedRows(new Set());
     } else {
       toast({
         variant: "destructive",
         title: t("error"),
-        description: result.errorKey ? t(result.errorKey as any) : "Error deleting clients",
+        description: result.errorKey
+          ? t(result.errorKey as any)
+          : "Error deleting clients",
       });
     }
   };
@@ -108,7 +112,9 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       cell: ({ row }) => (
         <Checkbox
           checked={selectedRows.has(row.original.id)}
-          onCheckedChange={(checked) => handleSelectRow(row.original.id, checked as boolean)}
+          onCheckedChange={(checked) =>
+            handleSelectRow(row.original.id, checked as boolean)
+          }
           aria-label="Select row"
         />
       ),
@@ -258,10 +264,12 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             {t("clients")}
           </h1>
-          <p className="text-muted-foreground mt-1.5">{t("manageReminders")}</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {t("manageReminders")}
+          </p>
         </div>
       </div>
 
@@ -285,7 +293,9 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
             className="gap-2"
           >
             <Trash2 className="h-4 w-4" />
-            {isDeleting ? t("deleting") : `${t("delete")} ${selectedRows.size} ${t("selected")}`}
+            {isDeleting
+              ? t("deleting")
+              : `${t("delete")} ${selectedRows.size} ${t("selected")}`}
           </Button>
         )}
         <AddClientDialog />

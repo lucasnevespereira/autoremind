@@ -20,11 +20,6 @@ export function LayoutContent({
 }) {
   const { t } = useLanguage();
 
-  async function handleSignOut() {
-    await signOut();
-    window.location.href = "/sign-in";
-  }
-
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}

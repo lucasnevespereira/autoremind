@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
 import { decrypt } from "@/lib/encryption";
 import { PLAN } from "@/constants";
+import { SettingsHeader } from "@/components/settings-header";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +47,9 @@ export default async function SettingsPage() {
   const isPaidPlan = planType === PLAN.STARTER || planType === PLAN.PRO;
 
   return (
-    <div className="max-w-6xl animate-fade-in">
+    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
+      <SettingsHeader />
+
       <TwilioConfigForm
         initialValues={{
           accountSid,
