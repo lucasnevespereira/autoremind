@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Settings, LogOut } from "lucide-react";
+import { Settings, LogOut, CreditCard, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { AppFooter } from "@/components/app-footer";
 import { useLanguage } from "@/contexts/language-context";
@@ -9,6 +9,7 @@ import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
 import Image from "next/image";
 import logoSquare from "@/assets/logo-square.png";
+import { UserDropdown } from "./user-dropdown";
 
 export function LayoutContent({
   children,
@@ -18,11 +19,6 @@ export function LayoutContent({
   session: Session;
 }) {
   const { t } = useLanguage();
-
-  async function handleSignOut() {
-    await signOut();
-    window.location.href = "/sign-in";
-  }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -47,6 +43,18 @@ export function LayoutContent({
             </Link>
 
             <div className="flex items-center gap-1.5">
+              {/* <Link href="/billing">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
+                >
+                  <CreditCard className="h-4 w-4" />
+                  <span className="hidden sm:inline font-medium">
+                    {t("billing")}
+                  </span>
+                </Button>
+              </Link>
               <Link href="/settings">
                 <Button
                   variant="ghost"
@@ -69,7 +77,8 @@ export function LayoutContent({
                 <span className="hidden sm:inline font-medium">
                   {t("logout")}
                 </span>
-              </Button>
+              </Button> */}
+              <UserDropdown session={session} />
             </div>
           </div>
         </div>

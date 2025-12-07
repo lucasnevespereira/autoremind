@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Search, Copy, Trash2, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
@@ -9,6 +9,7 @@ import { SendReminderButton } from "@/components/send-reminder-button";
 import { AddClientDialog } from "@/components/add-client-dialog";
 import { EditClientDialog } from "@/components/edit-client-dialog";
 import { ImportClientsDialog } from "@/components/import-clients-dialog";
+import { BulkDeleteDialog } from "@/components/bulk-delete-dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,7 +17,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { useLanguage } from "@/contexts/language-context";
 import { ExportClientsButton } from "./export-clients-button";
 import { useToast } from "@/hooks/use-toast";
-import { bulkDeleteClients } from "@/app/actions";
 
 interface Client {
   id: number;
@@ -34,7 +34,6 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-  const [isDeleting, setIsDeleting] = useState(false);
 
   const copyToClipboard = async (text: string) => {
     try {
@@ -67,32 +66,8 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
     setSelectedRows(newSelection);
   };
 
-  const handleBulkDelete = async () => {
-    if (selectedRows.size === 0) return;
-
-    const confirmed = confirm(
-      `Are you sure you want to delete ${selectedRows.size} client(s)?`
-    );
-
-    if (!confirmed) return;
-
-    setIsDeleting(true);
-    const result = await bulkDeleteClients(Array.from(selectedRows));
-    setIsDeleting(false);
-
-    if (result.success) {
-      toast({
-        title: t("success"),
-        description: result.messageKey ? t(result.messageKey as any) : "Deleted successfully",
-      });
-      setSelectedRows(new Set());
-    } else {
-      toast({
-        variant: "destructive",
-        title: t("error"),
-        description: result.errorKey ? t(result.errorKey as any) : "Error deleting clients",
-      });
-    }
+  const handleBulkDeleteSuccess = () => {
+    setSelectedRows(new Set());
   };
 
   const columns: ColumnDef<Client>[] = [
@@ -108,7 +83,9 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       cell: ({ row }) => (
         <Checkbox
           checked={selectedRows.has(row.original.id)}
-          onCheckedChange={(checked) => handleSelectRow(row.original.id, checked as boolean)}
+          onCheckedChange={(checked) =>
+            handleSelectRow(row.original.id, checked as boolean)
+          }
           aria-label="Select row"
         />
       ),
@@ -246,7 +223,7 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
                 reminderDate: client.reminderDate,
               }}
             />
-            <DeleteClientButton clientId={client.id} />
+            <DeleteClientButton clientId={client.id} clientName={client.name} />
           </div>
         );
       },
@@ -258,10 +235,12 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">
             {t("clients")}
           </h1>
-          <p className="text-muted-foreground mt-1.5">{t("manageReminders")}</p>
+          <p className="text-sm text-muted-foreground mt-1">
+            {t("manageReminders")}
+          </p>
         </div>
       </div>
 
@@ -278,15 +257,10 @@ export function ClientsTable({ clients }: { clients: Client[] }) {
           />
         </div>
         {selectedRows.size > 0 && (
-          <Button
-            variant="destructive"
-            onClick={handleBulkDelete}
-            disabled={isDeleting}
-            className="gap-2"
-          >
-            <Trash2 className="h-4 w-4" />
-            {isDeleting ? t("deleting") : `${t("delete")} ${selectedRows.size} ${t("selected")}`}
-          </Button>
+          <BulkDeleteDialog
+            selectedIds={selectedRows}
+            onSuccess={handleBulkDeleteSuccess}
+          />
         )}
         <AddClientDialog />
         <ImportClientsDialog />

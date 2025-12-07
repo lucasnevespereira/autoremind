@@ -2,20 +2,20 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
+import { Button } from "@/components/ui/button";
 
-export function SettingsHeader() {
+export function AccountHeader() {
   const { t } = useLanguage();
 
   return (
     <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          {t("settingsTitle")}
+          {t("accountManagement")}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          {t("configureBusinessInfo")}
+          {t("manageAccountDescription")}
         </p>
       </div>
       <Link href="/">

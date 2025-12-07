@@ -17,6 +17,7 @@ import {
   ExternalLink,
   Eye,
   EyeOff,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,12 +30,19 @@ interface TwilioConfigFormProps {
     businessContact: string;
     reminderDaysBefore: string;
     smsTemplate: string;
+    useManagedSms: boolean;
   };
+  planType: string;
+  isPaidPlan: boolean;
 }
 
 type Tab = "business" | "template" | "twilio" | "test";
 
-export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
+export function TwilioConfigForm({
+  initialValues,
+  planType,
+  isPaidPlan,
+}: TwilioConfigFormProps) {
   const { toast } = useToast();
   const { t, language } = useLanguage();
   const [loading, setLoading] = useState(false);
@@ -42,6 +50,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   const [testPhone, setTestPhone] = useState("");
   const [activeTab, setActiveTab] = useState<Tab>("business");
   const [showAuthToken, setShowAuthToken] = useState(false);
+  const [useManagedSms, setUseManagedSms] = useState(
+    initialValues.useManagedSms
+  );
 
   // Controlled form state
   const [formValues, setFormValues] = useState(initialValues);
@@ -110,9 +121,9 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row gap-6 min-h-[600px]">
+    <div className="flex flex-col lg:flex-row gap-4">
       {/* Sidebar Navigation */}
-      <div className="lg:w-64 flex-shrink-0">
+      <div className="lg:w-56 flex-shrink-0">
         <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-x-visible">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -122,13 +133,13 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 whitespace-nowrap",
+                  "flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200 whitespace-nowrap",
                   activeTab === tab.id
                     ? "bg-primary text-primary-foreground shadow-fintech"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                 )}
               >
-                <Icon className="h-5 w-5" />
+                <Icon className="h-4 w-4" />
                 <span className="hidden sm:inline">{tab.label}</span>
               </button>
             );
@@ -138,7 +149,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
 
       {/* Main Content Area */}
       <div className="flex-1">
-        <form action={handleSubmit} className="space-y-6">
+        <form action={handleSubmit} className="space-y-5">
           {/* Hidden inputs to preserve values from other tabs */}
           {activeTab !== "business" && (
             <>
@@ -197,6 +208,12 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
               )}
             </>
           )}
+          {/* Always include useManagedSms value */}
+          <input
+            type="hidden"
+            name="useManagedSms"
+            value={useManagedSms ? "true" : "false"}
+          />
 
           {/* Business Information Section */}
           {activeTab === "business" && (
@@ -209,8 +226,8 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   {t("businessDetails")}
                 </p>
               </div>
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="businessName"
                     className="text-sm font-medium text-foreground"
@@ -227,14 +244,14 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                       updateFormValue("businessName", e.target.value)
                     }
                     required
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("businessNameHint")}
                   </p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="businessContact"
                     className="text-sm font-medium text-foreground"
@@ -250,14 +267,14 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     onChange={(e) =>
                       updateFormValue("businessContact", e.target.value)
                     }
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("businessContactHint")}
                   </p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="reminderDaysBefore"
                     className="text-sm font-medium text-foreground"
@@ -275,7 +292,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     onChange={(e) =>
                       updateFormValue("reminderDaysBefore", e.target.value)
                     }
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("reminderDaysBeforeHint")}
@@ -297,8 +314,8 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="smsTemplate"
                     className="text-sm font-medium text-foreground"
@@ -382,127 +399,197 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="accountSid"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    {t("accountSid")}
-                  </Label>
-                  <Input
-                    id="accountSid"
-                    name="accountSid"
-                    type="text"
-                    placeholder="ACxxxxxxxxxxxxxxxx"
-                    value={formValues.accountSid}
-                    onChange={(e) =>
-                      updateFormValue("accountSid", e.target.value)
-                    }
-                    required
-                    className="font-mono text-sm h-11 rounded-xl border-border/40"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="authToken"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    {t("authToken")}
-                  </Label>
-                  <div className="relative">
-                    <Input
-                      id="authToken"
-                      name="authToken"
-                      type={showAuthToken ? "text" : "password"}
-                      placeholder="Your Twilio Auth Token"
-                      value={formValues.authToken}
-                      onChange={(e) =>
-                        updateFormValue("authToken", e.target.value)
-                      }
-                      required
-                      className="pr-10 font-mono text-sm h-11 rounded-xl border-border/40"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowAuthToken(!showAuthToken)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      {showAuthToken ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
-                  <p className="text-xs text-amber-600 dark:text-amber-500">
-                    🔒 {t("authTokenEncrypted")}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="phoneNumber"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    {t("twilioPhoneNumber")}
-                  </Label>
-                  <Input
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="tel"
-                    placeholder="+19252906736"
-                    value={formValues.phoneNumber}
-                    onChange={(e) =>
-                      updateFormValue("phoneNumber", e.target.value)
-                    }
-                    required
-                    className="h-11 rounded-xl border-border/40"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {t("twilioPhoneHint")}
-                  </p>
-                </div>
-
-                {/* Useful Links - Compact */}
-                <div className="flex items-start gap-4 text-xs text-muted-foreground pt-2 border-t border-border/20">
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground mb-1.5">
-                      {t("usefulLinks")}:
-                    </p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1">
-                      <a
-                        href="https://console.twilio.com/us1/billing/manage-billing/billing-overview"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary hover:underline"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        {t("viewBilling")}
-                      </a>
-                      <a
-                        href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary hover:underline"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        {t("managePhoneNumbers")}
-                      </a>
-                      <a
-                        href="https://console.twilio.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary hover:underline"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        {t("twilioConsole")}
-                      </a>
+              {/* Managed SMS Toggle - Only for Paid Plans */}
+              {isPaidPlan && (
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-sm font-semibold text-foreground">
+                          {t("managedSms")}
+                        </h3>
+                        <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-medium">
+                          {planType === "starter" ? "Starter" : "Pro"}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {useManagedSms
+                          ? t("managedSmsActiveDescription")
+                          : t("managedSmsDescription")}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          name="useManagedSms"
+                          checked={useManagedSms}
+                          onChange={(e) => setUseManagedSms(e.target.checked)}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+                      </label>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* Conditional Rendering Based on Managed SMS */}
+              {useManagedSms && isPaidPlan ? (
+                // Show info banner when using managed SMS
+                <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-6 w-6 text-green-600 dark:text-green-400" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-foreground mb-2">
+                        {t("managedSmsEnabled")}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {t("managedSmsEnabledDescription")}
+                      </p>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <span>{t("noTwilioAccountNeeded")}</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <span>{t("autoConfiguration")}</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+                          <span>{t("reliableDelivery")}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                // Show Twilio configuration fields
+                <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                  <div className="space-y-1.5">
+                    <Label
+                      htmlFor="accountSid"
+                      className="text-sm font-medium text-foreground"
+                    >
+                      {t("accountSid")}
+                    </Label>
+                    <Input
+                      id="accountSid"
+                      name="accountSid"
+                      type="text"
+                      placeholder="ACxxxxxxxxxxxxxxxx"
+                      value={formValues.accountSid}
+                      onChange={(e) =>
+                        updateFormValue("accountSid", e.target.value)
+                      }
+                      required
+                      className="font-mono text-sm h-11 rounded-xl border-border/40"
+                    />
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label
+                      htmlFor="authToken"
+                      className="text-sm font-medium text-foreground"
+                    >
+                      {t("authToken")}
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="authToken"
+                        name="authToken"
+                        type={showAuthToken ? "text" : "password"}
+                        placeholder="Your Twilio Auth Token"
+                        value={formValues.authToken}
+                        onChange={(e) =>
+                          updateFormValue("authToken", e.target.value)
+                        }
+                        required
+                        className="pr-10 font-mono text-sm h-11 rounded-xl border-border/40"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowAuthToken(!showAuthToken)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showAuthToken ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-amber-600 dark:text-amber-500">
+                      🔒 {t("authTokenEncrypted")}
+                    </p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <Label
+                      htmlFor="phoneNumber"
+                      className="text-sm font-medium text-foreground"
+                    >
+                      {t("twilioPhoneNumber")}
+                    </Label>
+                    <Input
+                      id="phoneNumber"
+                      name="phoneNumber"
+                      type="tel"
+                      placeholder="+19252906736"
+                      value={formValues.phoneNumber}
+                      onChange={(e) =>
+                        updateFormValue("phoneNumber", e.target.value)
+                      }
+                      required
+                      className="h-9 rounded-xl border-border/40"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      {t("twilioPhoneHint")}
+                    </p>
+                  </div>
+
+                  {/* Useful Links - Compact */}
+                  <div className="flex items-start gap-4 text-xs text-muted-foreground pt-2 border-t border-border/20">
+                    <div className="flex-1">
+                      <p className="font-medium text-foreground mb-1.5">
+                        {t("usefulLinks")}:
+                      </p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                        <a
+                          href="https://console.twilio.com/us1/billing/manage-billing/billing-overview"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {t("viewBilling")}
+                        </a>
+                        <a
+                          href="https://console.twilio.com/us1/develop/phone-numbers/manage/incoming"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {t("managePhoneNumbers")}
+                        </a>
+                        <a
+                          href="https://console.twilio.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-primary hover:underline"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {t("twilioConsole")}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -518,8 +605,8 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                 </p>
               </div>
 
-              <div className="bg-card rounded-2xl border border-border/40 p-6 shadow-fintech space-y-4">
-                <div className="space-y-2">
+              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
+                <div className="space-y-1.5">
                   <Label
                     htmlFor="testPhone"
                     className="text-sm font-medium text-foreground"
@@ -532,7 +619,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                     placeholder="+351912345678"
                     value={testPhone}
                     onChange={(e) => setTestPhone(e.target.value)}
-                    className="h-11 rounded-xl border-border/40"
+                    className="h-9 rounded-xl border-border/40"
                   />
                   <p className="text-xs text-muted-foreground">
                     {t("testPhoneHint")}
@@ -543,7 +630,7 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
                   type="button"
                   variant="outline"
                   onClick={handleSendTest}
-                  disabled={testLoading || !formValues.accountSid}
+                  disabled={testLoading}
                   className="w-full sm:w-auto h-10 rounded-xl border-border/40"
                 >
                   <Send className="mr-2 h-4 w-4" />
@@ -553,13 +640,13 @@ export function TwilioConfigForm({ initialValues }: TwilioConfigFormProps) {
             </div>
           )}
 
-          {/* Save Button - Always visible at bottom */}
-          <div className="flex justify-end pt-6 border-t border-border/40">
+          {/* Save Button */}
+          <div className="flex justify-end pt-4 border-t border-border/40">
             <Button
               type="submit"
               disabled={loading}
-              size="lg"
-              className="w-full sm:w-auto h-11 px-6 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
+              size="default"
+              className="w-full sm:w-auto h-9 px-4 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-fintech"
             >
               <Save className="mr-2 h-4 w-4" />
               {loading ? t("saving") : t("saveChanges")}

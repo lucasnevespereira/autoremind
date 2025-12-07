@@ -36,3 +36,6 @@ clean:
 down:
 	@echo "🛑 Stopping all services..."
 	@docker-compose down
+
+stripe-listen:
+	stripe listen --forward-to localhost:3000/api/stripe/webhook

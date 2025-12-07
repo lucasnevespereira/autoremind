@@ -1,7 +1,7 @@
 import twilio from "twilio";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { decrypt } from "./encryption";
 
 export async function getTwilioConfig(userId: string) {
@@ -9,6 +9,25 @@ export async function getTwilioConfig(userId: string) {
     where: eq(settings.userId, userId),
   });
 
+  // Check if user should use managed SMS (platform Twilio)
+  const useManagedSms = userSettings?.useManagedSms || false;
+
+  if (useManagedSms) {
+    console.log("Using platform Twilio credentials for user:", userId);
+    console.log({
+      accountSid: process.env.PLATFORM_TWILIO_ACCOUNT_SID,
+      authToken: process.env.PLATFORM_TWILIO_AUTH_TOKEN,
+      phoneNumber: process.env.PLATFORM_TWILIO_PHONE_NUMBER,
+    });
+    // Use platform Twilio credentials from environment
+    const accountSid = process.env.PLATFORM_TWILIO_ACCOUNT_SID?.trim();
+    const authToken = process.env.PLATFORM_TWILIO_AUTH_TOKEN?.trim();
+    const phoneNumber = process.env.PLATFORM_TWILIO_PHONE_NUMBER?.trim();
+
+    return { accountSid, authToken, phoneNumber };
+  }
+
+  // Use user's own Twilio credentials
   const accountSid = userSettings?.twilioAccountSid?.trim();
   // Decrypt the auth token before using it
   const authToken = userSettings?.twilioAuthToken

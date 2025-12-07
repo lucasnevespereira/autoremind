@@ -39,9 +39,34 @@ export const settings = pgTable("settings", {
   twilioAccountSid: text("twilio_account_sid"),
   twilioAuthToken: text("twilio_auth_token"),
   twilioPhoneNumber: text("twilio_phone_number"),
+  useManagedSms: boolean("use_managed_sms").default(false).notNull(),
 
   // SMS template
   smsTemplate: text("sms_template"),
+
+  // Timestamps
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
+});
+
+// Subscriptions table - one row per user for Stripe subscription tracking
+export const subscriptions = pgTable("subscriptions", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id)
+    .unique(), // Ensure one subscription row per user
+
+  // Stripe IDs
+  stripeCustomerId: text("stripe_customer_id"),
+  stripeSubscriptionId: text("stripe_subscription_id"),
+  stripePriceId: text("stripe_price_id"),
+
+  // Subscription details
+  planType: text("plan_type").notNull().default("free"), // "free" | "starter" | "pro"
+  status: text("status").notNull().default("active"), // "active" | "canceled" | "past_due" | "incomplete"
+  currentPeriodEnd: timestamp("current_period_end", { mode: "date" }),
+  cancelAtPeriodEnd: boolean("cancel_at_period_end").default(false).notNull(),
 
   // Timestamps
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
@@ -108,6 +133,8 @@ export const verification = pgTable("verification", {
 export type Client = typeof clients.$inferSelect;
 export type NewClient = typeof clients.$inferInsert;
 export type Setting = typeof settings.$inferSelect;
+export type Subscription = typeof subscriptions.$inferSelect;
+export type NewSubscription = typeof subscriptions.$inferInsert;
 export type User = typeof user.$inferSelect;
 export type Session = typeof session.$inferSelect;
 export type Account = typeof account.$inferSelect;

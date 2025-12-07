@@ -1,7 +1,15 @@
 "use server";
 
 import { db } from "@/db";
-import { clients, settings } from "@/db/schema";
+import {
+  clients,
+  settings,
+  user,
+  subscriptions,
+  session as sessionTable,
+  account as accountTable,
+  verification
+} from "@/db/schema";
 import { sendSMS, formatPhone } from "@/lib/twilio";
 import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
@@ -12,6 +20,33 @@ import { headers } from "next/headers";
 import ExcelJS from "exceljs";
 import { LANG } from "@/constants";
 import { encrypt } from "@/lib/encryption";
+import { canAddClients } from "@/lib/subscription";
+import { signOut } from "@/lib/auth-client";
+
+// User Actions
+export async function getUserClientCount() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const countResult = await db
+      .select()
+      .from(clients)
+      .where(eq(clients.userId, session.user.id));
+
+    return { success: true, count: countResult.length };
+  } catch (error) {
+    console.error("Error getting user client count:", error);
+    return { success: false, errorKey: "countError" };
+  }
+}
+
+// Client Actions
 
 export async function addClient(formData: FormData) {
   try {
@@ -31,6 +66,17 @@ export async function addClient(formData: FormData) {
 
     if (!name || !phone || !resource || !reminderDate) {
       return { success: false, errorKey: "allFieldsRequired" };
+    }
+
+    // Check client limit before adding
+    const limitCheck = await canAddClients(session.user.id, 1);
+    if (!limitCheck.canAdd) {
+      return {
+        success: false,
+        errorKey: "clientLimitReached",
+        limit: limitCheck.limit,
+        currentCount: limitCheck.currentCount,
+      };
     }
 
     const formattedPhone = formatPhone(phone);
@@ -178,10 +224,12 @@ export async function saveTwilioConfig(formData: FormData) {
     const businessContact = formData.get("businessContact") as string;
     const reminderDaysBefore = formData.get("reminderDaysBefore") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
+    const useManagedSms = formData.get("useManagedSms") === "on" || formData.get("useManagedSms") === "true";
 
     // Build update object with only provided values
     const updateData: any = {
       updatedAt: new Date(),
+      useManagedSms: useManagedSms, // Always update this field
     };
 
     if (accountSid?.trim()) updateData.twilioAccountSid = accountSid.trim();
@@ -238,6 +286,8 @@ export async function sendTestSMS(
       return { success: false, errorKey: "unauthorized" };
     }
 
+    const formattedPhone = formatPhone(phone);
+
     const message =
       lang === LANG.PT
         ? `Ola! Mensagem de teste do ${businessName}. Se recebeu isto, tudo esta a funcionar corretamente.`
@@ -245,7 +295,7 @@ export async function sendTestSMS(
         ? `Bonjour! Message de test de ${businessName}. Si vous recevez ceci, tout fonctionne correctement.`
         : `Hello! Test message from ${businessName}. If you received this, everything is working correctly.`;
 
-    const result = await sendSMS(phone, message, session.user.id);
+    const result = await sendSMS(formattedPhone, message, session.user.id);
 
     if (result.success) {
       return { success: true, messageKey: "testSmsSentSuccess" };
@@ -357,6 +407,18 @@ export async function importClients(rows: any[]) {
       return { success: false, errorKey: "noValidRows" };
     }
 
+    // Check client limit before importing
+    const limitCheck = await canAddClients(userId, cleanedRows.length);
+    if (!limitCheck.canAdd) {
+      return {
+        success: false,
+        errorKey: "clientLimitReached",
+        limit: limitCheck.limit,
+        currentCount: limitCheck.currentCount,
+        attemptedToAdd: cleanedRows.length,
+      };
+    }
+
     await db.insert(clients).values(cleanedRows);
 
     revalidatePath("/");
@@ -432,4 +494,150 @@ export async function exportClients(lang: string) {
     success: true,
     file: Buffer.from(buffer).toString("base64"),
   };
+}
+
+// Subscription Actions
+
+export async function createCheckoutSession(priceId: string) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    // Validate price ID
+    const validPriceIds = [
+      process.env.STRIPE_PRICE_ID_STARTER,
+      process.env.STRIPE_PRICE_ID_PRO,
+    ];
+
+    if (!validPriceIds.includes(priceId)) {
+      return { success: false, errorKey: "invalidPriceId" };
+    }
+
+    // Import Stripe utilities directly
+    const { createCheckoutSessionUrl } = await import("@/lib/stripe");
+    const checkoutUrl = await createCheckoutSessionUrl(
+      session.user.id,
+      priceId
+    );
+
+    return { success: true, url: checkoutUrl };
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    return { success: false, errorKey: "checkoutError" };
+  }
+}
+
+export async function createPortalSession() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    // Import utilities directly
+    const { getUserSubscription } = await import("@/lib/subscription");
+    const { createPortalSessionUrl } = await import("@/lib/stripe");
+
+    const subscription = await getUserSubscription(session.user.id);
+
+    if (!subscription.stripeCustomerId) {
+      return { success: false, errorKey: "noStripeCustomer" };
+    }
+
+    const portalUrl = await createPortalSessionUrl(
+      subscription.stripeCustomerId
+    );
+
+    return { success: true, url: portalUrl };
+  } catch (error) {
+    console.error("Error creating portal session:", error);
+    return { success: false, errorKey: "portalError" };
+  }
+}
+
+// Account Management Actions
+
+export async function updateProfile(formData: FormData) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const name = formData.get("name") as string;
+
+    if (!name?.trim()) {
+      return { success: false, errorKey: "allFieldsRequired" };
+    }
+
+    // Update user name only
+    await db
+      .update(user)
+      .set({
+        name: name.trim(),
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, session.user.id));
+
+    revalidatePath("/account");
+    revalidatePath("/");
+    return { success: true, messageKey: "profileUpdatedSuccess" };
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return { success: false, errorKey: "profileUpdateError" };
+  }
+}
+
+export async function deleteAccount() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const userId = session.user.id;
+
+    // Delete all user data in order (to respect foreign key constraints)
+    // 1. Delete clients
+    await db.delete(clients).where(eq(clients.userId, userId));
+
+    // 2. Delete settings
+    await db.delete(settings).where(eq(settings.userId, userId));
+
+    // 3. Delete subscription
+    await db.delete(subscriptions).where(eq(subscriptions.userId, userId));
+
+    // 4. Delete sessions
+    await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
+
+    // 5. Delete accounts
+    await db.delete(accountTable).where(eq(accountTable.userId, userId));
+
+    // 6. Delete verification records
+    await db.delete(verification).where(eq(verification.identifier, session.user.email));
+
+    // 7. Finally, delete the user
+    await db.delete(user).where(eq(user.id, userId));
+
+    // Sign out and redirect to home page
+    // Note: The redirect will be handled in the UI after successful deletion
+    return { success: true, messageKey: "accountDeletedSuccess" };
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    return { success: false, errorKey: "accountDeleteError" };
+  }
 }

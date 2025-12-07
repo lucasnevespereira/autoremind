@@ -8,6 +8,13 @@
       "when": 1764936102716,
       "tag": "0000_magenta_doctor_faustus",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765059696542,
+      "tag": "0001_worthless_shadowcat",
+      "breakpoints": true
     }
   ]
 }

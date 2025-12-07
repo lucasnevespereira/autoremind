@@ -135,7 +135,58 @@ export const translations = {
     loading: "Loading...",
     unauthorized: "Unauthorized",
 
+    // Account Management
+    account: "Account",
+    accountManagement: "Account Management",
+    manageAccountDescription: "Manage your profile and account settings",
+    profileInformation: "Profile Information",
+    updateProfileDescription: "Update your name",
+    namePlaceholder: "Your name",
+    emailPlaceholder: "your@email.com",
+    emailChangeNotSupported: "Email changes are not supported at this time",
+    dangerZone: "Danger Zone",
+    dangerZoneDescription: "Irreversible and destructive actions",
+    deleteAccount: "Delete Account",
+    deleteAccountWarning:
+      "Permanently delete your account and all associated data. This action cannot be undone.",
+    deleteAccountConfirmTitle: "Are you absolutely sure?",
+    deleteAccountConfirmMessage:
+      "This will permanently delete your account and all associated data. This action is irreversible.",
+    deleteAccountItem1: "All your clients and reminders will be deleted",
+    deleteAccountItem2: "Your subscription will be cancelled",
+    deleteAccountItem3: "All your settings will be lost",
+    deleteAccountItem4: "Your account cannot be recovered",
+    deleteAccountWarningFinal:
+      "This action cannot be undone. Please be certain.",
+    typeToConfirm: 'Type "{text}" to confirm',
+    deleteAccountPermanently: "Delete Account Permanently",
+    profileUpdatedSuccess: "Profile updated successfully!",
+    profileUpdateError: "Error updating profile",
+    accountDeletedSuccess: "Account deleted successfully",
+    accountDeleteError: "Error deleting account",
+    emailAlreadyExists: "This email is already in use",
+
+    // Client Deletion
+    deleteClientConfirmTitle: "Delete this client?",
+    deleteClientConfirmMessage:
+      'Are you sure you want to delete "{clientName}"? This action cannot be undone.',
+    deleteClientItem1: "All reminder history for this client will be deleted",
+    deleteClientItem2: "This client will be permanently removed from your list",
+    deleteClientWarningFinal: "This action cannot be undone.",
+    deleteClientPermanently: "Delete Client Permanently",
+
+    // Bulk Client Deletion
+    bulkDeleteConfirmTitle: "Delete {count} clients?",
+    bulkDeleteConfirmMessage:
+      "Are you sure you want to delete {count} clients? This action cannot be undone.",
+    bulkDeleteItem1:
+      "All selected clients and their reminder history will be deleted",
+    bulkDeleteItem2: "These clients will be permanently removed from your list",
+    bulkDeleteWarningFinal: "This action cannot be undone.",
+    bulkDeletePermanently: "Delete Clients Permanently",
+
     // Toast Messages
+    errorGeneric: "An error occurred. Please try again.",
     allFieldsRequired: "All fields are required",
     clientAddedSuccess: "Client added successfully!",
     clientAddError: "Error adding client",
@@ -162,7 +213,7 @@ export const translations = {
     // Tabs
     business: "Business",
     template: "SMS Template",
-    twilioConfig: "Twilio Config",
+    twilioConfig: "SMS Provider",
     test: "Test SMS",
 
     // Pagination
@@ -195,6 +246,116 @@ export const translations = {
       "Format phone column as Text to preserve leading zeros (e.g., 0612345678)",
     viewExample: "View example",
     hideExample: "Hide example",
+
+    // Billing & Subscription
+    billing: "Billing",
+    manageBillingDescription: "Manage your subscription and billing",
+    allPlans: "All Plans",
+    upgradeYourPlan: "Upgrade Your Plan",
+    bestPlanDescription:
+      "You're on the best plan. Manage your subscription on the left.",
+    choosePlanDescription: "Choose the plan that fits your needs",
+    subscription: "Subscription",
+    currentPlan: "Current Plan",
+    upgradePlan: "Upgrade Plan",
+    manageBilling: "Manage Billing",
+    price: "Price",
+    perMonth: "/month",
+    renewsOn: "Renews on",
+    expiresOn: "Expires on",
+    active: "Active",
+    pastDue: "Past Due",
+    canceledAtPeriodEnd: "Canceled",
+
+    // Plans
+    plan: "Plan",
+    planFree: "Free",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Perfect for getting started",
+    planStarterDescription: "For growing businesses",
+    planProDescription: "For established businesses",
+
+    // Features
+    featureImportExport: "Excel Import/Export",
+    feature50Clients: "Up to 50 clients",
+    feature100Clients: "Up to 100 clients",
+    featureUnlimitedClients: "Unlimited clients",
+    featureOwnTwilio: "Use your own Twilio account",
+    featureManagedSms: "Managed SMS (included)",
+    featureBasicSupport: "Basic support",
+    featurePrioritySupport: "Priority support",
+    featurePremiumSupport: "Premium support",
+    featureAdvancedTemplates: "Advanced templates",
+    featureCustomBranding: "Custom branding",
+    ownTwilio: "Own Twilio",
+    managedSms: "Managed SMS",
+    unlimitedClients: "Unlimited clients",
+    managedSmsDescription:
+      "Let us handle SMS delivery for you - no Twilio account needed",
+    managedSmsActiveDescription:
+      "We're handling SMS delivery for you. Toggle off to use your own Twilio account.",
+    managedSmsEnabled: "Managed SMS is Active",
+    managedSmsEnabledDescription:
+      "We're handling SMS delivery for you. Your messages will be sent using our reliable infrastructure.",
+    noTwilioAccountNeeded: "No Twilio account needed",
+    autoConfiguration: "Automatic configuration",
+    reliableDelivery: "Reliable message delivery",
+
+    // Usage Stats
+    usageStats: "Usage Statistics",
+    clientUsageTracking: "Track your client usage",
+    clientsUsed: "clients used",
+    clientsUsedOf: "of {total} clients",
+    used: "used",
+    clientsRemaining: "{remaining} clients remaining",
+    approachingLimit: "Approaching your limit",
+    considerUpgrading: "Consider upgrading to add more clients",
+    viewPlans: "View Plans",
+
+    // Errors & Messages
+    clientLimitReached: "Client limit reached",
+    upgradeToAddMoreClients: "Upgrade your plan to add more clients",
+    checkoutError: "Failed to create checkout session",
+    portalError: "Failed to open billing portal",
+    paymentFailedMessage:
+      "Your payment failed. Please update your payment method to continue using premium features.",
+    subscriptionCanceledMessage:
+      "Your subscription will be canceled at the end of the billing period. You can reactivate it anytime.",
+    subscriptionUpdated: "Your subscription has been updated successfully!",
+    checkoutCanceled: "Checkout was canceled. You can try again anytime.",
+    contactSales: "Contact Sales",
+    upgradeToPlan: "Upgrade to {plan}",
+    smsHandling: "SMS Handling",
+    canceled: "Canceled",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirm Upgrade",
+    confirmDowngrade: "Confirm Downgrade",
+    newPlan: "New Plan",
+    whatHappensNext: "What happens next?",
+    proratedChargeExplanation:
+      "You'll be charged a prorated amount for the plan difference",
+    immediateAccessExplanation:
+      "You'll get immediate access to all new features",
+    nextBillingExplanation: "Your next billing cycle will be at the new price",
+    nextBillingLowerPriceExplanation:
+      "Your next billing cycle will be at the lower price",
+    paymentRequired: "Payment of {price}/month required",
+    monthlyBillingExplanation: "You'll be billed monthly",
+    downgradeCreditExplanation:
+      "You'll receive a prorated credit for the difference",
+    downgradeFreePortalExplanation:
+      "Use the billing portal to cancel your subscription",
+    downgradeTakesEffectExplanation:
+      "Changes take effect at the end of your billing period",
+    invalidPriceId: "Invalid price ID",
+    newPrice: "New price",
+    processing: "Processing...",
+    openBillingPortal: "Open Billing Portal",
+    confirm: "Confirm",
+    downgradePlan: "Downgrade",
+    notAvailable: "Not Available",
   },
   pt: {
     // Auth
@@ -335,7 +496,62 @@ export const translations = {
     loading: "A carregar...",
     unauthorized: "Não autorizado",
 
+    // Account Management
+    account: "Conta",
+    accountManagement: "Gestão de Conta",
+    manageAccountDescription: "Gerir o seu perfil e configurações de conta",
+    profileInformation: "Informação de Perfil",
+    updateProfileDescription: "Atualize o seu nome",
+    namePlaceholder: "O seu nome",
+    emailPlaceholder: "oseu@email.com",
+    emailChangeNotSupported:
+      "Alterações de email não são suportadas neste momento",
+    dangerZone: "Zona de Perigo",
+    dangerZoneDescription: "Ações irreversíveis e destrutivas",
+    deleteAccount: "Eliminar Conta",
+    deleteAccountWarning:
+      "Eliminar permanentemente a sua conta e todos os dados associados. Esta ação não pode ser desfeita.",
+    deleteAccountConfirmTitle: "Tem absoluta certeza?",
+    deleteAccountConfirmMessage:
+      "Isto irá eliminar permanentemente a sua conta e todos os dados associados. Esta ação é irreversível.",
+    deleteAccountItem1: "Todos os seus clientes e lembretes serão eliminados",
+    deleteAccountItem2: "A sua subscrição será cancelada",
+    deleteAccountItem3: "Todas as suas configurações serão perdidas",
+    deleteAccountItem4: "A sua conta não pode ser recuperada",
+    deleteAccountWarningFinal:
+      "Esta ação não pode ser desfeita. Por favor, tenha certeza.",
+    typeToConfirm: 'Digite "{text}" para confirmar',
+    deleteAccountPermanently: "Eliminar Conta Permanentemente",
+    profileUpdatedSuccess: "Perfil atualizado com sucesso!",
+    profileUpdateError: "Erro ao atualizar perfil",
+    accountDeletedSuccess: "Conta eliminada com sucesso",
+    accountDeleteError: "Erro ao eliminar conta",
+    emailAlreadyExists: "Este email já está em uso",
+
+    // Client Deletion
+    deleteClientConfirmTitle: "Eliminar este cliente?",
+    deleteClientConfirmMessage:
+      'Tem a certeza que deseja eliminar "{clientName}"? Esta ação não pode ser desfeita.',
+    deleteClientItem1:
+      "Todo o histórico de lembretes deste cliente será eliminado",
+    deleteClientItem2:
+      "Este cliente será removido permanentemente da sua lista",
+    deleteClientWarningFinal: "Esta ação não pode ser desfeita.",
+    deleteClientPermanently: "Eliminar Cliente Permanentemente",
+
+    // Bulk Client Deletion
+    bulkDeleteConfirmTitle: "Eliminar {count} clientes?",
+    bulkDeleteConfirmMessage:
+      "Tem a certeza que deseja eliminar {count} clientes? Esta ação não pode ser desfeita.",
+    bulkDeleteItem1:
+      "Todos os clientes selecionados e o seu histórico de lembretes serão eliminados",
+    bulkDeleteItem2:
+      "Estes clientes serão removidos permanentemente da sua lista",
+    bulkDeleteWarningFinal: "Esta ação não pode ser desfeita.",
+    bulkDeletePermanently: "Eliminar Clientes Permanentemente",
+
     // Toast Messages
+    errorGeneric: "Ocorreu um erro. Por favor, tente novamente.",
     allFieldsRequired: "Todos os campos são obrigatórios",
     clientAddedSuccess: "Cliente adicionado com sucesso!",
     clientAddError: "Erro ao adicionar cliente",
@@ -362,7 +578,7 @@ export const translations = {
     // Tabs
     business: "Negócio",
     template: "Modelo de SMS",
-    twilioConfig: "Config. Twilio",
+    twilioConfig: "Provedor SMS",
     test: "Testar SMS",
 
     // Pagination
@@ -397,6 +613,118 @@ export const translations = {
       "Formate a coluna de telefone como Texto para preservar zeros à esquerda (ex: 0612345678)",
     viewExample: "Ver exemplo",
     hideExample: "Ocultar exemplo",
+
+    // Billing & Subscription
+    billing: "Faturação",
+    manageBillingDescription: "Gerir a sua subscrição e faturação",
+    allPlans: "Todos os Planos",
+    upgradeYourPlan: "Fazer Upgrade do Plano",
+    bestPlanDescription:
+      "Está no melhor plano. Gira a sua subscrição à esquerda.",
+    choosePlanDescription: "Escolha o plano que se adequa às suas necessidades",
+    subscription: "Subscrição",
+    currentPlan: "Plano Atual",
+    upgradePlan: "Fazer Upgrade",
+    manageBilling: "Gerir Faturação",
+    price: "Preço",
+    perMonth: "/mês",
+    renewsOn: "Renova em",
+    expiresOn: "Expira em",
+    active: "Ativo",
+    pastDue: "Pagamento Atrasado",
+    canceledAtPeriodEnd: "Cancelado",
+
+    // Plans
+    plan: "Plano",
+    planFree: "Grátis",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Perfeito para começar",
+    planStarterDescription: "Para negócios em crescimento",
+    planProDescription: "Para negócios estabelecidos",
+
+    // Features
+    featureImportExport: "Importação/Exportação Excel",
+    feature50Clients: "Até 50 clientes",
+    feature100Clients: "Até 100 clientes",
+    featureUnlimitedClients: "Clientes ilimitados",
+    featureOwnTwilio: "Use a sua própria conta Twilio",
+    featureManagedSms: "SMS gerido (incluído)",
+    featureBasicSupport: "Suporte básico",
+    featurePrioritySupport: "Suporte prioritário",
+    featurePremiumSupport: "Suporte premium",
+    featureAdvancedTemplates: "Modelos avançados",
+    featureCustomBranding: "Marca personalizada",
+    ownTwilio: "Twilio Próprio",
+    managedSms: "SMS Gerido",
+    unlimitedClients: "Clientes ilimitados",
+    managedSmsDescription:
+      "Deixe-nos lidar com o envio de SMS por si - não precisa de conta Twilio",
+    managedSmsActiveDescription:
+      "Estamos a lidar com o envio de SMS por si. Desative para usar a sua própria conta Twilio.",
+    managedSmsEnabled: "SMS Gerido Ativo",
+    managedSmsEnabledDescription:
+      "Estamos a lidar com o envio de SMS por si. As suas mensagens serão enviadas usando a nossa infraestrutura confiável.",
+    noTwilioAccountNeeded: "Não precisa de conta Twilio",
+    autoConfiguration: "Configuração automática",
+    reliableDelivery: "Entrega confiável de mensagens",
+
+    // Usage Stats
+    usageStats: "Estatísticas de Uso",
+    clientUsageTracking: "Acompanhe o uso de clientes",
+    clientsUsed: "clientes usados",
+    clientsUsedOf: "de {total} clientes",
+    used: "usado",
+    clientsRemaining: "{remaining} clientes restantes",
+    approachingLimit: "A aproximar-se do limite",
+    considerUpgrading: "Considere fazer upgrade para adicionar mais clientes",
+    viewPlans: "Ver Planos",
+
+    // Errors & Messages
+    clientLimitReached: "Limite de clientes atingido",
+    upgradeToAddMoreClients:
+      "Faça upgrade do seu plano para adicionar mais clientes",
+    checkoutError: "Erro ao criar sessão de pagamento",
+    portalError: "Erro ao abrir portal de faturação",
+    paymentFailedMessage:
+      "O seu pagamento falhou. Por favor atualize o método de pagamento para continuar a usar funcionalidades premium.",
+    subscriptionCanceledMessage:
+      "A sua subscrição será cancelada no final do período de faturação. Pode reativá-la a qualquer momento.",
+    subscriptionUpdated: "A sua subscrição foi atualizada com sucesso!",
+    checkoutCanceled:
+      "O pagamento foi cancelado. Pode tentar novamente a qualquer momento.",
+    contactSales: "Contactar Vendas",
+    upgradeToPlan: "Upgrade para {plan}",
+    smsHandling: "Gestão de SMS",
+    canceled: "Cancelado",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirmar Upgrade",
+    confirmDowngrade: "Confirmar Downgrade",
+    newPlan: "Novo Plano",
+    whatHappensNext: "O que acontece a seguir?",
+    proratedChargeExplanation:
+      "Será cobrado um valor proporcional pela diferença do plano",
+    immediateAccessExplanation:
+      "Terá acesso imediato a todas as novas funcionalidades",
+    nextBillingExplanation: "O próximo ciclo de faturação será ao novo preço",
+    nextBillingLowerPriceExplanation:
+      "O próximo ciclo de faturação será ao preço mais baixo",
+    paymentRequired: "Pagamento de {price}/mês necessário",
+    monthlyBillingExplanation: "Será faturado mensalmente",
+    downgradeCreditExplanation:
+      "Receberá um crédito proporcional pela diferença",
+    downgradeFreePortalExplanation:
+      "Use o portal de faturação para cancelar a sua subscrição",
+    downgradeTakesEffectExplanation:
+      "As alterações entram em vigor no final do período de faturação",
+    invalidPriceId: "ID de preço inválido",
+    newPrice: "Novo preço",
+    processing: "A processar...",
+    openBillingPortal: "Abrir Portal de Faturação",
+    confirm: "Confirmar",
+    downgradePlan: "Downgrade",
+    notAvailable: "Não Disponível",
   },
   fr: {
     // Auth
@@ -538,7 +866,61 @@ export const translations = {
     loading: "Chargement...",
     unauthorized: "Non autorisé",
 
+    // Account Management
+    account: "Compte",
+    accountManagement: "Gestion du compte",
+    manageAccountDescription: "Gérez votre profil et vos paramètres de compte",
+    profileInformation: "Informations du profil",
+    updateProfileDescription: "Mettez à jour votre nom",
+    namePlaceholder: "Votre nom",
+    emailPlaceholder: "votre@email.com",
+    emailChangeNotSupported:
+      "Les modifications d'email ne sont pas prises en charge pour le moment",
+    dangerZone: "Zone de danger",
+    dangerZoneDescription: "Actions irréversibles et destructrices",
+    deleteAccount: "Supprimer le compte",
+    deleteAccountWarning:
+      "Supprimer définitivement votre compte et toutes les données associées. Cette action ne peut pas être annulée.",
+    deleteAccountConfirmTitle: "Êtes-vous absolument sûr ?",
+    deleteAccountConfirmMessage:
+      "Cela supprimera définitivement votre compte et toutes les données associées. Cette action est irréversible.",
+    deleteAccountItem1: "Tous vos clients et rappels seront supprimés",
+    deleteAccountItem2: "Votre abonnement sera annulé",
+    deleteAccountItem3: "Tous vos paramètres seront perdus",
+    deleteAccountItem4: "Votre compte ne peut pas être récupéré",
+    deleteAccountWarningFinal:
+      "Cette action ne peut pas être annulée. Soyez certain.",
+    typeToConfirm: 'Tapez "{text}" pour confirmer',
+    deleteAccountPermanently: "Supprimer le compte définitivement",
+    profileUpdatedSuccess: "Profil mis à jour avec succès !",
+    profileUpdateError: "Erreur lors de la mise à jour du profil",
+    accountDeletedSuccess: "Compte supprimé avec succès",
+    accountDeleteError: "Erreur lors de la suppression du compte",
+    emailAlreadyExists: "Cet email est déjà utilisé",
+
+    // Client Deletion
+    deleteClientConfirmTitle: "Supprimer ce client ?",
+    deleteClientConfirmMessage:
+      'Êtes-vous sûr de vouloir supprimer "{clientName}" ? Cette action ne peut pas être annulée.',
+    deleteClientItem1:
+      "Tout l'historique des rappels pour ce client sera supprimé",
+    deleteClientItem2: "Ce client sera définitivement supprimé de votre liste",
+    deleteClientWarningFinal: "Cette action ne peut pas être annulée.",
+    deleteClientPermanently: "Supprimer le client définitivement",
+
+    // Bulk Client Deletion
+    bulkDeleteConfirmTitle: "Supprimer {count} clients ?",
+    bulkDeleteConfirmMessage:
+      "Êtes-vous sûr de vouloir supprimer {count} clients ? Cette action ne peut pas être annulée.",
+    bulkDeleteItem1:
+      "Tous les clients sélectionnés et leur historique de rappels seront supprimés",
+    bulkDeleteItem2:
+      "Ces clients seront définitivement supprimés de votre liste",
+    bulkDeleteWarningFinal: "Cette action ne peut pas être annulée.",
+    bulkDeletePermanently: "Supprimer les clients définitivement",
+
     // Toast Messages
+    errorGeneric: "Une erreur s'est produite. Veuillez réessayer.",
     allFieldsRequired: "Tous les champs sont obligatoires",
     clientAddedSuccess: "Client ajouté avec succès !",
     clientAddError: "Erreur lors de l'ajout du client",
@@ -565,7 +947,7 @@ export const translations = {
     // Tabs
     business: "Entreprise",
     template: "Modèle de SMS",
-    twilioConfig: "Config. Twilio",
+    twilioConfig: "Fournisseur SMS",
     test: "Test SMS",
 
     // Pagination
@@ -600,6 +982,120 @@ export const translations = {
       "Formatez la colonne téléphone en Texte pour conserver les zéros de tête (ex : 0612345678)",
     viewExample: "Voir l'exemple",
     hideExample: "Masquer l'exemple",
+
+    // Billing & Subscription
+    billing: "Facturation",
+    manageBillingDescription: "Gérer votre abonnement et facturation",
+    allPlans: "Tous les forfaits",
+    upgradeYourPlan: "Mettre à niveau votre forfait",
+    bestPlanDescription:
+      "Vous êtes sur le meilleur forfait. Gérez votre abonnement sur la gauche.",
+    choosePlanDescription: "Choisissez le forfait qui correspond à vos besoins",
+    subscription: "Abonnement",
+    currentPlan: "Plan Actuel",
+    upgradePlan: "Mettre à niveau",
+    manageBilling: "Gérer la facturation",
+    price: "Prix",
+    perMonth: "/mois",
+    renewsOn: "Renouvellement le",
+    expiresOn: "Expire le",
+    active: "Actif",
+    pastDue: "Paiement en retard",
+    canceledAtPeriodEnd: "Annulé",
+
+    // Plans
+    plan: "Plan",
+    planFree: "Gratuit",
+    planStarter: "Starter",
+    planPro: "Pro",
+    planFreeDescription: "Parfait pour commencer",
+    planStarterDescription: "Pour les entreprises en croissance",
+    planProDescription: "Pour les entreprises établies",
+
+    // Features
+    featureImportExport: "Importation/Exportation Excel",
+    feature50Clients: "Jusqu'à 50 clients",
+    feature100Clients: "Jusqu'à 100 clients",
+    featureUnlimitedClients: "Clients illimités",
+    featureOwnTwilio: "Utilisez votre propre compte Twilio",
+    featureManagedSms: "SMS géré (inclus)",
+    featureBasicSupport: "Support de base",
+    featurePrioritySupport: "Support prioritaire",
+    featurePremiumSupport: "Support premium",
+    featureAdvancedTemplates: "Modèles avancés",
+    featureCustomBranding: "Marque personnalisée",
+    ownTwilio: "Twilio propre",
+    managedSms: "SMS géré",
+    unlimitedClients: "Clients illimités",
+    managedSmsDescription:
+      "Laissez-nous gérer l'envoi de SMS pour vous - pas besoin de compte Twilio",
+    managedSmsActiveDescription:
+      "Nous gérons l'envoi de SMS pour vous. Désactivez pour utiliser votre propre compte Twilio.",
+    managedSmsEnabled: "SMS Géré Actif",
+    managedSmsEnabledDescription:
+      "Nous gérons l'envoi de SMS pour vous. Vos messages seront envoyés via notre infrastructure fiable.",
+    noTwilioAccountNeeded: "Pas besoin de compte Twilio",
+    autoConfiguration: "Configuration automatique",
+    reliableDelivery: "Livraison fiable des messages",
+
+    // Usage Stats
+    usageStats: "Statistiques d'utilisation",
+    clientUsageTracking: "Suivez votre utilisation des clients",
+    clientsUsed: "clients utilisés",
+    clientsUsedOf: "sur {total} clients",
+    used: "utilisé",
+    clientsRemaining: "{remaining} clients restants",
+    approachingLimit: "Approche de votre limite",
+    considerUpgrading:
+      "Envisagez de mettre à niveau pour ajouter plus de clients",
+    viewPlans: "Voir les plans",
+
+    // Errors & Messages
+    clientLimitReached: "Limite de clients atteinte",
+    upgradeToAddMoreClients:
+      "Mettez à niveau votre plan pour ajouter plus de clients",
+    checkoutError: "Échec de la création de la session de paiement",
+    portalError: "Échec de l'ouverture du portail de facturation",
+    paymentFailedMessage:
+      "Votre paiement a échoué. Veuillez mettre à jour votre méthode de paiement pour continuer à utiliser les fonctionnalités premium.",
+    subscriptionCanceledMessage:
+      "Votre abonnement sera annulé à la fin de la période de facturation. Vous pouvez le réactiver à tout moment.",
+    subscriptionUpdated: "Votre abonnement a été mis à jour avec succès!",
+    checkoutCanceled:
+      "Le paiement a été annulé. Vous pouvez réessayer à tout moment.",
+    contactSales: "Contacter les ventes",
+    upgradeToPlan: "Passer à {plan}",
+    smsHandling: "Gestion des SMS",
+    canceled: "Annulé",
+
+    // Plan Change Dialog
+    confirmUpgrade: "Confirmer la mise à niveau",
+    confirmDowngrade: "Confirmer la rétrogradation",
+    newPlan: "Nouveau forfait",
+    whatHappensNext: "Que se passe-t-il ensuite ?",
+    proratedChargeExplanation:
+      "Vous serez facturé un montant au prorata de la différence",
+    immediateAccessExplanation:
+      "Vous aurez un accès immédiat à toutes les nouvelles fonctionnalités",
+    nextBillingExplanation:
+      "Votre prochain cycle de facturation sera au nouveau prix",
+    nextBillingLowerPriceExplanation:
+      "Votre prochain cycle de facturation sera au prix inférieur",
+    paymentRequired: "Paiement de {price}/mois requis",
+    monthlyBillingExplanation: "Vous serez facturé mensuellement",
+    downgradeCreditExplanation:
+      "Vous recevrez un crédit au prorata de la différence",
+    downgradeFreePortalExplanation:
+      "Utilisez le portail de facturation pour annuler votre abonnement",
+    downgradeTakesEffectExplanation:
+      "Les modifications prennent effet à la fin de votre période de facturation",
+    invalidPriceId: "ID de prix invalide",
+    newPrice: "Nouveau prix",
+    processing: "Traitement en cours...",
+    openBillingPortal: "Ouvrir le portail de facturation",
+    confirm: "Confirmer",
+    downgradePlan: "Rétrograder",
+    notAvailable: "Non disponible",
   },
 } as const;
 
