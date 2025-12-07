@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1764936102716,
-      "tag": "0000_magenta_doctor_faustus",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1765059696542,
-      "tag": "0001_worthless_shadowcat",
+      "when": 1765135940651,
+      "tag": "0000_abandoned_the_renegades",
       "breakpoints": true
     }
   ]
