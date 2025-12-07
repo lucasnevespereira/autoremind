@@ -113,7 +113,7 @@ export async function createCheckoutSessionUrl(
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "link", "revolut_pay"],
       line_items: [
         {
           price: priceId,
