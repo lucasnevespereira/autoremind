@@ -89,9 +89,18 @@ export async function createCheckoutSessionUrl(
     });
 
     // If user has an active Stripe subscription, update it (works for both upgrades AND downgrades)
-    if (subscription?.stripeSubscriptionId && subscription.planType !== "free") {
-      console.log("User has existing subscription - updating instead of creating new one");
-      return await updateSubscriptionPlan(userId, subscription.stripeSubscriptionId, priceId);
+    if (
+      subscription?.stripeSubscriptionId &&
+      subscription.planType !== "free"
+    ) {
+      console.log(
+        "User has existing subscription - updating instead of creating new one"
+      );
+      return await updateSubscriptionPlan(
+        userId,
+        subscription.stripeSubscriptionId,
+        priceId
+      );
     }
 
     // Otherwise, create a new checkout session (for free → paid)
@@ -104,7 +113,7 @@ export async function createCheckoutSessionUrl(
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
-      payment_method_types: ["card"],
+      payment_method_types: ["card", "link", "mb_way", "revolut_pay"],
       line_items: [
         {
           price: priceId,
@@ -121,6 +130,12 @@ export async function createCheckoutSessionUrl(
       // Automatically apply taxes
       automatic_tax: {
         enabled: false, // Set to true if you have tax settings in Stripe
+      },
+      // Enable payment method collection for wallets
+      payment_method_options: {
+        card: {
+          request_three_d_secure: "automatic", // Enhanced security
+        },
       },
     });
 
@@ -152,7 +167,9 @@ export async function updateSubscriptionPlan(
     });
 
     // Retrieve the current subscription
-    const stripeSubscription = await stripe.subscriptions.retrieve(subscriptionId);
+    const stripeSubscription = await stripe.subscriptions.retrieve(
+      subscriptionId
+    );
 
     // Get the subscription item ID (first item)
     const subscriptionItemId = stripeSubscription.items.data[0]?.id;
@@ -162,15 +179,18 @@ export async function updateSubscriptionPlan(
     }
 
     // Update the subscription to the new price
-    const updatedSubscription = await stripe.subscriptions.update(subscriptionId, {
-      items: [
-        {
-          id: subscriptionItemId,
-          price: newPriceId,
-        },
-      ],
-      proration_behavior: "create_prorations", // Prorate the charges
-    });
+    const updatedSubscription = await stripe.subscriptions.update(
+      subscriptionId,
+      {
+        items: [
+          {
+            id: subscriptionItemId,
+            price: newPriceId,
+          },
+        ],
+        proration_behavior: "create_prorations", // Prorate the charges
+      }
+    );
 
     console.log("Subscription updated successfully:", updatedSubscription.id);
 
