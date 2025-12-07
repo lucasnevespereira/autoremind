@@ -24,7 +24,11 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
     price: number;
   } | null>(null);
 
-  async function handlePlanClick(priceId: string | null, planType: string, price: number) {
+  async function handlePlanClick(
+    priceId: string | null,
+    planType: string,
+    price: number
+  ) {
     // Show confirmation dialog for both upgrades and downgrades
     setSelectedPlan({ priceId, planType, price });
     setDialogOpen(true);
@@ -77,8 +81,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       description: t("planFreeDescription"),
       icon: Star,
       features: [
-        t("feature10Clients"),
+        t("feature50Clients"),
         t("featureOwnTwilio"),
+        t("featureImportExport"),
         t("featureBasicSupport"),
       ],
       color: "text-gray-600",
@@ -97,6 +102,7 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       features: [
         t("feature100Clients"),
         t("featureManagedSms"),
+        t("featureImportExport"),
         t("featurePrioritySupport"),
       ],
       color: "text-blue-600",
@@ -115,6 +121,7 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       features: [
         t("featureUnlimitedClients"),
         t("featureManagedSms"),
+        t("featureImportExport"),
         t("featurePremiumSupport"),
       ],
       color: "text-purple-600",
@@ -135,11 +142,13 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
 
           // Determine if it's an upgrade or downgrade
           const isUpgrade =
-            (currentPlan === "free" && (plan.id === "starter" || plan.id === "pro")) ||
+            (currentPlan === "free" &&
+              (plan.id === "starter" || plan.id === "pro")) ||
             (currentPlan === "starter" && plan.id === "pro");
 
           const isDowngrade =
-            (currentPlan === "pro" && (plan.id === "starter" || plan.id === "free")) ||
+            (currentPlan === "pro" &&
+              (plan.id === "starter" || plan.id === "free")) ||
             (currentPlan === "starter" && plan.id === "free");
 
           return (
@@ -210,7 +219,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
                   </div>
                 ) : plan.priceId ? (
                   <Button
-                    onClick={() => handlePlanClick(plan.priceId!, plan.id, plan.priceNum)}
+                    onClick={() =>
+                      handlePlanClick(plan.priceId!, plan.id, plan.priceNum)
+                    }
                     disabled={isLoading}
                     size="sm"
                     variant={isDowngrade ? "outline" : "default"}

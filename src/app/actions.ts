@@ -1,7 +1,15 @@
 "use server";
 
 import { db } from "@/db";
-import { clients, settings } from "@/db/schema";
+import {
+  clients,
+  settings,
+  user,
+  subscriptions,
+  session as sessionTable,
+  account as accountTable,
+  verification
+} from "@/db/schema";
 import { sendSMS, formatPhone } from "@/lib/twilio";
 import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
@@ -13,6 +21,7 @@ import ExcelJS from "exceljs";
 import { LANG } from "@/constants";
 import { encrypt } from "@/lib/encryption";
 import { canAddClients } from "@/lib/subscription";
+import { signOut } from "@/lib/auth-client";
 
 // User Actions
 export async function getUserClientCount() {
@@ -551,5 +560,84 @@ export async function createPortalSession() {
   } catch (error) {
     console.error("Error creating portal session:", error);
     return { success: false, errorKey: "portalError" };
+  }
+}
+
+// Account Management Actions
+
+export async function updateProfile(formData: FormData) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const name = formData.get("name") as string;
+
+    if (!name?.trim()) {
+      return { success: false, errorKey: "allFieldsRequired" };
+    }
+
+    // Update user name only
+    await db
+      .update(user)
+      .set({
+        name: name.trim(),
+        updatedAt: new Date(),
+      })
+      .where(eq(user.id, session.user.id));
+
+    revalidatePath("/account");
+    revalidatePath("/");
+    return { success: true, messageKey: "profileUpdatedSuccess" };
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return { success: false, errorKey: "profileUpdateError" };
+  }
+}
+
+export async function deleteAccount() {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+
+    if (!session?.user?.id) {
+      return { success: false, errorKey: "unauthorized" };
+    }
+
+    const userId = session.user.id;
+
+    // Delete all user data in order (to respect foreign key constraints)
+    // 1. Delete clients
+    await db.delete(clients).where(eq(clients.userId, userId));
+
+    // 2. Delete settings
+    await db.delete(settings).where(eq(settings.userId, userId));
+
+    // 3. Delete subscription
+    await db.delete(subscriptions).where(eq(subscriptions.userId, userId));
+
+    // 4. Delete sessions
+    await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
+
+    // 5. Delete accounts
+    await db.delete(accountTable).where(eq(accountTable.userId, userId));
+
+    // 6. Delete verification records
+    await db.delete(verification).where(eq(verification.identifier, session.user.email));
+
+    // 7. Finally, delete the user
+    await db.delete(user).where(eq(user.id, userId));
+
+    // Sign out and redirect to home page
+    // Note: The redirect will be handled in the UI after successful deletion
+    return { success: true, messageKey: "accountDeletedSuccess" };
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    return { success: false, errorKey: "accountDeleteError" };
   }
 }

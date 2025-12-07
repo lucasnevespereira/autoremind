@@ -123,7 +123,7 @@ export function PlanChangeDialog({
                 <ul className="text-sm space-y-2 text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">•</span>
-                    <span>{t("paymentRequired", { price: `€${targetPrice}` })}</span>
+                    <span>{t("paymentRequired").replace("{price}", `€${targetPrice}`)}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">•</span>

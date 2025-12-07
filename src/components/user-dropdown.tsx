@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Settings, LogOut, CreditCard } from "lucide-react";
+import { Settings, LogOut, CreditCard, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +14,6 @@ import {
 import { useLanguage } from "@/contexts/language-context";
 import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
-// import type { Subscription } from "@/db/schema";
 
 interface UserDropdownProps {
   session: Session;
@@ -39,21 +38,6 @@ export function UserDropdown({ session }: UserDropdownProps) {
     .toUpperCase()
     .slice(0, 2);
 
-  // const planNames: Record<string, string> = {
-  //   free: "Free",
-  //   starter: "Starter",
-  //   pro: "Pro",
-  // };
-
-  // const planColors: Record<string, string> = {
-  //   free: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300",
-  //   starter: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400",
-  //   pro: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
-  // };
-
-  // const planName = planNames[subscription.planType] || "Free";
-  // const planColor = planColors[subscription.planType] || planColors.free;
-
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger className="outline-none">
@@ -71,11 +55,6 @@ export function UserDropdown({ session }: UserDropdownProps) {
               <span className="text-sm font-medium text-foreground leading-none">
                 {userName}
               </span>
-              {/* <span
-                className={`text-[10px] px-1.5 py-0.5 rounded-md font-medium leading-none ${planColor}`}
-              >
-                {planName}
-              </span> */}
             </div>
           </div>
         </button>
@@ -100,37 +79,20 @@ export function UserDropdown({ session }: UserDropdownProps) {
             </div>
           </div>
         </DropdownMenuLabel>
-
-        {/* Plan Badge Section */}
-        {/* <div className="mx-2 mb-2 mt-1 p-2.5 rounded-lg bg-muted/40">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium text-foreground">
-                {planName} {t("plan")}
-              </span>
-            </div>
-            <span
-              className={`text-[10px] px-2 py-1 rounded-md font-medium ${planColor}`}
-            >
-              {subscription.planType === "free"
-                ? "€0/mo"
-                : subscription.planType === "starter"
-                ? "€5/mo"
-                : "€15/mo"}
-            </span>
-          </div>
-          {subscription.planType !== "pro" && (
-            <p className="text-[11px] text-muted-foreground mt-1.5">
-              {clientCount}/{subscription.planType === "free" ? "10" : "100"}{" "}
-              {t("clients")}
-            </p>
-          )}
-        </div> */}
-
         <DropdownMenuSeparator />
 
         {/* Menu Items */}
+        <DropdownMenuItem
+          onClick={() => {
+            router.push("/account");
+            setIsOpen(false);
+          }}
+          className="cursor-pointer rounded-lg py-2.5 px-3"
+        >
+          <User className="h-4 w-4 mr-3 text-muted-foreground" />
+          <span className="text-sm font-medium">{t("account")}</span>
+        </DropdownMenuItem>
+
         <DropdownMenuItem
           onClick={() => {
             router.push("/settings");

@@ -1,8 +1,10 @@
+import { PLAN } from "@/constants";
+
 export const PLANS = {
   free: {
     id: "free",
     name: "Free",
-    clientLimit: 10, // 10 clients max
+    clientLimit: 50, // 50 clients max
     price: 0,
     smsHandling: "own", // User provides own Twilio (they pay per SMS)
   },
@@ -16,7 +18,7 @@ export const PLANS = {
   pro: {
     id: "pro",
     name: "Pro",
-    clientLimit: null, // Unlimited
+    clientLimit: 999, // Unlimited
     price: 15, // €15/month
     smsHandling: "managed", // We handle SMS (includes SMS costs + our commission)
   },
@@ -25,9 +27,9 @@ export const PLANS = {
 export type PlanType = keyof typeof PLANS;
 
 export function getPlanLimit(plan: string): number | null {
-  if (plan === "free") return PLANS.free.clientLimit;
-  if (plan === "starter") return PLANS.starter.clientLimit;
-  if (plan === "pro") return PLANS.pro.clientLimit;
+  if (plan === PLAN.FREE) return PLANS.free.clientLimit;
+  if (plan === PLAN.STARTER) return PLANS.starter.clientLimit;
+  if (plan === PLAN.PRO) return PLANS.pro.clientLimit;
   return PLANS.free.clientLimit; // Default to free
 }
 
@@ -38,5 +40,5 @@ export function canAddClient(currentCount: number, plan: string): boolean {
 }
 
 export function usesManagedSMS(plan: string): boolean {
-  return plan === "starter" || plan === "pro";
+  return plan === PLAN.STARTER || plan === PLAN.PRO;
 }
