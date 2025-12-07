@@ -522,7 +522,7 @@ function getPlanTypeFromPriceId(priceId: string | undefined): string {
 
   if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
     console.log("✅ Matched STARTER plan");
-    return PLAN.PRO;
+    return PLAN.STARTER;
   }
 
   if (priceId === process.env.STRIPE_PRICE_ID_PRO) {

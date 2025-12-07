@@ -18,7 +18,7 @@ export const PLANS = {
   pro: {
     id: "pro",
     name: "Pro",
-    clientLimit: 999, // Unlimited
+    clientLimit: null, // Unlimited
     price: 15, // €15/month
     smsHandling: "managed", // We handle SMS (includes SMS costs + our commission)
   },
