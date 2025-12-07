@@ -31,11 +31,23 @@ jobs:
 
       - name: Build
         env:
-          DATABASE_URL: "postgresql://username:password@localhost:5432/wayt_db"
-          BETTER_AUTH_SECRET: "test_secret_key_32_chars_minimum_length_required_for_ci"
-          BETTER_AUTH_URL: "http://localhost:3000"
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
-          CRON_SECRET: "test_cron_key_32_chars_minimum_length_required_for_ci"
+          BETTER_AUTH_URL: http://localhost:3000
+          BETTER_AUTH_SECRET: test_secret_key_32_chars_minimum_length_required_for_ci
+          DATABASE_URL: postgresql://user:password@localhost:5432/test_db
+          NEXT_PUBLIC_APP_URL: http://localhost:3000
+          CRON_SECRET: test_cron_key_32_chars_minimum_length_required_for_ci
+          ENCRYPTION_KEY: your-32-byte-hex-key-here
+          PLATFORM_TWILIO_ACCOUNT_SID: your_platform_account_sid
+          PLATFORM_TWILIO_AUTH_TOKEN: your_platform_auth_token
+          PLATFORM_TWILIO_PHONE_NUMBER: +1234567890
+          STRIPE_PUBLISHABLE_KEY: pk_test_your_stripe_publishable_key
+          STRIPE_SECRET_KEY: sk_test_your_stripe_secret_key
+          STRIPE_WEBHOOK_SECRET: whsec_your_webhook_secret
+          STRIPE_PRICE_ID_STARTER: price_your_starter_price_id
+          NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER: price_your_starter_price_id
+          STRIPE_PRICE_ID_PRO: price_your_pro_price_id
+          NEXT_PUBLIC_STRIPE_PRICE_ID_PRO: price_your_pro_price_id
+
         run: npm run build:local
 
       - name: Extract version from tag

@@ -108,7 +108,7 @@ if git ls-remote --tags origin | grep -q "refs/tags/v$NEW_VERSION$"; then
     else
         echo -e "${RED}❌ Tag v$NEW_VERSION already exists on remote!${NC}"
         echo -e "${YELLOW}If you want to retry this release, use:${NC}"
-        echo "   pnpm run release $TYPE --retry"
+        echo "   npm run release $TYPE --retry"
         exit 1
     fi
 fi
