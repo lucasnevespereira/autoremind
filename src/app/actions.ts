@@ -21,7 +21,6 @@ import ExcelJS from "exceljs";
 import { LANG } from "@/constants";
 import { encrypt } from "@/lib/encryption";
 import { canAddClients } from "@/lib/subscription";
-import { signOut } from "@/lib/auth-client";
 
 // User Actions
 export async function getUserClientCount() {
