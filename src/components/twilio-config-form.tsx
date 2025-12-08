@@ -91,11 +91,8 @@ export function TwilioConfigForm({
     }
 
     setTestLoading(true);
-    const result = await sendTestSMS(
-      testPhone,
-      formValues.businessName,
-      language
-    );
+    const businessName = formValues.businessName || "AutoRemind";
+    const result = await sendTestSMS(testPhone, businessName, language);
     setTestLoading(false);
 
     if (result.success) {

@@ -38,7 +38,7 @@ export function SignUpForm() {
         description: t("accountCreatedSuccess"),
       });
 
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",

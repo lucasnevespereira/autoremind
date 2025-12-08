@@ -18,7 +18,7 @@ export function AccountHeader() {
           {t("manageAccountDescription")}
         </p>
       </div>
-      <Link href="/">
+      <Link href="/dashboard">
         <Button
           variant="outline"
           size="sm"

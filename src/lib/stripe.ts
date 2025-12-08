@@ -120,8 +120,8 @@ export async function createCheckoutSessionUrl(
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing?canceled=true`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?canceled=true`,
       metadata: {
         userId: userId,
       },
@@ -211,7 +211,7 @@ export async function updateSubscriptionPlan(
     console.log("Database updated with new plan type:", planType);
 
     // Return to billing page with success message
-    return `${process.env.NEXT_PUBLIC_APP_URL}/billing?updated=true`;
+    return `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?updated=true`;
   } catch (error) {
     console.error("Error updating subscription:", error);
     throw error;
@@ -242,7 +242,7 @@ export async function createPortalSessionUrl(
 
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/billing`,
+      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing`,
     });
 
     console.log("Customer portal session created successfully");

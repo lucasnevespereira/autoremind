@@ -354,6 +354,24 @@ export const translations = {
     confirm: "Confirm",
     downgradePlan: "Downgrade",
     notAvailable: "Not Available",
+
+    // Landing Page
+    landingHeadline: "Never miss an appointment",
+    landingSubheadline: "Automated SMS reminders for your clients",
+    getStarted: "Get Started",
+    privacy: "Privacy",
+    terms: "Terms",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "How it works",
+    step1Title: "Import your clients",
+    step1Description:
+      "Upload your client database from Excel with their information and reminder dates",
+    step2Title: "Configure your business",
+    step2Description:
+      "Set up your business information and customize your SMS template",
+    step3Title: "Automatic reminders",
+    step3Description:
+      "Your clients will automatically receive SMS reminders before their appointments",
   },
   pt: {
     // Auth
@@ -723,6 +741,24 @@ export const translations = {
     confirm: "Confirmar",
     downgradePlan: "Downgrade",
     notAvailable: "Não Disponível",
+
+    // Landing Page
+    landingHeadline: "Nunca perca uma marcação",
+    landingSubheadline: "Lembretes SMS automáticos para os seus clientes",
+    getStarted: "Começar",
+    privacy: "Privacidade",
+    terms: "Termos",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "Como funciona",
+    step1Title: "Importe os seus clientes",
+    step1Description:
+      "Carregue a sua base de dados de clientes do Excel com as suas informações e datas de lembrete",
+    step2Title: "Configure o seu negócio",
+    step2Description:
+      "Defina as informações do seu negócio e personalize o seu modelo de SMS",
+    step3Title: "Lembretes automáticos",
+    step3Description:
+      "Os seus clientes receberão automaticamente lembretes SMS antes das suas marcações",
   },
   fr: {
     // Auth
@@ -1094,6 +1130,24 @@ export const translations = {
     confirm: "Confirmer",
     downgradePlan: "Rétrograder",
     notAvailable: "Non disponible",
+
+    // Landing Page
+    landingHeadline: "Ne manquez jamais un rendez-vous",
+    landingSubheadline: "Rappels SMS automatiques pour vos clients",
+    getStarted: "Commencer",
+    privacy: "Confidentialité",
+    terms: "Conditions",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "Comment ça marche",
+    step1Title: "Importez vos clients",
+    step1Description:
+      "Téléchargez votre base de données clients depuis Excel avec leurs informations et dates de rappel",
+    step2Title: "Configurez votre entreprise",
+    step2Description:
+      "Définissez les informations de votre entreprise et personnalisez votre modèle de SMS",
+    step3Title: "Rappels automatiques",
+    step3Description:
+      "Vos clients recevront automatiquement des rappels SMS avant leurs rendez-vous",
   },
 } as const;
 

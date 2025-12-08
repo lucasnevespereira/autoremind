@@ -84,7 +84,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
         {/* Menu Items */}
         <DropdownMenuItem
           onClick={() => {
-            router.push("/account");
+            router.push("/dashboard/account");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"
@@ -95,7 +95,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
         <DropdownMenuItem
           onClick={() => {
-            router.push("/settings");
+            router.push("/dashboard/settings");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"
@@ -106,7 +106,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
         <DropdownMenuItem
           onClick={() => {
-            router.push("/billing");
+            router.push("/dashboard/billing");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"

@@ -16,14 +16,18 @@ export default async function authMiddleware(request: NextRequest) {
   const isLoginPage = request.nextUrl.pathname === "/sign-in";
   const isSignUpPage = request.nextUrl.pathname === "/sign-up";
   const isAuthPage = isLoginPage || isSignUpPage;
+  const isPrivacyPage = request.nextUrl.pathname === "/privacy";
+  const isTermsPage = request.nextUrl.pathname === "/terms";
+  const isPublicPage = isPrivacyPage || isTermsPage;
+  const isRootPage = request.nextUrl.pathname === "/";
 
-  // If not authenticated and not on auth page, redirect to sign-in
-  if (!session && !isAuthPage) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+  // If authenticated and on landing/auth pages, redirect to dashboard
+  if (session && (isRootPage || isAuthPage)) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  // If authenticated and on auth page, redirect to home
-  if (session && isAuthPage) {
+  // If not authenticated and trying to access protected routes, redirect to landing page
+  if (!session && !isAuthPage && !isPublicPage && !isRootPage) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

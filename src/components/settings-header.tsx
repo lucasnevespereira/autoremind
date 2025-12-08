@@ -18,7 +18,7 @@ export function SettingsHeader() {
           {t("configureBusinessInfo")}
         </p>
       </div>
-      <Link href="/">
+      <Link href="/dashboard">
         <Button
           variant="outline"
           size="sm"

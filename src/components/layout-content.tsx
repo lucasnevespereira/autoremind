@@ -26,7 +26,7 @@ export function LayoutContent({
       <header className="bg-card border-b border-border/40 sticky top-0 z-50 backdrop-blur-sm bg-card/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/dashboard" className="flex items-center gap-3 group">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-fintech group-hover:scale-105 transition-transform duration-200">
                 <Image
                   src={logoSquare}
@@ -43,41 +43,6 @@ export function LayoutContent({
             </Link>
 
             <div className="flex items-center gap-1.5">
-              {/* <Link href="/billing">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
-                >
-                  <CreditCard className="h-4 w-4" />
-                  <span className="hidden sm:inline font-medium">
-                    {t("billing")}
-                  </span>
-                </Button>
-              </Link>
-              <Link href="/settings">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
-                >
-                  <Settings className="h-4 w-4" />
-                  <span className="hidden sm:inline font-medium">
-                    {t("settings")}
-                  </span>
-                </Button>
-              </Link>
-              <Button
-                onClick={handleSignOut}
-                variant="ghost"
-                size="sm"
-                className="gap-2 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-xl h-9 px-3"
-              >
-                <LogOut className="h-4 w-4" />
-                <span className="hidden sm:inline font-medium">
-                  {t("logout")}
-                </span>
-              </Button> */}
               <UserDropdown session={session} />
             </div>
           </div>
