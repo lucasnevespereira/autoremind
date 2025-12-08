@@ -394,6 +394,18 @@ export const translations = {
     readyToStart: "Ready to get started?",
     readyToStartSubtitle: "Start sending automated SMS reminders today",
     getStartedFree: "Get Started - It's Free",
+
+    // Hero Visual
+    upcomingReminders: "Upcoming Reminders",
+    today: "Today",
+    heroClient1Name: "Sarah Johnson",
+    heroClient1Service: "Dental checkup • Dec 15",
+    heroClient2Name: "James Wilson",
+    heroClient2Service: "Haircut appointment • Dec 12",
+    heroClient3Name: "Emily Davis",
+    heroClient3Service: "Car service • Dec 10",
+    heroClient4Name: "Michael Brown",
+    heroClient4Service: "Gym session • Dec 18",
   },
   pt: {
     // Auth
@@ -803,6 +815,18 @@ export const translations = {
     readyToStart: "Pronto para começar?",
     readyToStartSubtitle: "Comece a enviar lembretes SMS automáticos hoje",
     getStartedFree: "Começar - É Grátis",
+
+    // Hero Visual
+    upcomingReminders: "Próximos Lembretes",
+    today: "Hoje",
+    heroClient1Name: "Maria Santos",
+    heroClient1Service: "Consulta dentária • 15 Dez",
+    heroClient2Name: "João Duarte",
+    heroClient2Service: "Corte de cabelo • 12 Dez",
+    heroClient3Name: "Ana Lopes",
+    heroClient3Service: "Revisão do carro • 10 Dez",
+    heroClient4Name: "Pedro Costa",
+    heroClient4Service: "Treino ginásio • 18 Dez",
   },
   fr: {
     // Auth
@@ -1215,6 +1239,18 @@ export const translations = {
     readyToStartSubtitle:
       "Commencez à envoyer des rappels SMS automatiques aujourd'hui",
     getStartedFree: "Commencer - C'est Gratuit",
+
+    // Hero Visual
+    upcomingReminders: "Rappels à venir",
+    today: "Aujourd'hui",
+    heroClient1Name: "Marie Dupont",
+    heroClient1Service: "Contrôle dentaire • 15 Déc",
+    heroClient2Name: "Jean Martin",
+    heroClient2Service: "Rendez-vous coiffeur • 12 Déc",
+    heroClient3Name: "Sophie Bernard",
+    heroClient3Service: "Entretien voiture • 10 Déc",
+    heroClient4Name: "Pierre Moreau",
+    heroClient4Service: "Séance fitness • 18 Déc",
   },
 } as const;
 

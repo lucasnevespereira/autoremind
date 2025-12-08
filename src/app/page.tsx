@@ -75,60 +75,81 @@ export default function LandingPage() {
               {/* Visual Element */}
               <div className="hidden lg:block">
                 <div className="relative">
-                  {/* Background decoration */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent rounded-3xl" />
+                  {/* Background decorations */}
+                  <div className="absolute -inset-4 bg-gradient-to-br from-primary/30 via-primary/10 to-transparent rounded-3xl blur-2xl" />
+                  <div className="absolute -top-6 -right-6 w-24 h-24 bg-green-500/20 rounded-full blur-2xl" />
+                  <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-orange-500/20 rounded-full blur-2xl" />
 
-                  {/* Mock phone/dashboard preview */}
-                  <div className="relative bg-card border border-border/40 rounded-2xl p-6 shadow-xl">
+                  {/* Mock dashboard preview */}
+                  <div className="relative bg-card/95 backdrop-blur border border-border/60 rounded-2xl p-6 shadow-2xl">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-5 pb-4 border-b border-border/40">
+                      <div className="text-sm font-semibold text-foreground">{t("upcomingReminders")}</div>
+                      <div className="text-xs text-muted-foreground">{t("today")}</div>
+                    </div>
+
                     <div className="space-y-4">
-                      {/* Mock client row 1 */}
-                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
-                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">
-                            JD
+                      {/* Row 1 - Dentist */}
+                      <div className="flex items-center gap-4 p-3 bg-primary/5 rounded-xl border border-primary/10">
+                        <div className="h-11 w-11 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
+                          <span className="text-sm font-bold text-primary">
+                            {t("heroClient1Name").split(" ").map(n => n[0]).join("")}
                           </span>
                         </div>
-                        <div className="flex-1">
-                          <div className="h-3 w-24 bg-foreground/80 rounded mb-2" />
-                          <div className="h-2 w-32 bg-muted-foreground/50 rounded" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-foreground">{t("heroClient1Name")}</div>
+                          <div className="text-xs text-muted-foreground">{t("heroClient1Service")}</div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
-                          <Bell className="h-3 w-3 text-primary" />
-                          <div className="h-2 w-8 bg-primary/50 rounded" />
+                        <div className="px-2.5 py-1 rounded-lg bg-primary/10 text-xs font-semibold text-primary">
+                          {t("scheduled")}
                         </div>
                       </div>
 
-                      {/* Mock client row 2 */}
-                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
-                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">
-                            MS
+                      {/* Row 2 - Salon */}
+                      <div className="flex items-center gap-4 p-3 bg-green-500/5 rounded-xl border border-green-500/10">
+                        <div className="h-11 w-11 rounded-xl bg-green-500/20 flex items-center justify-center shrink-0">
+                          <span className="text-sm font-bold text-green-600">
+                            {t("heroClient2Name").split(" ").map(n => n[0]).join("")}
                           </span>
                         </div>
-                        <div className="flex-1">
-                          <div className="h-3 w-28 bg-foreground/80 rounded mb-2" />
-                          <div className="h-2 w-36 bg-muted-foreground/50 rounded" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-foreground">{t("heroClient2Name")}</div>
+                          <div className="text-xs text-muted-foreground">{t("heroClient2Service")}</div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full">
-                          <div className="h-2 w-2 rounded-full bg-green-500" />
-                          <div className="h-2 w-8 bg-green-500/50 rounded" />
+                        <div className="px-2.5 py-1 rounded-lg bg-green-500/10 text-xs font-semibold text-green-600">
+                          {t("sent")}
                         </div>
                       </div>
 
-                      {/* Mock client row 3 */}
-                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
-                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">
-                            AL
+                      {/* Row 3 - Mechanic */}
+                      <div className="flex items-center gap-4 p-3 bg-orange-500/5 rounded-xl border border-orange-500/10">
+                        <div className="h-11 w-11 rounded-xl bg-orange-500/20 flex items-center justify-center shrink-0">
+                          <span className="text-sm font-bold text-orange-600">
+                            {t("heroClient3Name").split(" ").map(n => n[0]).join("")}
                           </span>
                         </div>
-                        <div className="flex-1">
-                          <div className="h-3 w-20 bg-foreground/80 rounded mb-2" />
-                          <div className="h-2 w-28 bg-muted-foreground/50 rounded" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-foreground">{t("heroClient3Name")}</div>
+                          <div className="text-xs text-muted-foreground">{t("heroClient3Service")}</div>
                         </div>
-                        <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
-                          <Bell className="h-3 w-3 text-primary" />
-                          <div className="h-2 w-8 bg-primary/50 rounded" />
+                        <div className="px-2.5 py-1 rounded-lg bg-orange-500/10 text-xs font-semibold text-orange-600">
+                          {t("dueSoon")}
+                        </div>
+                      </div>
+
+                      {/* Row 4 - Gym */}
+                      <div className="flex items-center gap-4 p-3 bg-primary/5 rounded-xl border border-primary/10">
+                        <div className="h-11 w-11 rounded-xl bg-primary/20 flex items-center justify-center shrink-0">
+                          <span className="text-sm font-bold text-primary">
+                            {t("heroClient4Name").split(" ").map(n => n[0]).join("")}
+                          </span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-foreground">{t("heroClient4Name")}</div>
+                          <div className="text-xs text-muted-foreground">{t("heroClient4Service")}</div>
+                        </div>
+                        <div className="px-2.5 py-1 rounded-lg bg-primary/10 text-xs font-semibold text-primary">
+                          {t("scheduled")}
                         </div>
                       </div>
                     </div>
