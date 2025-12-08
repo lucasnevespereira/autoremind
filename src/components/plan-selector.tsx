@@ -12,20 +12,34 @@ import { BILLING_INTERVAL } from "@/constants";
 
 interface PlanSelectorProps {
   currentPlan: string;
+  currentPriceId?: string | null;
 }
 
-export function PlanSelector({ currentPlan }: PlanSelectorProps) {
+// Helper to check if a price ID is annual
+function isAnnualPriceId(priceId: string | null | undefined): boolean {
+  if (!priceId) return false;
+  return (
+    priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER_ANNUAL ||
+    priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_ANNUAL
+  );
+}
+
+export function PlanSelector({ currentPlan, currentPriceId }: PlanSelectorProps) {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [loading, setLoading] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  // Initialize billing interval based on current subscription
+  const currentIsAnnual = isAnnualPriceId(currentPriceId);
   const [billingInterval, setBillingInterval] = useState<BILLING_INTERVAL>(
-    BILLING_INTERVAL.MONTHLY
+    currentIsAnnual ? BILLING_INTERVAL.ANNUAL : BILLING_INTERVAL.MONTHLY
   );
   const [selectedPlan, setSelectedPlan] = useState<{
     priceId: string | null;
     planType: string;
     price: number;
+    isAnnual: boolean;
   } | null>(null);
 
   const isAnnual = billingInterval === BILLING_INTERVAL.ANNUAL;
@@ -36,7 +50,7 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
     price: number
   ) {
     // Show confirmation dialog for both upgrades and downgrades
-    setSelectedPlan({ priceId, planType, price });
+    setSelectedPlan({ priceId, planType, price, isAnnual });
     setDialogOpen(true);
   }
 
@@ -170,11 +184,16 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-fr">
         {plans.map((plan) => {
           const Icon = plan.icon;
-          const isCurrent = currentPlan === plan.id;
-          const canChange = plan.id !== currentPlan;
+          // Check if this is the exact current plan (same tier AND same billing interval)
+          const isSamePlanType = currentPlan === plan.id;
+          const isSameBillingInterval = currentIsAnnual === isAnnual;
+          const isExactCurrentPlan = isSamePlanType && isSameBillingInterval;
+
+          // Can switch billing interval for same plan, or change plan entirely
+          const isBillingIntervalSwitch = isSamePlanType && !isSameBillingInterval && plan.id !== "free";
           const isLoading = loading === plan.id;
 
-          // Determine if it's an upgrade or downgrade
+          // Determine if it's an upgrade or downgrade (plan tier change)
           const isUpgrade =
             (currentPlan === "free" &&
               (plan.id === "starter" || plan.id === "pro")) ||
@@ -190,13 +209,13 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
               key={plan.id}
               className={cn(
                 "relative bg-card rounded-lg border p-5 shadow-sm transition-all duration-200 flex flex-col",
-                isCurrent
+                isExactCurrentPlan
                   ? "border-primary ring-1 ring-primary"
                   : "border-border/40 hover:border-border/60"
               )}
             >
               {/* Minimal Current Badge */}
-              {isCurrent && (
+              {isExactCurrentPlan && (
                 <div className="absolute -top-2 -right-2">
                   <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-primary text-primary-foreground shadow-sm">
                     <Check className="h-3 w-3" />
@@ -243,14 +262,30 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
                 ))}
               </ul>
 
-              {/* Action Button - Only show for non-current plans with priceId */}
+              {/* Action Button */}
               <div className="mt-auto">
-                {isCurrent ? (
+                {isExactCurrentPlan ? (
                   <div className="text-center py-2">
                     <span className="text-xs font-medium text-muted-foreground">
                       {t("currentPlan")}
                     </span>
                   </div>
+                ) : isBillingIntervalSwitch && plan.priceId ? (
+                  <Button
+                    onClick={() =>
+                      handlePlanClick(plan.priceId!, plan.id, plan.priceNum)
+                    }
+                    disabled={isLoading}
+                    size="sm"
+                    variant="outline"
+                    className="w-full h-9 rounded-lg text-sm"
+                  >
+                    {isLoading
+                      ? t("loading")
+                      : isAnnual
+                      ? t("switchToAnnual")
+                      : t("switchToMonthly")}
+                  </Button>
                 ) : plan.priceId ? (
                   <Button
                     onClick={() =>
@@ -282,6 +317,7 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
           currentPlan={currentPlan}
           targetPlan={selectedPlan.planType}
           targetPrice={selectedPlan.price}
+          isAnnual={selectedPlan.isAnnual}
           onConfirm={handleConfirmPlanChange}
         />
       )}

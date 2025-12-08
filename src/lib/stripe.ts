@@ -152,6 +152,17 @@ export async function createCheckoutSessionUrl(
 }
 
 /**
+ * Helper to check if a price ID is annual
+ */
+function isAnnualPrice(priceId: string | null | undefined): boolean {
+  if (!priceId) return false;
+  return (
+    priceId === process.env.STRIPE_PRICE_ID_STARTER_ANNUAL ||
+    priceId === process.env.STRIPE_PRICE_ID_PRO_ANNUAL
+  );
+}
+
+/**
  * Update an existing subscription to a new plan
  */
 export async function updateSubscriptionPlan(
@@ -173,12 +184,29 @@ export async function updateSubscriptionPlan(
 
     // Get the subscription item ID (first item)
     const subscriptionItemId = stripeSubscription.items.data[0]?.id;
+    const currentPriceId = stripeSubscription.items.data[0]?.price.id;
 
     if (!subscriptionItemId) {
       throw new Error("No subscription item found");
     }
 
+    // Check if switching between monthly and annual billing
+    const wasAnnual = isAnnualPrice(currentPriceId);
+    const willBeAnnual = isAnnualPrice(newPriceId);
+    const switchingBillingInterval = wasAnnual !== willBeAnnual;
+
+    console.log("Billing interval change:", {
+      currentPriceId,
+      newPriceId,
+      wasAnnual,
+      willBeAnnual,
+      switchingBillingInterval,
+      envStarterAnnual: process.env.STRIPE_PRICE_ID_STARTER_ANNUAL,
+      envProAnnual: process.env.STRIPE_PRICE_ID_PRO_ANNUAL,
+    });
+
     // Update the subscription to the new price
+    // Reset billing cycle anchor when switching between monthly/annual
     const updatedSubscription = await stripe.subscriptions.update(
       subscriptionId,
       {
@@ -188,7 +216,12 @@ export async function updateSubscriptionPlan(
             price: newPriceId,
           },
         ],
-        proration_behavior: "create_prorations", // Prorate the charges
+        proration_behavior: "create_prorations",
+        // Reset billing anchor to "now" when switching billing intervals
+        // This ensures annual plans bill for a full year from now
+        ...(switchingBillingInterval && {
+          billing_cycle_anchor: "now",
+        }),
       }
     );
 
