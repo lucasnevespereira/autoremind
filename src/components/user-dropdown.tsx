@@ -26,7 +26,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
   async function handleSignOut() {
     await signOut();
-    window.location.href = "/sign-in";
+    window.location.href = "/";
   }
 
   const userName = session.user?.name || session.user?.email || "User";
@@ -40,8 +40,8 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="outline-none">
-        <button className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted/50 transition-colors duration-200 group">
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted/50 transition-colors duration-200 group outline-none">
           {/* User Avatar */}
           <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors duration-200">
             <span className="text-sm font-semibold text-primary">
@@ -84,7 +84,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
         {/* Menu Items */}
         <DropdownMenuItem
           onClick={() => {
-            router.push("/account");
+            router.push("/dashboard/account");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"
@@ -95,7 +95,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
         <DropdownMenuItem
           onClick={() => {
-            router.push("/settings");
+            router.push("/dashboard/settings");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"
@@ -106,7 +106,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
         <DropdownMenuItem
           onClick={() => {
-            router.push("/billing");
+            router.push("/dashboard/billing");
             setIsOpen(false);
           }}
           className="cursor-pointer rounded-lg py-2.5 px-3"

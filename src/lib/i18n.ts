@@ -72,6 +72,7 @@ export const translations = {
     configureBusinessInfo:
       "Configure your business information and SMS notifications",
     backToDashboard: "Back to Dashboard",
+    backToHome: "Back",
     businessInformation: "Business Information",
     businessDetails: "Your business details used in SMS messages",
     businessName: "Business Name",
@@ -270,9 +271,6 @@ export const translations = {
     planFree: "Free",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Perfect for getting started",
-    planStarterDescription: "For growing businesses",
-    planProDescription: "For established businesses",
 
     // Features
     featureImportExport: "Excel Import/Export",
@@ -354,6 +352,60 @@ export const translations = {
     confirm: "Confirm",
     downgradePlan: "Downgrade",
     notAvailable: "Not Available",
+
+    // Landing Page
+    landingHeadline: "Never miss an appointment",
+    landingSubheadline: "Automated SMS reminders for your clients",
+    getStarted: "Get Started",
+    privacy: "Privacy",
+    terms: "Terms",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "How it works",
+    step1Title: "Import your clients",
+    step1Description:
+      "Upload your client database from Excel with their information and reminder dates",
+    step2Title: "Configure your business",
+    step2Description:
+      "Set up your business information and customize your SMS template",
+    step3Title: "Automatic reminders",
+    step3Description:
+      "Your clients will automatically receive SMS reminders before their appointments",
+
+    // Pricing
+    pricingTitle: "Simple pricing",
+    pricingSubtitle:
+      "Start free with your own Twilio, or let us handle SMS for you",
+    popular: "Popular",
+    planFreeDescription: "Use your own Twilio account",
+    planFreeFeature1: "Up to 50 clients",
+    planFreeFeature2: "Use your own Twilio keys",
+    planFreeFeature3: "Excel Import/Export",
+    planFreeFeature4: "Basic support",
+    planStarterDescription: "We handle the SMS for you",
+    planStarterFeature1: "Up to 100 clients",
+    planStarterFeature2: "Managed SMS (included)",
+    planStarterFeature3: "Excel Import/Export",
+    planStarterFeature4: "Priority support",
+    planProDescription: "For growing businesses",
+    planProFeature1: "Unlimited clients",
+    planProFeature2: "Managed SMS (included)",
+    planProFeature3: "Excel Import/Export",
+    planProFeature4: "Premium support",
+    readyToStart: "Ready to get started?",
+    readyToStartSubtitle: "Start sending automated SMS reminders today",
+    getStartedFree: "Get Started - It's Free",
+
+    // Hero Visual
+    upcomingReminders: "Upcoming Reminders",
+    today: "Today",
+    heroClient1Name: "Sarah Johnson",
+    heroClient1Service: "Dental checkup • Dec 15",
+    heroClient2Name: "James Wilson",
+    heroClient2Service: "Haircut appointment • Dec 12",
+    heroClient3Name: "Emily Davis",
+    heroClient3Service: "Car service • Dec 10",
+    heroClient4Name: "Michael Brown",
+    heroClient4Service: "Gym session • Dec 18",
   },
   pt: {
     // Auth
@@ -430,6 +482,7 @@ export const translations = {
     configureBusinessInfo:
       "Configure as informações do seu negócio e notificações SMS",
     backToDashboard: "Voltar ao Painel",
+    backToHome: "Voltar",
     businessInformation: "Informações do Negócio",
     businessDetails: "Detalhes do seu negócio usados nas mensagens SMS",
     businessName: "Nome do Negócio",
@@ -637,9 +690,6 @@ export const translations = {
     planFree: "Grátis",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Perfeito para começar",
-    planStarterDescription: "Para negócios em crescimento",
-    planProDescription: "Para negócios estabelecidos",
 
     // Features
     featureImportExport: "Importação/Exportação Excel",
@@ -723,6 +773,60 @@ export const translations = {
     confirm: "Confirmar",
     downgradePlan: "Downgrade",
     notAvailable: "Não Disponível",
+
+    // Landing Page
+    landingHeadline: "Nunca perca uma marcação",
+    landingSubheadline: "Lembretes SMS automáticos para os seus clientes",
+    getStarted: "Começar",
+    privacy: "Privacidade",
+    terms: "Termos",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "Como funciona",
+    step1Title: "Importe os seus clientes",
+    step1Description:
+      "Carregue a sua base de dados de clientes do Excel com as suas informações e datas de lembrete",
+    step2Title: "Configure o seu negócio",
+    step2Description:
+      "Defina as informações do seu negócio e personalize o seu modelo de SMS",
+    step3Title: "Lembretes automáticos",
+    step3Description:
+      "Os seus clientes receberão automaticamente lembretes SMS antes das suas marcações",
+
+    // Pricing
+    pricingTitle: "Preços simples",
+    pricingSubtitle:
+      "Comece grátis com o seu Twilio, ou deixe-nos tratar dos SMS",
+    popular: "Popular",
+    planFreeDescription: "Use a sua própria conta Twilio",
+    planFreeFeature1: "Até 50 clientes",
+    planFreeFeature2: "Use as suas chaves Twilio",
+    planFreeFeature3: "Importar/Exportar Excel",
+    planFreeFeature4: "Suporte básico",
+    planStarterDescription: "Nós tratamos dos SMS por si",
+    planStarterFeature1: "Até 100 clientes",
+    planStarterFeature2: "SMS geridos (incluído)",
+    planStarterFeature3: "Importar/Exportar Excel",
+    planStarterFeature4: "Suporte prioritário",
+    planProDescription: "Para negócios em crescimento",
+    planProFeature1: "Clientes ilimitados",
+    planProFeature2: "SMS geridos (incluído)",
+    planProFeature3: "Importar/Exportar Excel",
+    planProFeature4: "Suporte premium",
+    readyToStart: "Pronto para começar?",
+    readyToStartSubtitle: "Comece a enviar lembretes SMS automáticos hoje",
+    getStartedFree: "Começar - É Grátis",
+
+    // Hero Visual
+    upcomingReminders: "Próximos Lembretes",
+    today: "Hoje",
+    heroClient1Name: "Maria Santos",
+    heroClient1Service: "Consulta dentária • 15 Dez",
+    heroClient2Name: "João Duarte",
+    heroClient2Service: "Corte de cabelo • 12 Dez",
+    heroClient3Name: "Ana Lopes",
+    heroClient3Service: "Revisão do carro • 10 Dez",
+    heroClient4Name: "Pedro Costa",
+    heroClient4Service: "Treino ginásio • 18 Dez",
   },
   fr: {
     // Auth
@@ -799,6 +903,7 @@ export const translations = {
     configureBusinessInfo:
       "Configurez les informations de votre entreprise et les notifications SMS",
     backToDashboard: "Retour au tableau de bord",
+    backToHome: "Retour",
     businessInformation: "Informations sur l'entreprise",
     businessDetails:
       "Les détails de votre entreprise utilisés dans les messages SMS",
@@ -1006,9 +1111,6 @@ export const translations = {
     planFree: "Gratuit",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Parfait pour commencer",
-    planStarterDescription: "Pour les entreprises en croissance",
-    planProDescription: "Pour les entreprises établies",
 
     // Features
     featureImportExport: "Importation/Exportation Excel",
@@ -1094,6 +1196,61 @@ export const translations = {
     confirm: "Confirmer",
     downgradePlan: "Rétrograder",
     notAvailable: "Non disponible",
+
+    // Landing Page
+    landingHeadline: "Ne manquez jamais un rendez-vous",
+    landingSubheadline: "Rappels SMS automatiques pour vos clients",
+    getStarted: "Commencer",
+    privacy: "Confidentialité",
+    terms: "Conditions",
+    copyright: "© 2025 AutoRemind",
+    howItWorks: "Comment ça marche",
+    step1Title: "Importez vos clients",
+    step1Description:
+      "Téléchargez votre base de données clients depuis Excel avec leurs informations et dates de rappel",
+    step2Title: "Configurez votre entreprise",
+    step2Description:
+      "Définissez les informations de votre entreprise et personnalisez votre modèle de SMS",
+    step3Title: "Rappels automatiques",
+    step3Description:
+      "Vos clients recevront automatiquement des rappels SMS avant leurs rendez-vous",
+
+    // Pricing
+    pricingTitle: "Tarification simple",
+    pricingSubtitle:
+      "Commencez gratuitement avec votre Twilio, ou laissez-nous gérer les SMS",
+    popular: "Populaire",
+    planFreeDescription: "Utilisez votre propre compte Twilio",
+    planFreeFeature1: "Jusqu'à 50 clients",
+    planFreeFeature2: "Utilisez vos clés Twilio",
+    planFreeFeature3: "Import/Export Excel",
+    planFreeFeature4: "Support basique",
+    planStarterDescription: "Nous gérons les SMS pour vous",
+    planStarterFeature1: "Jusqu'à 100 clients",
+    planStarterFeature2: "SMS gérés (inclus)",
+    planStarterFeature3: "Import/Export Excel",
+    planStarterFeature4: "Support prioritaire",
+    planProDescription: "Pour les entreprises en croissance",
+    planProFeature1: "Clients illimités",
+    planProFeature2: "SMS gérés (inclus)",
+    planProFeature3: "Import/Export Excel",
+    planProFeature4: "Support premium",
+    readyToStart: "Prêt à commencer ?",
+    readyToStartSubtitle:
+      "Commencez à envoyer des rappels SMS automatiques aujourd'hui",
+    getStartedFree: "Commencer - C'est Gratuit",
+
+    // Hero Visual
+    upcomingReminders: "Rappels à venir",
+    today: "Aujourd'hui",
+    heroClient1Name: "Marie Dupont",
+    heroClient1Service: "Contrôle dentaire • 15 Déc",
+    heroClient2Name: "Jean Martin",
+    heroClient2Service: "Rendez-vous coiffeur • 12 Déc",
+    heroClient3Name: "Sophie Bernard",
+    heroClient3Service: "Entretien voiture • 10 Déc",
+    heroClient4Name: "Pierre Moreau",
+    heroClient4Service: "Séance fitness • 18 Déc",
   },
 } as const;
 

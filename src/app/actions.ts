@@ -8,7 +8,7 @@ import {
   subscriptions,
   session as sessionTable,
   account as accountTable,
-  verification
+  verification,
 } from "@/db/schema";
 import { sendSMS, formatPhone } from "@/lib/twilio";
 import { revalidatePath } from "next/cache";
@@ -207,7 +207,7 @@ export async function bulkDeleteClients(ids: number[]) {
   }
 }
 
-export async function saveTwilioConfig(formData: FormData) {
+export async function saveConfig(formData: FormData) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
@@ -224,7 +224,9 @@ export async function saveTwilioConfig(formData: FormData) {
     const businessContact = formData.get("businessContact") as string;
     const reminderDaysBefore = formData.get("reminderDaysBefore") as string;
     const smsTemplate = formData.get("smsTemplate") as string;
-    const useManagedSms = formData.get("useManagedSms") === "on" || formData.get("useManagedSms") === "true";
+    const useManagedSms =
+      formData.get("useManagedSms") === "on" ||
+      formData.get("useManagedSms") === "true";
 
     // Build update object with only provided values
     const updateData: any = {
@@ -264,7 +266,7 @@ export async function saveTwilioConfig(formData: FormData) {
       });
     }
 
-    revalidatePath("/settings");
+    revalidatePath("/dashboard/settings");
     return { success: true, messageKey: "settingsSavedSuccess" };
   } catch (error) {
     console.error("Error saving settings:", error);
@@ -274,7 +276,7 @@ export async function saveTwilioConfig(formData: FormData) {
 
 export async function sendTestSMS(
   phone: string,
-  businessName: string | "AutoRemind",
+  businessName: string,
   lang: string
 ) {
   try {
@@ -590,8 +592,8 @@ export async function updateProfile(formData: FormData) {
       })
       .where(eq(user.id, session.user.id));
 
-    revalidatePath("/account");
-    revalidatePath("/");
+    revalidatePath("/dashboard/account");
+    revalidatePath("/dashboard");
     return { success: true, messageKey: "profileUpdatedSuccess" };
   } catch (error) {
     console.error("Error updating profile:", error);
@@ -628,7 +630,9 @@ export async function deleteAccount() {
     await db.delete(accountTable).where(eq(accountTable.userId, userId));
 
     // 6. Delete verification records
-    await db.delete(verification).where(eq(verification.identifier, session.user.email));
+    await db
+      .delete(verification)
+      .where(eq(verification.identifier, session.user.email));
 
     // 7. Finally, delete the user
     await db.delete(user).where(eq(user.id, userId));

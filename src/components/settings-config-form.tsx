@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { saveTwilioConfig, sendTestSMS } from "@/app/actions";
+import { saveConfig, sendTestSMS } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/language-context";
 import { useState } from "react";
@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface TwilioConfigFormProps {
+interface SettingsConfigFormProps {
   initialValues: {
     accountSid: string;
     authToken: string;
@@ -38,11 +38,11 @@ interface TwilioConfigFormProps {
 
 type Tab = "business" | "template" | "twilio" | "test";
 
-export function TwilioConfigForm({
+export function SettingsConfigForm({
   initialValues,
   planType,
   isPaidPlan,
-}: TwilioConfigFormProps) {
+}: SettingsConfigFormProps) {
   const { toast } = useToast();
   const { t, language } = useLanguage();
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export function TwilioConfigForm({
 
   async function handleSubmit(formData: FormData) {
     setLoading(true);
-    const result = await saveTwilioConfig(formData);
+    const result = await saveConfig(formData);
     setLoading(false);
 
     if (result.success) {
@@ -91,11 +91,8 @@ export function TwilioConfigForm({
     }
 
     setTestLoading(true);
-    const result = await sendTestSMS(
-      testPhone,
-      formValues.businessName,
-      language
-    );
+    const businessName = formValues.businessName || "AutoRemind";
+    const result = await sendTestSMS(testPhone, businessName, language);
     setTestLoading(false);
 
     if (result.success) {

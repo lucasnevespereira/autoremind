@@ -260,9 +260,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     }
 
     // Revalidate billing page to show updated subscription
-    revalidatePath("/billing");
-    revalidatePath("/");
-    revalidatePath("/settings");
+    revalidatePath("/dashboard/billing");
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/settings");
 
     console.log("🎉 Checkout completed successfully!");
   } catch (error) {
@@ -394,9 +394,9 @@ async function handleSubscriptionUpdated(
     }
 
     // Revalidate billing page to show updated subscription
-    revalidatePath("/billing");
-    revalidatePath("/");
-    revalidatePath("/settings");
+    revalidatePath("/dashboard/billing");
+    revalidatePath("/dashboard");
+    revalidatePath("/dashboard/settings");
   } catch (error) {
     console.error("💥 ERROR in handleSubscriptionUpdated:", error);
     console.error("Error stack:", error instanceof Error ? error.stack : "N/A");
@@ -452,9 +452,9 @@ async function handleSubscriptionDeleted(
   }
 
   // Revalidate billing page to show updated subscription
-  revalidatePath("/billing");
-  revalidatePath("/");
-  revalidatePath("/settings");
+  revalidatePath("/dashboard/billing");
+  revalidatePath("/dashboard");
+  revalidatePath("/dashboard/settings");
 }
 
 async function handlePaymentSucceeded(invoice: Stripe.Invoice) {

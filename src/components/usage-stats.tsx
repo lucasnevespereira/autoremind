@@ -12,11 +12,7 @@ interface UsageStatsProps {
   planType: string;
 }
 
-export function UsageStats({
-  currentCount,
-  limit,
-  planType,
-}: UsageStatsProps) {
+export function UsageStats({ currentCount, limit, planType }: UsageStatsProps) {
   const { t } = useLanguage();
 
   // Calculate usage percentage
@@ -112,8 +108,11 @@ export function UsageStats({
                 {t("clientLimitReached")}
               </p>
             </div>
-            <Link href="/settings?tab=billing">
-              <Button size="sm" className="h-7 px-3 text-xs rounded-lg bg-red-600 hover:bg-red-700 text-white">
+            <Link href="/dashboard/billing">
+              <Button
+                size="sm"
+                className="h-7 px-3 text-xs rounded-lg bg-red-600 hover:bg-red-700 text-white"
+              >
                 {t("upgradePlan")}
               </Button>
             </Link>
@@ -125,7 +124,7 @@ export function UsageStats({
             <p className="text-xs text-amber-800 dark:text-amber-400">
               {t("approachingLimit")}
             </p>
-            <Link href="/settings?tab=billing">
+            <Link href="/dashboard/billing">
               <Button
                 size="sm"
                 variant="ghost"

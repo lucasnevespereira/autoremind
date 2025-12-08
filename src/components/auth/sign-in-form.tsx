@@ -36,7 +36,7 @@ export function SignInForm() {
         description: t("signedInSuccess"),
       });
 
-      router.push("/");
+      router.push("/dashboard");
     } catch (error) {
       toast({
         variant: "destructive",
