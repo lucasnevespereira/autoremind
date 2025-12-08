@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Upload, Settings, Bell } from "lucide-react";
+import { ArrowRight, Upload, Settings, Bell, Check, Star, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import logoSquare from "@/assets/logo-square.png";
@@ -197,18 +197,148 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* Pricing Section */}
+          <div className="py-16 sm:py-24 border-t border-border/40">
+            <div className="mb-16">
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+                {t("pricingTitle")}
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                {t("pricingSubtitle")}
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+              {/* Free Plan */}
+              <div className="relative bg-card border border-border/40 rounded-2xl p-6">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                  <Star className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{t("planFree")}</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold">€0</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-6">
+                  {t("planFreeDescription")}
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planFreeFeature1")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planFreeFeature2")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planFreeFeature3")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planFreeFeature4")}</span>
+                  </li>
+                </ul>
+                <Link href="/sign-up" className="block">
+                  <Button variant="outline" className="w-full">
+                    {t("getStarted")}
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Starter Plan */}
+              <div className="relative bg-card border-2 border-primary rounded-2xl p-6">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-medium rounded-full">
+                  {t("popular")}
+                </div>
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Zap className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{t("planStarter")}</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold">€5</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-6">
+                  {t("planStarterDescription")}
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planStarterFeature1")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planStarterFeature2")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planStarterFeature3")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planStarterFeature4")}</span>
+                  </li>
+                </ul>
+                <Link href="/sign-up" className="block">
+                  <Button className="w-full">
+                    {t("getStarted")}
+                  </Button>
+                </Link>
+              </div>
+
+              {/* Pro Plan */}
+              <div className="relative bg-card border border-border/40 rounded-2xl p-6">
+                <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+                  <Crown className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{t("planPro")}</h3>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold">€15</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-6">
+                  {t("planProDescription")}
+                </p>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planProFeature1")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planProFeature2")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planProFeature3")}</span>
+                  </li>
+                  <li className="flex items-start gap-2 text-sm">
+                    <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    <span>{t("planProFeature4")}</span>
+                  </li>
+                </ul>
+                <Link href="/sign-up" className="block">
+                  <Button variant="outline" className="w-full">
+                    {t("getStarted")}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Final CTA */}
           <div className="py-16 sm:py-24 border-t border-border/40">
             <div className="max-w-3xl">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-                Ready to get started?
+                {t("readyToStart")}
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Start sending automated SMS reminders today
+                {t("readyToStartSubtitle")}
               </p>
               <Link href="/sign-up">
                 <Button size="lg" className="h-12 px-8">
-                  {t("getStarted")} - It's Free
+                  {t("getStartedFree")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>

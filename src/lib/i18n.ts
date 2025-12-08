@@ -270,9 +270,6 @@ export const translations = {
     planFree: "Free",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Perfect for getting started",
-    planStarterDescription: "For growing businesses",
-    planProDescription: "For established businesses",
 
     // Features
     featureImportExport: "Excel Import/Export",
@@ -372,6 +369,30 @@ export const translations = {
     step3Title: "Automatic reminders",
     step3Description:
       "Your clients will automatically receive SMS reminders before their appointments",
+
+    // Pricing
+    pricingTitle: "Simple pricing",
+    pricingSubtitle:
+      "Start free with your own Twilio, or let us handle SMS for you",
+    popular: "Popular",
+    planFreeDescription: "Use your own Twilio account",
+    planFreeFeature1: "Up to 50 clients",
+    planFreeFeature2: "Use your own Twilio keys",
+    planFreeFeature3: "Excel Import/Export",
+    planFreeFeature4: "Basic support",
+    planStarterDescription: "We handle the SMS for you",
+    planStarterFeature1: "Up to 100 clients",
+    planStarterFeature2: "Managed SMS (included)",
+    planStarterFeature3: "Excel Import/Export",
+    planStarterFeature4: "Priority support",
+    planProDescription: "For growing businesses",
+    planProFeature1: "Unlimited clients",
+    planProFeature2: "Managed SMS (included)",
+    planProFeature3: "Excel Import/Export",
+    planProFeature4: "Premium support",
+    readyToStart: "Ready to get started?",
+    readyToStartSubtitle: "Start sending automated SMS reminders today",
+    getStartedFree: "Get Started - It's Free",
   },
   pt: {
     // Auth
@@ -655,9 +676,6 @@ export const translations = {
     planFree: "Grátis",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Perfeito para começar",
-    planStarterDescription: "Para negócios em crescimento",
-    planProDescription: "Para negócios estabelecidos",
 
     // Features
     featureImportExport: "Importação/Exportação Excel",
@@ -759,6 +777,30 @@ export const translations = {
     step3Title: "Lembretes automáticos",
     step3Description:
       "Os seus clientes receberão automaticamente lembretes SMS antes das suas marcações",
+
+    // Pricing
+    pricingTitle: "Preços simples",
+    pricingSubtitle:
+      "Comece grátis com o seu Twilio, ou deixe-nos tratar dos SMS",
+    popular: "Popular",
+    planFreeDescription: "Use a sua própria conta Twilio",
+    planFreeFeature1: "Até 50 clientes",
+    planFreeFeature2: "Use as suas chaves Twilio",
+    planFreeFeature3: "Importar/Exportar Excel",
+    planFreeFeature4: "Suporte básico",
+    planStarterDescription: "Nós tratamos dos SMS por si",
+    planStarterFeature1: "Até 100 clientes",
+    planStarterFeature2: "SMS geridos (incluído)",
+    planStarterFeature3: "Importar/Exportar Excel",
+    planStarterFeature4: "Suporte prioritário",
+    planProDescription: "Para negócios em crescimento",
+    planProFeature1: "Clientes ilimitados",
+    planProFeature2: "SMS geridos (incluído)",
+    planProFeature3: "Importar/Exportar Excel",
+    planProFeature4: "Suporte premium",
+    readyToStart: "Pronto para começar?",
+    readyToStartSubtitle: "Comece a enviar lembretes SMS automáticos hoje",
+    getStartedFree: "Começar - É Grátis",
   },
   fr: {
     // Auth
@@ -1042,9 +1084,6 @@ export const translations = {
     planFree: "Gratuit",
     planStarter: "Starter",
     planPro: "Pro",
-    planFreeDescription: "Parfait pour commencer",
-    planStarterDescription: "Pour les entreprises en croissance",
-    planProDescription: "Pour les entreprises établies",
 
     // Features
     featureImportExport: "Importation/Exportation Excel",
@@ -1148,6 +1187,31 @@ export const translations = {
     step3Title: "Rappels automatiques",
     step3Description:
       "Vos clients recevront automatiquement des rappels SMS avant leurs rendez-vous",
+
+    // Pricing
+    pricingTitle: "Tarification simple",
+    pricingSubtitle:
+      "Commencez gratuitement avec votre Twilio, ou laissez-nous gérer les SMS",
+    popular: "Populaire",
+    planFreeDescription: "Utilisez votre propre compte Twilio",
+    planFreeFeature1: "Jusqu'à 50 clients",
+    planFreeFeature2: "Utilisez vos clés Twilio",
+    planFreeFeature3: "Import/Export Excel",
+    planFreeFeature4: "Support basique",
+    planStarterDescription: "Nous gérons les SMS pour vous",
+    planStarterFeature1: "Jusqu'à 100 clients",
+    planStarterFeature2: "SMS gérés (inclus)",
+    planStarterFeature3: "Import/Export Excel",
+    planStarterFeature4: "Support prioritaire",
+    planProDescription: "Pour les entreprises en croissance",
+    planProFeature1: "Clients illimités",
+    planProFeature2: "SMS gérés (inclus)",
+    planProFeature3: "Import/Export Excel",
+    planProFeature4: "Support premium",
+    readyToStart: "Prêt à commencer ?",
+    readyToStartSubtitle:
+      "Commencez à envoyer des rappels SMS automatiques aujourd'hui",
+    getStartedFree: "Commencer - C'est Gratuit",
   },
 } as const;
 

@@ -16,16 +16,18 @@ export default function SignUpPage() {
         <div className="w-full max-w-md animate-fade-in">
           {/* Logo and Title */}
           <div className="text-center mb-10">
-            <div className="mb-5">
-              <Image
-                src={logoSquare}
-                alt="AutoRemind Logo"
-                width={80}
-                height={80}
-                className="mx-auto"
-                priority
-              />
-            </div>
+            <Link href="/" className="inline-block mb-4">
+              <div>
+                <Image
+                  src={logoSquare}
+                  alt="AutoRemind Logo"
+                  width={80}
+                  height={80}
+                  className="mx-auto"
+                  priority
+                />
+              </div>
+            </Link>
             <h1 className="text-3xl font-bold text-foreground mb-2 tracking-tight">
               {t("autoremind")}
             </h1>

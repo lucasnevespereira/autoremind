@@ -1,4 +1,4 @@
-import { TwilioConfigForm } from "@/components/twilio-config-form";
+import { SettingsConfigForm } from "@/components/settings-config-form";
 import { db } from "@/db";
 import { settings, subscriptions } from "@/db/schema";
 import { auth } from "@/lib/auth";
@@ -50,7 +50,7 @@ export default async function SettingsPage() {
     <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
       <SettingsHeader />
 
-      <TwilioConfigForm
+      <SettingsConfigForm
         initialValues={{
           accountSid,
           authToken,

@@ -207,7 +207,7 @@ export async function bulkDeleteClients(ids: number[]) {
   }
 }
 
-export async function saveTwilioConfig(formData: FormData) {
+export async function saveConfig(formData: FormData) {
   try {
     const session = await auth.api.getSession({
       headers: await headers(),
