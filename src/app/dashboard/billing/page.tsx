@@ -35,7 +35,7 @@ export default async function BillingPage() {
       {/* Plan Selection Section */}
       <div>
         <PlanSectionHeader isPro={isPro} />
-        <PlanSelector currentPlan={subscription.planType} />
+        <PlanSelector currentPlan={subscription.planType} currentPriceId={subscription.stripePriceId} />
       </div>
     </div>
   );

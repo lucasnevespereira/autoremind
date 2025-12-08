@@ -26,10 +26,20 @@ export function SignInForm() {
     const password = formData.get("password") as string;
 
     try {
-      await signIn.email({
+      const result = await signIn.email({
         email,
         password,
       });
+
+      // Check if sign-in returned an error
+      if (result.error) {
+        toast({
+          variant: "destructive",
+          title: t("signInFailed"),
+          description: t("invalidCredentials"),
+        });
+        return;
+      }
 
       toast({
         title: t("success"),

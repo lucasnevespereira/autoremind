@@ -337,8 +337,9 @@ export const translations = {
     nextBillingExplanation: "Your next billing cycle will be at the new price",
     nextBillingLowerPriceExplanation:
       "Your next billing cycle will be at the lower price",
-    paymentRequired: "Payment of {price}/month required",
+    paymentRequired: "Payment of {price} required",
     monthlyBillingExplanation: "You'll be billed monthly",
+    annualBillingExplanation: "You'll be billed annually",
     downgradeCreditExplanation:
       "You'll receive a prorated credit for the difference",
     downgradeFreePortalExplanation:
@@ -394,6 +395,15 @@ export const translations = {
     readyToStart: "Ready to get started?",
     readyToStartSubtitle: "Start sending automated SMS reminders today",
     getStartedFree: "Get Started - It's Free",
+
+    // Billing Interval
+    monthly: "Monthly",
+    annual: "Annual",
+    perYear: "/year",
+    billedAnnually: "Billed annually",
+    billedMonthly: "Billed monthly",
+    switchToAnnual: "Switch to Annual",
+    switchToMonthly: "Switch to Monthly",
 
     // Hero Visual
     upcomingReminders: "Upcoming Reminders",
@@ -758,8 +768,9 @@ export const translations = {
     nextBillingExplanation: "O próximo ciclo de faturação será ao novo preço",
     nextBillingLowerPriceExplanation:
       "O próximo ciclo de faturação será ao preço mais baixo",
-    paymentRequired: "Pagamento de {price}/mês necessário",
+    paymentRequired: "Pagamento de {price} necessário",
     monthlyBillingExplanation: "Será faturado mensalmente",
+    annualBillingExplanation: "Será faturado anualmente",
     downgradeCreditExplanation:
       "Receberá um crédito proporcional pela diferença",
     downgradeFreePortalExplanation:
@@ -815,6 +826,15 @@ export const translations = {
     readyToStart: "Pronto para começar?",
     readyToStartSubtitle: "Comece a enviar lembretes SMS automáticos hoje",
     getStartedFree: "Começar - É Grátis",
+
+    // Billing Interval
+    monthly: "Mensal",
+    annual: "Anual",
+    perYear: "/ano",
+    billedAnnually: "Faturado anualmente",
+    billedMonthly: "Faturado mensalmente",
+    switchToAnnual: "Mudar para Anual",
+    switchToMonthly: "Mudar para Mensal",
 
     // Hero Visual
     upcomingReminders: "Próximos Lembretes",
@@ -1181,8 +1201,9 @@ export const translations = {
       "Votre prochain cycle de facturation sera au nouveau prix",
     nextBillingLowerPriceExplanation:
       "Votre prochain cycle de facturation sera au prix inférieur",
-    paymentRequired: "Paiement de {price}/mois requis",
+    paymentRequired: "Paiement de {price} requis",
     monthlyBillingExplanation: "Vous serez facturé mensuellement",
+    annualBillingExplanation: "Vous serez facturé annuellement",
     downgradeCreditExplanation:
       "Vous recevrez un crédit au prorata de la différence",
     downgradeFreePortalExplanation:
@@ -1239,6 +1260,15 @@ export const translations = {
     readyToStartSubtitle:
       "Commencez à envoyer des rappels SMS automatiques aujourd'hui",
     getStartedFree: "Commencer - C'est Gratuit",
+
+    // Billing Interval
+    monthly: "Mensuel",
+    annual: "Annuel",
+    perYear: "/an",
+    billedAnnually: "Facturé annuellement",
+    billedMonthly: "Facturé mensuellement",
+    switchToAnnual: "Passer à l'Annuel",
+    switchToMonthly: "Passer au Mensuel",
 
     // Hero Visual
     upcomingReminders: "Rappels à venir",

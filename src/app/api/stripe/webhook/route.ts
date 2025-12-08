@@ -185,23 +185,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       status: stripeSubscription.status,
     });
 
-    // Get the current period end from the latest invoice
+    // Get the current period end from subscription item (moved from subscription level in API 2025-03-31)
+    // This correctly reflects annual vs monthly billing period
     let currentPeriodEnd: Date | null = null;
-    if (stripeSubscription.latest_invoice) {
-      try {
-        const invoiceId =
-          typeof stripeSubscription.latest_invoice === "string"
-            ? stripeSubscription.latest_invoice
-            : stripeSubscription.latest_invoice.id;
-
-        const invoice = await stripe.invoices.retrieve(invoiceId);
-        if (invoice.period_end) {
-          currentPeriodEnd = new Date(invoice.period_end * 1000);
-          console.log("📅 Got period end from invoice:", currentPeriodEnd);
-        }
-      } catch (error) {
-        console.error("⚠️  Could not retrieve invoice for period end:", error);
-      }
+    const subscriptionItem = stripeSubscription.items.data[0];
+    if (subscriptionItem?.current_period_end) {
+      currentPeriodEnd = new Date(subscriptionItem.current_period_end * 1000);
+      console.log(
+        "📅 Got period end from subscription item:",
+        currentPeriodEnd
+      );
     }
 
     const updateResult = await db
@@ -311,23 +304,16 @@ async function handleSubscriptionUpdated(
       status: stripeSubscription.status,
     });
 
-    // Get the current period end from the latest invoice
+    // Get the current period end from subscription item (moved from subscription level in API 2025-03-31)
+    // This correctly reflects annual vs monthly billing period
     let currentPeriodEnd: Date | null = null;
-    if (stripeSubscription.latest_invoice) {
-      try {
-        const invoiceId =
-          typeof stripeSubscription.latest_invoice === "string"
-            ? stripeSubscription.latest_invoice
-            : stripeSubscription.latest_invoice.id;
-
-        const invoice = await stripe.invoices.retrieve(invoiceId);
-        if (invoice.period_end) {
-          currentPeriodEnd = new Date(invoice.period_end * 1000);
-          console.log("📅 Got period end from invoice:", currentPeriodEnd);
-        }
-      } catch (error) {
-        console.error("⚠️  Could not retrieve invoice for period end:", error);
-      }
+    const subscriptionItem = stripeSubscription.items.data[0];
+    if (subscriptionItem?.current_period_end) {
+      currentPeriodEnd = new Date(subscriptionItem.current_period_end * 1000);
+      console.log(
+        "📅 Got period end from subscription item:",
+        currentPeriodEnd
+      );
     }
 
     const updateResult = await db
@@ -520,12 +506,20 @@ function getPlanTypeFromPriceId(priceId: string | undefined): string {
     return PLAN.FREE;
   }
 
-  if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
+  // Check monthly and annual starter prices
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_STARTER ||
+    priceId === process.env.STRIPE_PRICE_ID_STARTER_ANNUAL
+  ) {
     console.log("✅ Matched STARTER plan");
     return PLAN.STARTER;
   }
 
-  if (priceId === process.env.STRIPE_PRICE_ID_PRO) {
+  // Check monthly and annual pro prices
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_PRO ||
+    priceId === process.env.STRIPE_PRICE_ID_PRO_ANNUAL
+  ) {
     console.log("✅ Matched PRO plan");
     return PLAN.PRO;
   }

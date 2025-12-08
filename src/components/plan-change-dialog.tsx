@@ -20,6 +20,7 @@ interface PlanChangeDialogProps {
   currentPlan: string;
   targetPlan: string;
   targetPrice: number;
+  isAnnual?: boolean;
   onConfirm: () => Promise<void>;
 }
 
@@ -29,6 +30,7 @@ export function PlanChangeDialog({
   currentPlan,
   targetPlan,
   targetPrice,
+  isAnnual = false,
   onConfirm,
 }: PlanChangeDialogProps) {
   const { t } = useLanguage();
@@ -131,7 +133,7 @@ export function PlanChangeDialog({
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-primary mt-0.5">•</span>
-                    <span>{t("monthlyBillingExplanation")}</span>
+                    <span>{isAnnual ? t("annualBillingExplanation") : t("monthlyBillingExplanation")}</span>
                   </li>
                 </ul>
               )}
@@ -159,7 +161,7 @@ export function PlanChangeDialog({
             {targetPlan !== "free" && !isDowngrade && (
               <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
                 <p className="text-sm text-foreground">
-                  <span className="font-semibold">{t("newPrice")}:</span> €{targetPrice}/month
+                  <span className="font-semibold">{t("newPrice")}:</span> €{targetPrice}{isAnnual ? t("perYear") : t("perMonth")}
                 </p>
               </div>
             )}

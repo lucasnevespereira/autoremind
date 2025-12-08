@@ -14,6 +14,15 @@ interface SubscriptionCardProps {
   clientCount?: number;
 }
 
+// Helper to check if a price ID is annual
+function isAnnualPriceId(priceId: string | null): boolean {
+  if (!priceId) return false;
+  return (
+    priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER_ANNUAL ||
+    priceId === process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_ANNUAL
+  );
+}
+
 export function SubscriptionCard({ subscription, clientCount = 0 }: SubscriptionCardProps) {
   const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
@@ -32,6 +41,7 @@ export function SubscriptionCard({ subscription, clientCount = 0 }: Subscription
   const isActive = subscription.status === "active";
   const isCanceled = subscription.cancelAtPeriodEnd;
   const isPastDue = subscription.status === "past_due";
+  const isAnnual = isAnnualPriceId(subscription.stripePriceId);
 
   // Get client limit
   const limit = getPlanLimit(subscription.planType);
@@ -45,10 +55,11 @@ export function SubscriptionCard({ subscription, clientCount = 0 }: Subscription
     pro: t("planPro"),
   };
 
+  // Prices based on billing interval
   const planPrices: Record<string, string> = {
     free: "€0",
-    starter: "€5",
-    pro: "€15",
+    starter: isAnnual ? "€60" : "€5",
+    pro: isAnnual ? "€180" : "€15",
   };
 
   return (
@@ -112,7 +123,9 @@ export function SubscriptionCard({ subscription, clientCount = 0 }: Subscription
                 </h3>
                 <span className="text-base font-semibold text-muted-foreground">
                   {planPrices[subscription.planType]}
-                  {isPaidPlan && <span className="text-xs">/month</span>}
+                  {isPaidPlan && (
+                    <span className="text-xs">{isAnnual ? t("perYear") : t("perMonth")}</span>
+                  )}
                 </span>
               </div>
               {isPaidPlan && subscription.currentPeriodEnd && (
