@@ -14,3 +14,8 @@ export enum PLAN {
   STARTER = "starter",
   PRO = "pro",
 }
+
+export enum BILLING_INTERVAL {
+  MONTHLY = "monthly",
+  ANNUAL = "annual",
+}

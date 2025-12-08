@@ -219,13 +219,19 @@ export async function updateSubscriptionPlan(
 }
 
 /**
- * Helper function to determine plan type from price ID
+ * Helper function to determine plan type from price ID (supports monthly and annual)
  */
 function getPlanTypeFromPriceId(priceId: string): string {
-  if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_STARTER ||
+    priceId === process.env.STRIPE_PRICE_ID_STARTER_ANNUAL
+  ) {
     return "starter";
   }
-  if (priceId === process.env.STRIPE_PRICE_ID_PRO) {
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_PRO ||
+    priceId === process.env.STRIPE_PRICE_ID_PRO_ANNUAL
+  ) {
     return "pro";
   }
   return "free";

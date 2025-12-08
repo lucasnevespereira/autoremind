@@ -520,12 +520,20 @@ function getPlanTypeFromPriceId(priceId: string | undefined): string {
     return PLAN.FREE;
   }
 
-  if (priceId === process.env.STRIPE_PRICE_ID_STARTER) {
+  // Check monthly and annual starter prices
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_STARTER ||
+    priceId === process.env.STRIPE_PRICE_ID_STARTER_ANNUAL
+  ) {
     console.log("✅ Matched STARTER plan");
     return PLAN.STARTER;
   }
 
-  if (priceId === process.env.STRIPE_PRICE_ID_PRO) {
+  // Check monthly and annual pro prices
+  if (
+    priceId === process.env.STRIPE_PRICE_ID_PRO ||
+    priceId === process.env.STRIPE_PRICE_ID_PRO_ANNUAL
+  ) {
     console.log("✅ Matched PRO plan");
     return PLAN.PRO;
   }

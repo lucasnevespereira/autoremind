@@ -59,3 +59,7 @@ jobs:
           NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER: price_your_starter_price_id
           STRIPE_PRICE_ID_PRO: price_your_pro_price_id
           NEXT_PUBLIC_STRIPE_PRICE_ID_PRO: price_your_pro_price_id
+          STRIPE_PRICE_ID_STARTER_ANNUAL: price_your_starter_annual_price_id
+          STRIPE_PRICE_ID_PRO_ANNUAL: price_your_pro_annual_price_id
+          NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER_ANNUAL: price_your_starter_annual_price_id
+          NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_ANNUAL: price_your_pro_annual_price_id

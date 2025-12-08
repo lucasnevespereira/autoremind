@@ -395,6 +395,13 @@ export const translations = {
     readyToStartSubtitle: "Start sending automated SMS reminders today",
     getStartedFree: "Get Started - It's Free",
 
+    // Billing Interval
+    monthly: "Monthly",
+    annual: "Annual",
+    perYear: "/year",
+    billedAnnually: "Billed annually",
+    billedMonthly: "Billed monthly",
+
     // Hero Visual
     upcomingReminders: "Upcoming Reminders",
     today: "Today",
@@ -815,6 +822,13 @@ export const translations = {
     readyToStart: "Pronto para começar?",
     readyToStartSubtitle: "Comece a enviar lembretes SMS automáticos hoje",
     getStartedFree: "Começar - É Grátis",
+
+    // Billing Interval
+    monthly: "Mensal",
+    annual: "Anual",
+    perYear: "/ano",
+    billedAnnually: "Faturado anualmente",
+    billedMonthly: "Faturado mensalmente",
 
     // Hero Visual
     upcomingReminders: "Próximos Lembretes",
@@ -1239,6 +1253,13 @@ export const translations = {
     readyToStartSubtitle:
       "Commencez à envoyer des rappels SMS automatiques aujourd'hui",
     getStartedFree: "Commencer - C'est Gratuit",
+
+    // Billing Interval
+    monthly: "Mensuel",
+    annual: "Annuel",
+    perYear: "/an",
+    billedAnnually: "Facturé annuellement",
+    billedMonthly: "Facturé mensuellement",
 
     // Hero Visual
     upcomingReminders: "Rappels à venir",

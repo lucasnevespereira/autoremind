@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -15,9 +16,15 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/language-context";
 import { AppLogo } from "@/components/app-logo";
 import { LandingFooter } from "@/components/landing-footer";
+import { BILLING_INTERVAL } from "@/constants";
 
 export default function LandingPage() {
   const { t } = useLanguage();
+  const [billingInterval, setBillingInterval] = useState<BILLING_INTERVAL>(
+    BILLING_INTERVAL.MONTHLY
+  );
+
+  const isAnnual = billingInterval === BILLING_INTERVAL.ANNUAL;
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -223,13 +230,37 @@ export default function LandingPage() {
 
           {/* Pricing Section */}
           <div className="py-16 sm:py-24 border-t border-border/40">
-            <div className="mb-16">
+            <div className="mb-12">
               <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-4">
                 {t("pricingTitle")}
               </h2>
-              <p className="text-lg text-muted-foreground">
+              <p className="text-lg text-muted-foreground mb-8">
                 {t("pricingSubtitle")}
               </p>
+
+              {/* Billing Toggle */}
+              <div className="flex items-center justify-center gap-3">
+                <button
+                  onClick={() => setBillingInterval(BILLING_INTERVAL.MONTHLY)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    !isAnnual
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {t("monthly")}
+                </button>
+                <button
+                  onClick={() => setBillingInterval(BILLING_INTERVAL.ANNUAL)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                    isAnnual
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {t("annual")}
+                </button>
+              </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -282,8 +313,8 @@ export default function LandingPage() {
                   {t("planStarter")}
                 </h3>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">€5</span>
-                  <span className="text-muted-foreground">/month</span>
+                  <span className="text-4xl font-bold">{isAnnual ? "€60" : "€5"}</span>
+                  <span className="text-muted-foreground">{isAnnual ? t("perYear") : t("perMonth")}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-6">
                   {t("planStarterDescription")}
@@ -318,8 +349,8 @@ export default function LandingPage() {
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{t("planPro")}</h3>
                 <div className="mb-4">
-                  <span className="text-4xl font-bold">€15</span>
-                  <span className="text-muted-foreground">/month</span>
+                  <span className="text-4xl font-bold">{isAnnual ? "€180" : "€15"}</span>
+                  <span className="text-muted-foreground">{isAnnual ? t("perYear") : t("perMonth")}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-6">
                   {t("planProDescription")}

@@ -510,10 +510,12 @@ export async function createCheckoutSession(priceId: string) {
       return { success: false, errorKey: "unauthorized" };
     }
 
-    // Validate price ID
+    // Validate price ID (monthly and annual)
     const validPriceIds = [
       process.env.STRIPE_PRICE_ID_STARTER,
       process.env.STRIPE_PRICE_ID_PRO,
+      process.env.STRIPE_PRICE_ID_STARTER_ANNUAL,
+      process.env.STRIPE_PRICE_ID_PRO_ANNUAL,
     ];
 
     if (!validPriceIds.includes(priceId)) {

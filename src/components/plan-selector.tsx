@@ -8,6 +8,7 @@ import { Check, Zap, Crown, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { PlanChangeDialog } from "@/components/plan-change-dialog";
+import { BILLING_INTERVAL } from "@/constants";
 
 interface PlanSelectorProps {
   currentPlan: string;
@@ -18,11 +19,16 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState<string | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [billingInterval, setBillingInterval] = useState<BILLING_INTERVAL>(
+    BILLING_INTERVAL.MONTHLY
+  );
   const [selectedPlan, setSelectedPlan] = useState<{
     priceId: string | null;
     planType: string;
     price: number;
   } | null>(null);
+
+  const isAnnual = billingInterval === BILLING_INTERVAL.ANNUAL;
 
   async function handlePlanClick(
     priceId: string | null,
@@ -67,9 +73,13 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
     }
   }
 
-  // Get price IDs from environment (client-side)
-  const starterPriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER;
-  const proPriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO;
+  // Get price IDs from environment (client-side) - monthly and annual
+  const starterPriceId = isAnnual
+    ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER;
+  const proPriceId = isAnnual
+    ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_ANNUAL
+    : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_PRO;
 
   const plans = [
     {
@@ -94,9 +104,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
     {
       id: "starter",
       name: t("planStarter"),
-      price: "€5",
-      priceNum: 5,
-      period: t("perMonth"),
+      price: isAnnual ? "€60" : "€5",
+      priceNum: isAnnual ? 60 : 5,
+      period: isAnnual ? t("perYear") : t("perMonth"),
       description: t("planStarterDescription"),
       icon: Zap,
       features: [
@@ -113,9 +123,9 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
     {
       id: "pro",
       name: t("planPro"),
-      price: "€15",
-      priceNum: 15,
-      period: t("perMonth"),
+      price: isAnnual ? "€180" : "€15",
+      priceNum: isAnnual ? 180 : 15,
+      period: isAnnual ? t("perYear") : t("perMonth"),
       description: t("planProDescription"),
       icon: Crown,
       features: [
@@ -133,6 +143,30 @@ export function PlanSelector({ currentPlan }: PlanSelectorProps) {
 
   return (
     <>
+      {/* Billing Toggle */}
+      <div className="flex items-center justify-center gap-3 mb-6">
+        <button
+          onClick={() => setBillingInterval(BILLING_INTERVAL.MONTHLY)}
+          className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+            !isAnnual
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {t("monthly")}
+        </button>
+        <button
+          onClick={() => setBillingInterval(BILLING_INTERVAL.ANNUAL)}
+          className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+            isAnnual
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {t("annual")}
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-fr">
         {plans.map((plan) => {
           const Icon = plan.icon;
