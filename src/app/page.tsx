@@ -48,25 +48,89 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero Section */}
           <div className="pt-20 pb-16 sm:pt-32 sm:pb-24">
-            <div className="max-w-3xl">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-                {t("landingHeadline")}
-              </h1>
-              <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-2xl">
-                {t("landingSubheadline")}
-              </p>
-              <div className="flex flex-wrap items-center gap-4">
-                <Link href="/sign-up">
-                  <Button size="lg" className="h-12 px-8">
-                    {t("getStarted")}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link href="/sign-in">
-                  <Button variant="outline" size="lg" className="h-12 px-8">
-                    {t("signIn")}
-                  </Button>
-                </Link>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+                  <Bell className="h-3 w-3" />
+                  {t("slogan")}
+                </div>
+                <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
+                  {t("landingHeadline")}
+                </h1>
+                <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-2xl">
+                  {t("landingSubheadline")}
+                </p>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link href="/sign-up">
+                    <Button size="lg" className="h-12 px-8">
+                      {t("getStarted")}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/sign-in">
+                    <Button variant="outline" size="lg" className="h-12 px-8">
+                      {t("signIn")}
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Visual Element */}
+              <div className="hidden lg:block">
+                <div className="relative">
+                  {/* Background decoration */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent rounded-3xl" />
+
+                  {/* Mock phone/dashboard preview */}
+                  <div className="relative bg-card border border-border/40 rounded-2xl p-6 shadow-xl">
+                    <div className="space-y-4">
+                      {/* Mock client row 1 */}
+                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
+                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                          <span className="text-sm font-semibold text-primary">JD</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-3 w-24 bg-foreground/80 rounded mb-2" />
+                          <div className="h-2 w-32 bg-muted-foreground/50 rounded" />
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
+                          <Bell className="h-3 w-3 text-primary" />
+                          <div className="h-2 w-8 bg-primary/50 rounded" />
+                        </div>
+                      </div>
+
+                      {/* Mock client row 2 */}
+                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
+                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                          <span className="text-sm font-semibold text-primary">MS</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-3 w-28 bg-foreground/80 rounded mb-2" />
+                          <div className="h-2 w-36 bg-muted-foreground/50 rounded" />
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-green-500/10 rounded-full">
+                          <div className="h-2 w-2 rounded-full bg-green-500" />
+                          <div className="h-2 w-8 bg-green-500/50 rounded" />
+                        </div>
+                      </div>
+
+                      {/* Mock client row 3 */}
+                      <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
+                        <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                          <span className="text-sm font-semibold text-primary">AL</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="h-3 w-20 bg-foreground/80 rounded mb-2" />
+                          <div className="h-2 w-28 bg-muted-foreground/50 rounded" />
+                        </div>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full">
+                          <Bell className="h-3 w-3 text-primary" />
+                          <div className="h-2 w-8 bg-primary/50 rounded" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
