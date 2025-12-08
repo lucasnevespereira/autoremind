@@ -1,13 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Upload, Settings, Bell, Check, Star, Zap, Crown } from "lucide-react";
+import {
+  ArrowRight,
+  Upload,
+  Settings,
+  Bell,
+  Check,
+  Star,
+  Zap,
+  Crown,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import logoSquare from "@/assets/logo-square.png";
-import { LanguageSelector } from "@/components/language-selector";
-import { APP_VERSION } from "@/version";
 import { useLanguage } from "@/contexts/language-context";
+import { AppLogo } from "@/components/app-logo";
+import { LandingFooter } from "@/components/landing-footer";
 
 export default function LandingPage() {
   const { t } = useLanguage();
@@ -18,17 +25,7 @@ export default function LandingPage() {
       <header className="border-b border-border/40 backdrop-blur-sm bg-background/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <Image
-                  src={logoSquare}
-                  alt="AutoRemind"
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <span className="font-semibold text-lg">{t("autoremind")}</span>
-            </div>
+            <AppLogo />
             <div className="flex items-center gap-2">
               <Link href="/sign-in">
                 <Button variant="ghost" size="sm">
@@ -87,7 +84,9 @@ export default function LandingPage() {
                       {/* Mock client row 1 */}
                       <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
                         <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">JD</span>
+                          <span className="text-sm font-semibold text-primary">
+                            JD
+                          </span>
                         </div>
                         <div className="flex-1">
                           <div className="h-3 w-24 bg-foreground/80 rounded mb-2" />
@@ -102,7 +101,9 @@ export default function LandingPage() {
                       {/* Mock client row 2 */}
                       <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
                         <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">MS</span>
+                          <span className="text-sm font-semibold text-primary">
+                            MS
+                          </span>
                         </div>
                         <div className="flex-1">
                           <div className="h-3 w-28 bg-foreground/80 rounded mb-2" />
@@ -117,7 +118,9 @@ export default function LandingPage() {
                       {/* Mock client row 3 */}
                       <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-xl">
                         <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="text-sm font-semibold text-primary">AL</span>
+                          <span className="text-sm font-semibold text-primary">
+                            AL
+                          </span>
                         </div>
                         <div className="flex-1">
                           <div className="h-3 w-20 bg-foreground/80 rounded mb-2" />
@@ -254,7 +257,9 @@ export default function LandingPage() {
                 <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Zap className="h-5 w-5" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{t("planStarter")}</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  {t("planStarter")}
+                </h3>
                 <div className="mb-4">
                   <span className="text-4xl font-bold">€5</span>
                   <span className="text-muted-foreground">/month</span>
@@ -281,9 +286,7 @@ export default function LandingPage() {
                   </li>
                 </ul>
                 <Link href="/sign-up" className="block">
-                  <Button className="w-full">
-                    {t("getStarted")}
-                  </Button>
+                  <Button className="w-full">{t("getStarted")}</Button>
                 </Link>
               </div>
 
@@ -348,32 +351,7 @@ export default function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
-              <span>{t("copyright")}</span>
-              <span>•</span>
-              <span>v{APP_VERSION}</span>
-              <span>•</span>
-              <Link
-                href="/privacy"
-                className="hover:text-foreground transition-colors"
-              >
-                {t("privacy")}
-              </Link>
-              <span>•</span>
-              <Link
-                href="/terms"
-                className="hover:text-foreground transition-colors"
-              >
-                {t("terms")}
-              </Link>
-            </div>
-            <LanguageSelector />
-          </div>
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 }

@@ -72,6 +72,7 @@ export const translations = {
     configureBusinessInfo:
       "Configure your business information and SMS notifications",
     backToDashboard: "Back to Dashboard",
+    backToHome: "Back",
     businessInformation: "Business Information",
     businessDetails: "Your business details used in SMS messages",
     businessName: "Business Name",
@@ -469,6 +470,7 @@ export const translations = {
     configureBusinessInfo:
       "Configure as informações do seu negócio e notificações SMS",
     backToDashboard: "Voltar ao Painel",
+    backToHome: "Voltar",
     businessInformation: "Informações do Negócio",
     businessDetails: "Detalhes do seu negócio usados nas mensagens SMS",
     businessName: "Nome do Negócio",
@@ -877,6 +879,7 @@ export const translations = {
     configureBusinessInfo:
       "Configurez les informations de votre entreprise et les notifications SMS",
     backToDashboard: "Retour au tableau de bord",
+    backToHome: "Retour",
     businessInformation: "Informations sur l'entreprise",
     businessDetails:
       "Les détails de votre entreprise utilisés dans les messages SMS",

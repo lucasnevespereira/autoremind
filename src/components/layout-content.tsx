@@ -1,11 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Settings, LogOut, CreditCard, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { AppFooter } from "@/components/app-footer";
 import { useLanguage } from "@/contexts/language-context";
-import { signOut } from "@/lib/auth-client";
 import type { Session } from "@/lib/auth";
 import Image from "next/image";
 import logoSquare from "@/assets/logo-square.png";
@@ -37,7 +34,7 @@ export function LayoutContent({
                   priority
                 />
               </div>
-              <span className="text-xl font-semibold text-foreground tracking-tight">
+              <span className="text-lg font-semibold text-foreground tracking-tight ">
                 {t("autoremind")}
               </span>
             </Link>

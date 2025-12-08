@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import logoSquare from "@/assets/logo-square.png";
 import { LandingFooter } from "@/components/landing-footer";
+import { AppLogo } from "@/components/app-logo";
 
 export const metadata = {
   title: "Privacy Policy | AutoRemind",
@@ -17,18 +16,7 @@ export default function PrivacyPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-card/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-fintech">
-              <Image
-                src={logoSquare}
-                alt="AutoRemind Logo"
-                width={32}
-                height={32}
-                priority
-              />
-            </div>
-            <span className="text-xl font-semibold tracking-tight">
-              AutoRemind
-            </span>
+            <AppLogo />
           </Link>
           <Link href="/">
             <Button
@@ -50,17 +38,18 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="text-muted-foreground text-lg mb-8">
-            Last updated: December 2024
+            Last updated: December 2025
           </p>
 
           <div className="space-y-6">
             <section>
               <h2 className="text-2xl font-semibold mb-3">1. Introduction</h2>
               <p className="text-muted-foreground">
-                AutoRemind ("we", "our", or "us") is committed to protecting
-                your privacy. This Privacy Policy explains how we collect, use,
-                disclose, and safeguard your information when you use our
-                automated SMS reminder service.
+                AutoRemind, operated by Lucas Neves Pereira (&ldquo;we&rdquo;,
+                &ldquo;our&rdquo;, or &ldquo;us&rdquo;), is committed to
+                protecting your privacy. This Privacy Policy explains how we
+                collect, use, disclose, and safeguard your information when you
+                use our automated SMS reminder service.
               </p>
             </section>
 
@@ -165,7 +154,7 @@ export default function PrivacyPage() {
               <p className="text-muted-foreground">
                 We may update this Privacy Policy from time to time. We will
                 notify you of any changes by posting the new Privacy Policy on
-                this page and updating the "Last updated" date.
+                this page and updating the &ldquo;Last updated&rdquo; date.
               </p>
             </section>
 
@@ -175,10 +164,10 @@ export default function PrivacyPage() {
                 If you have any questions about this Privacy Policy, please
                 contact us at:{" "}
                 <a
-                  href="mailto:privacy@autoremind.app"
+                  href="mailto:lnevespereira@proton.me"
                   className="text-primary hover:underline"
                 >
-                  privacy@autoremind.app
+                  lnevespereira@proton.me
                 </a>
               </p>
             </section>

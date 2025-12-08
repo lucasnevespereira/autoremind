@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import logoSquare from "@/assets/logo-square.png";
+import { AppLogo } from "@/components/app-logo";
 import { LandingFooter } from "@/components/landing-footer";
 
 export const metadata = {
@@ -17,18 +16,7 @@ export default function TermsPage() {
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-card/80 backdrop-blur-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-fintech">
-              <Image
-                src={logoSquare}
-                alt="AutoRemind Logo"
-                width={32}
-                height={32}
-                priority
-              />
-            </div>
-            <span className="text-xl font-semibold tracking-tight">
-              AutoRemind
-            </span>
+            <AppLogo />
           </Link>
           <Link href="/">
             <Button
@@ -50,7 +38,7 @@ export default function TermsPage() {
             Terms of Service
           </h1>
           <p className="text-muted-foreground text-lg mb-8">
-            Last updated: December 2024
+            Last updated: December 2025
           </p>
 
           <div className="space-y-6">
@@ -59,9 +47,10 @@ export default function TermsPage() {
                 1. Acceptance of Terms
               </h2>
               <p className="text-muted-foreground">
-                By accessing and using AutoRemind ("the Service"), you accept
-                and agree to be bound by these Terms of Service. If you do not
-                agree to these terms, please do not use the Service.
+                By accessing and using AutoRemind, operated by Lucas Neves
+                Pereira (&ldquo;the Service&rdquo;), you accept and agree to be
+                bound by these Terms of Service. If you do not agree to these
+                terms, please do not use the Service.
               </p>
             </section>
 
@@ -259,10 +248,10 @@ export default function TermsPage() {
                 If you have any questions about these Terms of Service, please
                 contact us at:{" "}
                 <a
-                  href="mailto:support@autoremind.app"
+                  href="mailto:lnevespereira@proton.me"
                   className="text-primary hover:underline"
                 >
-                  support@autoremind.app
+                  lnevespereira@proton.me
                 </a>
               </p>
             </section>

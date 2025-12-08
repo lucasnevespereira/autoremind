@@ -40,8 +40,8 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="outline-none">
-        <button className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted/50 transition-colors duration-200 group">
+      <DropdownMenuTrigger asChild>
+        <button className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted/50 transition-colors duration-200 group outline-none">
           {/* User Avatar */}
           <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 transition-colors duration-200">
             <span className="text-sm font-semibold text-primary">
