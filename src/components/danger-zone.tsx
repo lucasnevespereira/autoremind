@@ -45,13 +45,15 @@ export function DangerZone() {
 
       // Wait a moment for toast to show, then redirect to sign-in
       setTimeout(() => {
-        window.location.href = "/sign-in";
+        window.location.href = "/";
       }, 1000);
     } else {
       setLoading(false);
       toast({
         title: t("error"),
-        description: result.errorKey ? t(result.errorKey as any) : t("errorGeneric"),
+        description: result.errorKey
+          ? t(result.errorKey as any)
+          : t("errorGeneric"),
         variant: "destructive",
       });
     }
@@ -120,7 +122,10 @@ export function DangerZone() {
               </div>
 
               <div className="space-y-1.5 pt-2">
-                <Label htmlFor="confirm" className="text-xs font-medium text-foreground">
+                <Label
+                  htmlFor="confirm"
+                  className="text-xs font-medium text-foreground"
+                >
                   {t("typeToConfirm").replace("{text}", CONFIRM_TEXT)}
                 </Label>
                 <Input
@@ -135,10 +140,7 @@ export function DangerZone() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="gap-2 sm:gap-0">
-            <AlertDialogCancel
-              className="rounded-xl h-9"
-              disabled={loading}
-            >
+            <AlertDialogCancel className="rounded-xl h-9" disabled={loading}>
               {t("cancel")}
             </AlertDialogCancel>
             <AlertDialogAction

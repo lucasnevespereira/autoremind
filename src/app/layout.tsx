@@ -13,11 +13,14 @@ function RootLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <html lang={language}>
       <head>
-        <title>AutoRemind - Easy Reminders for busy people</title>
-        <meta name="description" content="Easy Reminders for busy people." />
+        <title>AutoRemind - Easy reminders for busy professionals</title>
+        <meta
+          name="description"
+          content="Easy reminders for busy professionals. Automated SMS reminders for your clients."
+        />
         <meta
           name="keywords"
-          content="automatic reminders, easy reminders, easy, busy people, automatic, reminders, auto garage, SMS reminders, lembretes manutenção, oficina auto"
+          content="automatic reminders, professionals, busy, busy professionals, sms, automated, easy reminders, easy, busy people, automatic, reminders, auto garage, SMS reminders, lembretes manutenção, oficina auto"
         />
       </head>
       <body className={inter.className} suppressHydrationWarning>

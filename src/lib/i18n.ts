@@ -17,7 +17,7 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    slogan: "Easy Reminders for busy people",
+    slogan: "Easy reminders for busy professionals",
     settings: "Settings",
     logout: "Logout",
 
@@ -355,8 +355,8 @@ export const translations = {
     notAvailable: "Not Available",
 
     // Landing Page
-    landingHeadline: "Never miss an appointment",
-    landingSubheadline: "Automated SMS reminders for your clients",
+    landingHeadline: "Never miss a follow-up",
+    landingSubheadline: "Automated SMS reminders for your clients.",
     getStarted: "Get Started",
     privacy: "Privacy",
     terms: "Terms",
@@ -435,7 +435,7 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    slogan: "Easy Reminders for busy people",
+    slogan: "Lembretes fáceis para profissionais ocupados",
     settings: "Configurações",
     logout: "Sair",
 
@@ -786,7 +786,7 @@ export const translations = {
     notAvailable: "Não Disponível",
 
     // Landing Page
-    landingHeadline: "Nunca perca uma marcação",
+    landingHeadline: "Nunca perca um lembrete",
     landingSubheadline: "Lembretes SMS automáticos para os seus clientes",
     getStarted: "Começar",
     privacy: "Privacidade",
@@ -866,7 +866,7 @@ export const translations = {
 
     // App
     autoremind: "AutoRemind",
-    slogan: "Easy Reminders for busy people",
+    slogan: "Rappels simples pour pros occupés",
     settings: "Paramètres",
     logout: "Déconnexion",
 
@@ -1219,7 +1219,7 @@ export const translations = {
     notAvailable: "Non disponible",
 
     // Landing Page
-    landingHeadline: "Ne manquez jamais un rendez-vous",
+    landingHeadline: "Ne manquez jamais une relance",
     landingSubheadline: "Rappels SMS automatiques pour vos clients",
     getStarted: "Commencer",
     privacy: "Confidentialité",
