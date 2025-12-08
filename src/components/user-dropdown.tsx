@@ -26,7 +26,7 @@ export function UserDropdown({ session }: UserDropdownProps) {
 
   async function handleSignOut() {
     await signOut();
-    window.location.href = "/sign-in";
+    window.location.href = "/";
   }
 
   const userName = session.user?.name || session.user?.email || "User";
