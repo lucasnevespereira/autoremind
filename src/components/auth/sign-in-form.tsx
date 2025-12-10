@@ -9,6 +9,7 @@ import { useLanguage } from "@/contexts/language-context";
 import { Eye, EyeOff } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function SignInForm() {
   const { toast } = useToast();
@@ -75,7 +76,10 @@ export function SignInForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium text-foreground">
+        <Label
+          htmlFor="password"
+          className="text-sm font-medium text-foreground"
+        >
           {t("password")}
         </Label>
         <div className="relative">
@@ -98,6 +102,14 @@ export function SignInForm() {
               <Eye className="h-4 w-4" />
             )}
           </button>
+        </div>
+        <div className="text-right">
+          <Link
+            href="/forgot-password"
+            className="text-sm text-primary hover:underline"
+          >
+            {t("forgotPassword")}
+          </Link>
         </div>
       </div>
 

@@ -2,6 +2,7 @@
 
 import { APP_VERSION } from "@/version";
 import { LanguageSelector } from "@/components/language-selector";
+import Link from "next/link";
 
 export function AppFooter() {
   return (
@@ -11,7 +12,7 @@ export function AppFooter() {
           <div className="flex items-center gap-3">
             <span className="font-mono">v{APP_VERSION}</span>
             <span className="text-border">•</span>
-            <span>AutoRemind</span>
+            <Link href="/">AutoRemind</Link>
           </div>
 
           <LanguageSelector />

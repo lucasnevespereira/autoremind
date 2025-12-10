@@ -15,7 +15,9 @@ export default async function authMiddleware(request: NextRequest) {
 
   const isLoginPage = request.nextUrl.pathname === "/sign-in";
   const isSignUpPage = request.nextUrl.pathname === "/sign-up";
-  const isAuthPage = isLoginPage || isSignUpPage;
+  const isForgotPasswordPage = request.nextUrl.pathname === "/forgot-password";
+  const isResetPasswordPage = request.nextUrl.pathname === "/reset-password";
+  const isAuthPage = isLoginPage || isSignUpPage || isForgotPasswordPage || isResetPasswordPage;
   const isPrivacyPage = request.nextUrl.pathname === "/privacy";
   const isTermsPage = request.nextUrl.pathname === "/terms";
   const isPublicPage = isPrivacyPage || isTermsPage;

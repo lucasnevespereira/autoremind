@@ -63,3 +63,4 @@ jobs:
           STRIPE_PRICE_ID_PRO_ANNUAL: price_your_pro_annual_price_id
           NEXT_PUBLIC_STRIPE_PRICE_ID_STARTER_ANNUAL: price_your_starter_annual_price_id
           NEXT_PUBLIC_STRIPE_PRICE_ID_PRO_ANNUAL: price_your_pro_annual_price_id
+          RESEND_API_KEY: re_your_api_key_here
