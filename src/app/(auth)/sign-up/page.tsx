@@ -14,7 +14,7 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Back to home */}
-      <div className="absolute top-4 left-4">
+      {/* <div className="absolute top-4 left-4">
         <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -22,7 +22,7 @@ export default function SignUpPage() {
           <ArrowLeft className="h-4 w-4" />
           {t("backToHome")}
         </Link>
-      </div>
+      </div> */}
 
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md animate-fade-in">

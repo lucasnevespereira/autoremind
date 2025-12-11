@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
+import { sendPasswordResetEmail } from "@/lib/email";
 
 export const auth = betterAuth({
   allowedOrigins: [
@@ -22,6 +23,9 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
+    sendResetPassword: async ({ user, url }) => {
+      await sendPasswordResetEmail(user.email, user.name, url);
+    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 30, // 30 days

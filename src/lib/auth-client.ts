@@ -7,3 +7,7 @@ export const authClient = createAuthClient({
 });
 
 export const { signIn, signUp, signOut, useSession } = authClient;
+
+// Password reset methods - accessed directly from authClient
+export const requestPasswordReset = authClient.requestPasswordReset;
+export const resetPassword = authClient.resetPassword;
