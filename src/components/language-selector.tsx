@@ -24,7 +24,7 @@ export function LanguageSelector() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="inline-flex items-center gap-1.5 px-2 py-1 text-xs text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50">
+        <button className="inline-flex items-center gap-1.5 p-2 text-xs text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/50">
           <Globe className="h-3.5 w-3.5" />
           <span className="font-medium">{currentLanguage?.name}</span>
         </button>

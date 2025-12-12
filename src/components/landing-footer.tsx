@@ -32,7 +32,23 @@ export function LandingFooter() {
               {t("terms")}
             </Link>
           </div>
-          <LanguageSelector />
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.producthunt.com/products/autoremind?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-autoremind"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="opacity-70 hover:opacity-100 transition-opacity"
+            >
+              <img
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1049400&theme=neutral&t=1765530139836"
+                alt="AutoRemind on Product Hunt"
+                width="150"
+                height="32"
+                className="h-8 w-auto"
+              />
+            </a>
+            <LanguageSelector />
+          </div>
         </div>
       </div>
     </footer>
