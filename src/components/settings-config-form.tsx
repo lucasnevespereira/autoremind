@@ -13,7 +13,6 @@ import {
   Building2,
   MessageSquare,
   Settings2,
-  TestTube,
   ExternalLink,
   Eye,
   EyeOff,
@@ -36,7 +35,7 @@ interface SettingsConfigFormProps {
   isPaidPlan: boolean;
 }
 
-type Tab = "business" | "template" | "twilio" | "test";
+type Tab = "business" | "template" | "twilio";
 
 export function SettingsConfigForm({
   initialValues,
@@ -114,7 +113,6 @@ export function SettingsConfigForm({
     { id: "business" as Tab, label: t("business"), icon: Building2 },
     { id: "template" as Tab, label: t("template"), icon: MessageSquare },
     { id: "twilio" as Tab, label: t("twilioConfig"), icon: Settings2 },
-    { id: "test" as Tab, label: t("test"), icon: TestTube },
   ];
 
   return (
@@ -585,55 +583,38 @@ export function SettingsConfigForm({
                       </div>
                     </div>
                   </div>
+
+                  {/* Test SMS Section */}
+                  <div className="space-y-3 pt-3 border-t border-border/20">
+                    <p className="text-sm font-medium text-foreground">
+                      {t("testSms")}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Input
+                        id="testPhone"
+                        type="tel"
+                        placeholder="+351912345678"
+                        value={testPhone}
+                        onChange={(e) => setTestPhone(e.target.value)}
+                        className="h-9 rounded-xl border-border/40 flex-1"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleSendTest}
+                        disabled={testLoading}
+                        className="h-9 rounded-xl border-border/40"
+                      >
+                        <Send className="mr-2 h-4 w-4" />
+                        {testLoading ? t("sending") : t("sendTestSms")}
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {t("testPhoneHint")}
+                    </p>
+                  </div>
                 </div>
               )}
-            </div>
-          )}
-
-          {/* Test SMS Section */}
-          {activeTab === "test" && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground">
-                  {t("testSms")}
-                </h2>
-                <p className="text-muted-foreground mt-1.5">
-                  {t("sendTestMessage")}
-                </p>
-              </div>
-
-              <div className="bg-card rounded-xl border border-border/40 p-4 shadow-fintech space-y-3">
-                <div className="space-y-1.5">
-                  <Label
-                    htmlFor="testPhone"
-                    className="text-sm font-medium text-foreground"
-                  >
-                    {t("testPhoneNumber")}
-                  </Label>
-                  <Input
-                    id="testPhone"
-                    type="tel"
-                    placeholder="+351912345678"
-                    value={testPhone}
-                    onChange={(e) => setTestPhone(e.target.value)}
-                    className="h-9 rounded-xl border-border/40"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {t("testPhoneHint")}
-                  </p>
-                </div>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleSendTest}
-                  disabled={testLoading}
-                  className="w-full sm:w-auto h-10 rounded-xl border-border/40"
-                >
-                  <Send className="mr-2 h-4 w-4" />
-                  {testLoading ? t("sending") : t("sendTestSms")}
-                </Button>
-              </div>
             </div>
           )}
 

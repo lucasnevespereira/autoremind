@@ -16,7 +16,7 @@ export default async function AccountPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+    <div className="max-w-6xl mx-auto space-y-8 animate-fade-in">
       <AccountHeader />
 
       {/* Profile Section */}

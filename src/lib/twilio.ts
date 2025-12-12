@@ -14,11 +14,7 @@ export async function getTwilioConfig(userId: string) {
 
   if (useManagedSms) {
     console.log("Using platform Twilio credentials for user:", userId);
-    console.log({
-      accountSid: process.env.PLATFORM_TWILIO_ACCOUNT_SID,
-      authToken: process.env.PLATFORM_TWILIO_AUTH_TOKEN,
-      phoneNumber: process.env.PLATFORM_TWILIO_PHONE_NUMBER,
-    });
+
     // Use platform Twilio credentials from environment
     const accountSid = process.env.PLATFORM_TWILIO_ACCOUNT_SID?.trim();
     const authToken = process.env.PLATFORM_TWILIO_AUTH_TOKEN?.trim();
